@@ -1,3 +1,5 @@
+from .models import Item, OrderItem, Order, ShippingAddress, BillingAddress, Payment
+from .forms import CheckoutForm
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
@@ -7,8 +9,13 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, View
 from django.utils import timezone
 # from django.db.models import F
-from .forms import CheckoutForm
-from .models import Item, OrderItem, Order, BillingAddress, Payment
+
+# Email
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+# from django.core.mail import EmailMultiAlternatives
+# from django.template.loader import get_template
+# from django.template import Context
 
 import stripe
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -33,21 +40,18 @@ class ItemDetailView(DetailView):
     context_object_name = 'item'
 
 
-# His way of doing thing
 class OrderSummaryView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
             context = {
-                'object': order
+                'order': order
             }
             return render(self.request, 'order_summary.html', context)
         except ObjectDoesNotExist:
-            messages.error(request, "You do not have an active order")
-            return redirect("/")
+            messages.error(self.request, "You do not have an active order")
+            return render(self.request, 'order_summary.html')
 
-
-# # My way of doing thing
 # def order_summary_view(request):
 #     try:
 #         order = Order.objects.get(user=request.user, ordered=False)
@@ -61,17 +65,23 @@ class OrderSummaryView(LoginRequiredMixin, View):
 
 
 class CheckoutView(LoginRequiredMixin, View):
+
     def get(self, *args, **kwargs):
         form = CheckoutForm()
-        order = Order.objects.get(user=self.request.user, ordered=False)
+        # order = Order.objects.get(user=self.request.user, ordered=False)
+        order = get_object_or_404(Order, user=self.request.user, ordered=False)
+
         context = {
             'form': form,
-            'order': order
+            'order': order,
+            # 'shipping_addresses': ShippingAddress.objects.filter(user=self.request.user)
+            'shipping_address': ShippingAddress.objects.filter(user=self.request.user).get(pk=1)
         }
         return render(self.request, "checkout.html", context)
 
     def post(self, *args, **kwargs):
         form = CheckoutForm(self.request.POST or None)
+        # order = get_object_or_404(user=self.request.user, ordered=False)
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
 
@@ -84,25 +94,85 @@ class CheckoutView(LoginRequiredMixin, View):
                 country = form.cleaned_data.get('country')
                 zip = form.cleaned_data.get('zip')
                 # TODO: add functionality for these fields
-                # same_shipping_address = form.cleaned_data.get(
-                #     'same_shipping_address')
+                use_stored_shipping_address = form.cleaned_data.get(
+                    'use_stored_shipping_address')
+                same_billing_address = form.cleaned_data.get(
+                    'same_billing_address')
                 # save_info = form.cleaned_data.get('save_info')
                 payment_option = form.cleaned_data.get('payment_option')
-                billing_address = BillingAddress(
-                    user=self.request.user,
-                    street_address=street_address,
-                    apartment_address=apartment_address,
-                    country=country,
-                    zip=zip
-                )
-                billing_address.save()
-                order.billing_address = billing_address
+                delivery_time = form.cleaned_data.get('delivery_time')
+
+                if use_stored_shipping_address:
+                    shipping_address = ShippingAddress.objects.filter(
+                        user=self.request.user).get(pk=1)
+                    order.shipping_address = shipping_address
+                    if same_billing_address:
+                        billing_address = BillingAddress(
+                            user=self.request.user,
+                            street_address=shipping_address.street_address,
+                            apartment_address=shipping_address.apartment_address,
+                            country=shipping_address.country,
+                            zip=shipping_address.zip
+                        )
+                        billing_address.save()
+                        order.billing_address = billing_address
+                else:
+                    shipping_address = ShippingAddress(
+                        user=self.request.user,
+                        street_address=street_address,
+                        apartment_address=apartment_address,
+                        country=country,
+                        zip=zip
+                    )
+                    shipping_address.save()
+                    order.shipping_address = shipping_address
+                    if same_billing_address:
+                        billing_address = BillingAddress(
+                            user=self.request.user,
+                            street_address=street_address,
+                            apartment_address=apartment_address,
+                            country=country,
+                            zip=zip
+                        )
+                        billing_address.save()
+                        order.billing_address = billing_address
+
+                order.delivery_time = delivery_time
+                order.payment_option = payment_option
                 order.save()
 
                 if payment_option == 'S':
                     return redirect('core:payment', payment_option='stripe')
-                elif payment_option == 'P':
-                    return redirect('core:payment', payment_option='paypal')
+                elif payment_option == 'B':
+                    order_items = order.items.all()
+                    order_items.update(ordered=True)
+                    for item in order_items:
+                        item.save()
+
+                    order.ordered = True
+                    order.save()
+
+                    msg_plain = render_to_string('email.txt', {
+                        'order': order
+                    })
+                    # msg_html = render_to_string('templates/email.html', {
+                    #     'some_params': some_params
+                    # })
+
+                    send_mail(
+                        f'{self.request.user.username}, Thank you for the shopping!',
+                        # f'{order.id} at {order.ordered_date}',
+                        msg_plain,
+                        'uncleko496@gmail.com',
+                        ['uncleko496@gmail.com', self.request.user.email],
+                        # html_message=msg_html,
+                        # fail_silently=False,
+                    )
+
+                    messages.success(
+                        self.request, "Your order was successful!")
+                    return redirect("/")
+
                 else:
                     messages.warning(
                         self.request, "Invalid payment option selected")
@@ -118,6 +188,7 @@ class CheckoutView(LoginRequiredMixin, View):
 
 class PaymentView(View):
     def get(self, *args, **kwargs):
+        # if self.kwargs.get('payment_option') == 'stripe':
         order = Order.objects.get(user=self.request.user, ordered=False)
         # if order.billing_address:
         context = {

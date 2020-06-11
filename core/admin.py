@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Item, OrderItem, Order, Payment, BillingAddress
+from .models import Item, OrderItem, Order, Payment, ShippingAddress, BillingAddress
 
 
 class OrderAdmin(admin.ModelAdmin):
@@ -11,4 +11,5 @@ admin.site.register(Item)
 admin.site.register(OrderItem)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Payment)
+admin.site.register(ShippingAddress)
 admin.site.register(BillingAddress)

@@ -23,9 +23,35 @@
           <form method="POST" class="card-body" autocomplete="off">
             {% csrf_token %}
 
+            <!-- {% if shipping_addresses.count %}
+            <ul>
+              {% for shipping_address in shipping_addresses %}
+              <li>
+                {{ forloop.counter }}. 
+                {{ shipping_address.street_address }}
+                {{ shipping_address.apartment_address }}
+                {{ shipping_address.country }}
+                {{ shipping_address.zip }}
+              </li>
+              {% endfor %}
+            </ul>
+            {% endif %} -->
+            {% if shipping_address %}
+            {{ shipping_address.street_address }}
+            {{ shipping_address.apartment_address }}
+            {{ shipping_address.country }}
+            {{ shipping_address.zip }}
+            {% endif %}
+            <div class="custom-control custom-checkbox">
+              <input {% if form.use_stored_shipping_address.value %}checked{% endif %} type="checkbox"
+                class="custom-control-input" name="use_stored_shipping_address" id="use_stored_shipping_address">
+              <label class="custom-control-label" for="use_stored_shipping_address">User this address</label>
+            </div>
+
             <!--address-->
             <div class="md-form mb-5">
               <!-- <input type="text" id="address" class="form-control" placeholder="1234 Main St"> -->
+
               {{ form.street_address }}
               <label for="id_street_address" class="active">Address</label>
             </div>
@@ -74,8 +100,39 @@
 
             <hr>
 
+            <div id="div_id_delivery_time" class="form-group">
+              <label for="id_delivery_time" class=" requiredField">Delivery time<span class="asteriskField">*</span>
+              </label>
+              <div class="">
+                <select name="delivery_time" class="select form-control" id="id_delivery_time">
+                  {% for value, name in form.fields.delivery_time.choices %}
+                  <option value="{{ value }}">{{ name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+
+            <hr>
+
+            <div id="div_id_payment_option" class="form-group">
+              <label for="id_payment_option_0" class=" requiredField">
+                Payment option<span class="asteriskField">*</span>
+              </label>
+              <div class="d-block">
+                {% for value, name in form.fields.payment_option.choices %}
+                <div class="custom-control custom-radio">
+                  <input id="{{ name }}" name="payment_option" value="{{ value }}" type="radio"
+                    class="custom-control-input" required>
+                  <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+
+            <hr>
+
             <div class="custom-control custom-checkbox">
-              <input {% if form.same_shipping_address.value %}checked{% endif %} type="checkbox"
+              <input {% if form.same_billing_address.value %}checked{% endif %} type="checkbox"
                 class="custom-control-input" name="same_billing_address" id="same-address">
               <label class="custom-control-label" for="same-address">Shipping address is the same as my billing
                 address</label>
@@ -97,18 +154,8 @@
               <label class="custom-control-label" for="id_save_info">Save this information for next time</label>
             </div> -->
 
-            <hr>
-
-            <div class="d-block my-3">
-              {% for value, name in form.fields.payment_option.choices %}
-              <div class="custom-control custom-radio">
-                <input id="{{ name }}" name="payment_option" value="{{ value }}" type="radio"
-                  class="custom-control-input" required>
-                <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
-              </div>
-              {% endfor %}
-            </div>
             <hr class="mb-4">
+
             <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
 
           </form>
@@ -118,6 +165,7 @@
             {{ form|crispy}}
             <button class="btn btn-primary" type='submit'>Checkout</button>
           </form> -->
+
         </div>
         <!--/.Card-->
 

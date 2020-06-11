@@ -22,7 +22,7 @@
         </thead>
         <tbody>
 
-          {% for order_item in object.items.all %}
+          {% for order_item in order.items.all %}
           <tr>
             <th scope="row">{{ forloop.counter }}</th>
             <td>
@@ -82,10 +82,10 @@
             </td>
           </tr>
           {% endfor %}
-          {% if object.get_total %}
+          {% if order.get_total %}
           <tr>
             <td colspan="4"><b>Order Total</b></td>
-            <td><b>${{ object.get_total }}</td>
+            <td><b>${{ order.get_total }}</td>
           </tr>
           <tr>
             <td colspan="5">
