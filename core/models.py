@@ -18,13 +18,13 @@ LABEL_CHOICES = (
 )
 
 PAYMENT_CHOICES = (
-    ('S', 'Stripe'),
-    # ('P', 'PayPal'),
+    ('C', 'Credit Card'),
     ('B', 'Bank Transfer')
+    # ('P', 'PayPal'),
 )
 
 DELIVERY_TIME = (
-    ('N', 'No Designation'),
+    ('', 'Anytime'),
     ('A', 'morning'),
     ('B', '0pm-2pm'),
     ('C', '2pm-4pm'),
@@ -128,24 +128,27 @@ class ShippingAddress(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE, related_name="shipping_address")
     street_address = models.CharField(max_length=100)
-    apartment_address = models.CharField(max_length=100)
-    country = CountryField(multiple=False)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100, default="CA")
     zip = models.CharField(max_length=100)
+    country = CountryField(multiple=False)
 
     def __str__(self):
-        return self.user.username
+        # return self.user.username
+        return f"{self.street_address}, {self.city}, {self.state} {self.zip}"
 
 
 class BillingAddress(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     street_address = models.CharField(max_length=100)
-    apartment_address = models.CharField(max_length=100)
-    country = CountryField(multiple=False)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100, default="CA")
     zip = models.CharField(max_length=100)
+    country = CountryField(multiple=False)
 
     def __str__(self):
-        return self.user.username
+        return f"{self.street_address}, {self.city}, {self.state} {self.zip}"
 
 
 class Payment(models.Model):

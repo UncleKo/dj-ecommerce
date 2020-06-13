@@ -40,7 +40,7 @@ class ItemDetailView(DetailView):
     context_object_name = 'item'
 
 
-class OrderSummaryView(LoginRequiredMixin, View):
+class CartView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
@@ -74,8 +74,9 @@ class CheckoutView(LoginRequiredMixin, View):
         context = {
             'form': form,
             'order': order,
-            # 'shipping_addresses': ShippingAddress.objects.filter(user=self.request.user)
-            'shipping_address': ShippingAddress.objects.filter(user=self.request.user).get(pk=1)
+            'shipping_addresses': ShippingAddress.objects.filter(user=self.request.user),
+            'billing_addresses': BillingAddress.objects.filter(user=self.request.user)
+            # 'shipping_address': ShippingAddress.objects.filter(user=self.request.user).get(pk=1)
         }
         return render(self.request, "checkout.html", context)
 
@@ -89,52 +90,72 @@ class CheckoutView(LoginRequiredMixin, View):
             if form.is_valid():
                 # print(form.cleaned_data)
                 # print("The form is valid")
-                street_address = form.cleaned_data.get('street_address')
-                apartment_address = form.cleaned_data.get('apartment_address')
-                country = form.cleaned_data.get('country')
-                zip = form.cleaned_data.get('zip')
-                # TODO: add functionality for these fields
                 use_stored_shipping_address = form.cleaned_data.get(
                     'use_stored_shipping_address')
-                same_billing_address = form.cleaned_data.get(
-                    'same_billing_address')
-                # save_info = form.cleaned_data.get('save_info')
-                payment_option = form.cleaned_data.get('payment_option')
+                stored_address = form.cleaned_data.get('stored_address')
+                street_address = form.cleaned_data.get('street_address')
+                city = form.cleaned_data.get('city')
+                state = form.cleaned_data.get('state')
+                zip = form.cleaned_data.get('zip')
+                country = form.cleaned_data.get('country')
+                # TODO: add functionality for these fields
                 delivery_time = form.cleaned_data.get('delivery_time')
+                payment_option = form.cleaned_data.get('payment_option')
+                billing_address = form.cleaned_data.get('billing_address')
+                stored_billing_address = form.cleaned_data.get(
+                    'stored_billing_address')
+                # same_billing_address = form.cleaned_data.get('same_billing_address')
+                # save_info = form.cleaned_data.get('save_info')
 
                 if use_stored_shipping_address:
+                    # if stored_address == 1:
+                    #     shipping_address = ShippingAddress.objects.filter(
+                    #         user=self.request.user).get(pk=1)
                     shipping_address = ShippingAddress.objects.filter(
-                        user=self.request.user).get(pk=1)
+                        user=self.request.user).get(pk=stored_address.id)
                     order.shipping_address = shipping_address
-                    if same_billing_address:
+                    # if same_billing_address:
+                    if billing_address == 'A':
                         billing_address = BillingAddress(
                             user=self.request.user,
                             street_address=shipping_address.street_address,
-                            apartment_address=shipping_address.apartment_address,
-                            country=shipping_address.country,
-                            zip=shipping_address.zip
+                            city=shipping_address.city,
+                            state=shipping_address.state,
+                            zip=shipping_address.zip,
+                            country=shipping_address.country
                         )
                         billing_address.save()
+                        order.billing_address = billing_address
+                    else:
+                        billing_address = BillingAddress.objects.filter(
+                            user=self.request.user).get(pk=stored_billing_address.id)
                         order.billing_address = billing_address
                 else:
                     shipping_address = ShippingAddress(
                         user=self.request.user,
                         street_address=street_address,
-                        apartment_address=apartment_address,
-                        country=country,
-                        zip=zip
+                        city=city,
+                        state=state,
+                        zip=zip,
+                        country=country
                     )
                     shipping_address.save()
                     order.shipping_address = shipping_address
-                    if same_billing_address:
+                    # if same_billing_address:
+                    if billing_address == 'A':
                         billing_address = BillingAddress(
                             user=self.request.user,
                             street_address=street_address,
-                            apartment_address=apartment_address,
-                            country=country,
-                            zip=zip
+                            city=shipping_address.city,
+                            state=shipping_address.state,
+                            zip=shipping_address.zip,
+                            country=shipping_address.country
                         )
                         billing_address.save()
+                        order.billing_address = billing_address
+                    else:
+                        billing_address = BillingAddress.objects.filter(
+                            user=self.request.user).get(pk=stored_billing_address.id)
                         order.billing_address = billing_address
 
                 order.delivery_time = delivery_time
@@ -151,6 +172,8 @@ class CheckoutView(LoginRequiredMixin, View):
 
                     order.ordered = True
                     order.save()
+                    # for item in order_items:
+                    #     item.delete()
 
                     msg_plain = render_to_string('email.txt', {
                         'order': order
@@ -183,7 +206,7 @@ class CheckoutView(LoginRequiredMixin, View):
 
         except ObjectDoesNotExist:
             message.error(self.request, "You do not have an active order")
-            return redirect("core:order-summary")
+            return redirect("core:shopping-cart")
 
 
 class PaymentView(View):
@@ -231,6 +254,24 @@ class PaymentView(View):
             order.payment = payment
             order.ref_code = create_ref_code()
             order.save()
+            # order_items.delete()
+
+            msg_plain = render_to_string('email.txt', {
+                'order': order
+            })
+            # msg_html = render_to_string('templates/email.html', {
+            #     'some_params': some_params
+            # })
+
+            send_mail(
+                f'{self.request.user.username}, Thank you for the shopping!',
+                # f'{order.id} at {order.ordered_date}',
+                msg_plain,
+                'uncleko496@gmail.com',
+                ['uncleko496@gmail.com', self.request.user.email],
+                # html_message=msg_html,
+                # fail_silently=False,
+            )
 
             messages.success(self.request, "Your order was successful!")
             return redirect("/")
@@ -306,7 +347,7 @@ def add_to_cart(request, slug):
             user=request.user, ordered_date=ordered_date)
         order.items.add(order_item)
         messages.info(request, "This item was added to your cart.")
-    return redirect("core:order-summary")
+    return redirect("core:shopping-cart")
 
 
 @login_required
@@ -328,7 +369,7 @@ def remove_from_cart(request, slug):
             order.items.remove(order_item)
             order_item.delete()
             messages.info(request, "This item was removed from your cart.")
-            return redirect("core:order-summary")
+            return redirect("core:shopping-cart")
         else:
             messages.info(request, "This item was not in your cart.")
     else:
@@ -359,7 +400,7 @@ def remove_single_item_from_cart(request, slug):
                 order.items.remove(order_item)
                 order_item.delete()
             messages.info(request, "This item quantity was updated.")
-            return redirect("core:order-summary")
+            return redirect("core:shopping-cart")
         else:
             messages.info(request, "This item was not in your cart.")
     else:

@@ -1,4 +1,6 @@
 
+Your Order Detail.
+
 Order no. {{ order.id}}
 
 Order date: {{ order.ordered_date }}
@@ -6,7 +8,6 @@ Order date: {{ order.ordered_date }}
 {% for order_item in order.items.all %}
 No. {{ forloop.counter }}
 Item: {{ order_item.item.title }}
------------------------------------------
 {% if order_item.item.discount_price %}
   Price: ${{ order_item.item.discount_price }}
   Quantity: {{ order_item.quantity }}
@@ -19,13 +20,19 @@ Item: {{ order_item.item.title }}
   Total: ${{ order_item.get_total_item_price }}
 {% endif %}
 {% endfor %}
+
 Total Price: {{ order.get_total }}
+
 Payment Option: {{ order.get_payment_option_display }}
 
-Address:
-  {{ order.shipping_address.street_address }}
-  {{ order.shipping_address.apartment_address }}
+Billing Address:
+  {{ order.billing_address.street_address }}, {{ order.billing_address.city }}
+  {{ order.billing_address.state }} {{ order.billing_address.zip }} 
+  {{ order.billing_address.country }}
+  
+Shipping Address:
+  {{ order.shipping_address.street_address }}, {{ order.shipping_address.city }}
+  {{ order.shipping_address.state }} {{ order.shipping_address.zip }} 
   {{ order.shipping_address.country }}
-  {{ order.shipping_address.zip }}
   
 Delivery Time: {{ order.get_delivery_time_display }}
