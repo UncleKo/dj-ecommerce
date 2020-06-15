@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Order Detail</title>
+  <style>
+    /*! CSS Used from: https://use.fontawesome.com/releases/v5.8.2/css/all.css */
+    .fas {
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-font-smoothing: antialiased;
+      display: inline-block;
+      font-style: normal;
+      font-variant: normal;
+      text-rendering: auto;
+      line-height: 1;
+    }
+
+    .fa-minus:before {
+      content: "\f068";
+    }
+
+    .fa-plus:before {
+      content: "\f067";
+    }
+
+    .fa-trash:before {
+      content: "\f1f8";
+    }
+
+    .fas {
+      font-family: "Font Awesome 5 Free";
+    }
+
+    .fas {
+      font-weight: 900;
+    }
+
+    /*! CSS Used from: http://127.0.0.1:8001/static/css/bootstrap.min.css */
+    *,
+    ::after,
+    ::before {
+      box-sizing: border-box;
+    }
+
+    main {
+      display: block;
+    }
+
+    h2,
+    h3 {
+      margin-top: 0;
+      margin-bottom: .5rem;
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+      background-color: transparent;
+    }
+
+    a:hover {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+
+    table {
+      border-collapse: collapse;
+    }
+
+    th {
+      text-align: inherit;
+    }
+
+    h2,
+    h3 {
+      margin-bottom: .5rem;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
+    h2 {
+      font-size: 2rem;
+    }
+
+    h3 {
+      font-size: 1.75rem;
+    }
+
+    .container {
+      width: 100%;
+      padding-right: 15px;
+      padding-left: 15px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    @media (min-width:576px) {
+      .container {
+        max-width: 540px;
+      }
+    }
+
+    @media (min-width:768px) {
+      .container {
+        max-width: 720px;
+      }
+    }
+
+    @media (min-width:992px) {
+      .container {
+        max-width: 960px;
+      }
+    }
+
+    @media (min-width:1200px) {
+      .container {
+        max-width: 1140px;
+      }
+    }
+
+    .table {
+      width: 100%;
+      margin-bottom: 1rem;
+      color: #212529;
+    }
+
+    .table td,
+    .table th {
+      padding: .75rem;
+      vertical-align: top;
+      border-top: 1px solid #dee2e6;
+    }
+
+    .table thead th {
+      vertical-align: bottom;
+      border-bottom: 2px solid #dee2e6;
+    }
+
+    .table-responsive {
+      display: block;
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .btn {
+      display: inline-block;
+      font-weight: 400;
+      color: #212529;
+      text-align: center;
+      vertical-align: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      background-color: transparent;
+      border: 1px solid transparent;
+      padding: .375rem .75rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      border-radius: .25rem;
+      transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+      .btn {
+        transition: none;
+      }
+    }
+
+    .btn:hover {
+      color: #212529;
+      text-decoration: none;
+    }
+
+    .btn:focus {
+      outline: 0;
+      box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+    }
+
+    .btn:disabled {
+      opacity: .65;
+    }
+
+    .btn-primary {
+      color: #fff;
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+      color: #fff;
+      background-color: #0069d9;
+      border-color: #0062cc;
+    }
+
+    .btn-primary:focus {
+      box-shadow: 0 0 0 .2rem rgba(38, 143, 255, .5);
+    }
+
+    .btn-primary:disabled {
+      color: #fff;
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+
+    .btn-warning {
+      color: #212529;
+      background-color: #ffc107;
+      border-color: #ffc107;
+    }
+
+    .btn-warning:hover {
+      color: #212529;
+      background-color: #e0a800;
+      border-color: #d39e00;
+    }
+
+    .btn-warning:focus {
+      box-shadow: 0 0 0 .2rem rgba(222, 170, 12, .5);
+    }
+
+    .btn-warning:disabled {
+      color: #212529;
+      background-color: #ffc107;
+      border-color: #ffc107;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: .25em .4em;
+      font-size: 75%;
+      font-weight: 700;
+      line-height: 1;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: baseline;
+      border-radius: .25rem;
+      transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+      .badge {
+        transition: none;
+      }
+    }
+
+    .badge:empty {
+      display: none;
+    }
+
+    .badge-info {
+      color: #fff;
+      background-color: #17a2b8;
+    }
+
+    .clearfix::after {
+      display: block;
+      clear: both;
+      content: "";
+    }
+
+    .float-right {
+      float: right !important;
+    }
+
+    .mb-0 {
+      margin-bottom: 0 !important;
+    }
+
+    .mr-1 {
+      margin-right: .25rem !important;
+    }
+
+    .mr-2 {
+      margin-right: .5rem !important;
+    }
+
+    .ml-2 {
+      margin-left: .5rem !important;
+    }
+
+    .text-nowrap {
+      white-space: nowrap !important;
+    }
+
+    .text-right {
+      text-align: right !important;
+    }
+
+    @media print {
+
+      *,
+      ::after,
+      ::before {
+        text-shadow: none !important;
+        box-shadow: none !important;
+      }
+
+      a:not(.btn) {
+        text-decoration: underline;
+      }
+
+      thead {
+        display: table-header-group;
+      }
+
+      tr {
+        page-break-inside: avoid;
+      }
+
+      h2,
+      h3,
+      p {
+        orphans: 3;
+        widows: 3;
+      }
+
+      h2,
+      h3 {
+        page-break-after: avoid;
+      }
+
+      .container {
+        min-width: 992px !important;
+      }
+
+      .badge {
+        border: 1px solid #000;
+      }
+
+      .table {
+        border-collapse: collapse !important;
+      }
+
+      .table td,
+      .table th {
+        background-color: #fff !important;
+      }
+    }
+
+    /*! CSS Used from: http://127.0.0.1:8001/static/css/mdb.min.css */
+    h2,
+    h3 {
+      font-weight: 300;
+    }
+
+    .btn,
+    .btn:disabled:active,
+    .btn:disabled:focus,
+    .btn:disabled:hover {
+      -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+    }
+
+    :disabled {
+      pointer-events: none !important;
+    }
+
+    a {
+      cursor: pointer;
+      text-decoration: none;
+      color: #007bff;
+      -webkit-transition: all .2s ease-in-out;
+      -o-transition: all .2s ease-in-out;
+      transition: all .2s ease-in-out;
+    }
+
+    a:hover {
+      text-decoration: none;
+      color: #0056b3;
+      -webkit-transition: all .2s ease-in-out;
+      -o-transition: all .2s ease-in-out;
+      transition: all .2s ease-in-out;
+    }
+
+    a:disabled:hover {
+      color: #007bff;
+    }
+
+    .btn {
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+      padding: .84rem 2.14rem;
+      font-size: .81rem;
+      -webkit-transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
+      -o-transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+      transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+      transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
+      margin: .375rem;
+      border: 0;
+      -webkit-border-radius: .125rem;
+      border-radius: .125rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      white-space: normal;
+      word-wrap: break-word;
+      color: inherit;
+    }
+
+    .btn:active,
+    .btn:focus,
+    .btn:hover {
+      -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+      box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+      outline: 0;
+    }
+
+    .btn:not([disabled]):not(.disabled):active {
+      -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+      box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+    }
+
+    .btn:disabled:active,
+    .btn:disabled:focus,
+    .btn:disabled:hover {
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+    }
+
+    .btn-primary {
+      background-color: #4285f4 !important;
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background-color: #5a95f5;
+      color: #fff;
+    }
+
+    .btn-primary:focus {
+      -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+      box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+    }
+
+    .btn-primary:active,
+    .btn-primary:focus {
+      background-color: #0b51c5;
+    }
+
+    .btn-primary:not([disabled]):not(.disabled):active {
+      -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+      box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+      background-color: #0b51c5 !important;
+    }
+
+    .btn-primary:not([disabled]):not(.disabled):active:focus {
+      -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+      box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+    }
+
+    .btn-warning {
+      background-color: #fb3 !important;
+      color: #fff;
+    }
+
+    .btn-warning:hover {
+      background-color: #ffc44d;
+      color: #fff;
+    }
+
+    .btn-warning:focus {
+      -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+      box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+    }
+
+    .btn-warning:active,
+    .btn-warning:focus {
+      background-color: #c80;
+    }
+
+    .btn-warning:not([disabled]):not(.disabled):active {
+      -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+      box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+      background-color: #c80 !important;
+    }
+
+    .btn-warning:not([disabled]):not(.disabled):active:focus {
+      -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+      box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+    }
+
+    .badge,
+    .badge-info {
+      color: #fff !important;
+    }
+
+    .badge {
+      -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+      -webkit-border-radius: .125rem;
+      border-radius: .125rem;
+    }
+
+    .badge-info {
+      background-color: #33b5e5 !important;
+    }
+
+    table th {
+      font-size: .9rem;
+      font-weight: 400;
+    }
+
+    table td {
+      font-size: .9rem;
+      font-weight: 300;
+    }
+
+    table.table thead th {
+      border-top: none;
+    }
+
+    table.table td,
+    table.table th {
+      padding-top: 1.1rem;
+      padding-bottom: 1rem;
+    }
+
+    table.table a {
+      margin: 0;
+      color: #212529;
+    }
+
+    /*! CSS Used from: http://127.0.0.1:8001/static/css/style.css */
+    h2 {
+      font-weight: 100;
+      font-size: 1.6rem;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    .label {
+      font-size: 0.8rem;
+      font-weight: 300;
+    }
+
+    .table {
+      margin-top: 4rem;
+      margin-bottom: 4rem;
+    }
+
+    .table td {
+      font-weight: 400;
+    }
+
+    .table td.bold {
+      font-weight: 800;
+    }
+
+    .table td#total-price {
+      border: 1px solid #878a8d;
+    }
+
+    .table thead th {
+      border-bottom: 1px solid #dee2e6;
+      padding-bottom: 0;
+      font-size: 0.8rem;
+      font-weight: 300;
+      padding-bottom: 0;
+    }
+
+    #order-info {
+      margin-top: 3rem;
+      margin-bottom: 5rem;
+      font-weight: 400;
+    }
+
+    /*! CSS Used fontfaces */
+    @font-face {
+      font-family: "Font Awesome 5 Free";
+      font-style: normal;
+      font-weight: 400;
+      font-display: auto;
+      src: url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-regular-400.eot);
+      src: url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-regular-400.eot#iefix) format("embedded-opentype"), url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-regular-400.woff2) format("woff2"), url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-regular-400.woff) format("woff"), url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-regular-400.ttf) format("truetype"), url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-regular-400.svg#fontawesome) format("svg");
+    }
+
+    @font-face {
+      font-family: "Font Awesome 5 Free";
+      font-style: normal;
+      font-weight: 900;
+      font-display: auto;
+      src: url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-solid-900.eot);
+      src: url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-solid-900.eot#iefix) format("embedded-opentype"), url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-solid-900.woff2) format("woff2"), url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-solid-900.woff) format("woff"), url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-solid-900.ttf) format("truetype"), url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-solid-900.svg#fontawesome) format("svg");
+    }
+
+    h1 {
+      font-weight: 100;
+      font-size: 2rem;
+      margin-bottom: 0;
+    }
+
+    h2 {
+      font-weight: 100;
+      font-size: 1.6rem;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    .h2 {
+      font-weight: 200;
+    }
+
+    .label {
+      font-size: .8rem;
+      font-weight: 300;
+    }
+
+    .table {
+      margin-top: 4rem;
+      margin-bottom: 4rem;
+    }
+
+    .table td {
+      font-weight: 400;
+    }
+
+    .table td.bold {
+      font-weight: 800;
+    }
+
+    .table td#total-price {
+      border: 1px solid #878a8d;
+    }
+
+    .table thead th {
+      border-bottom: 1px solid #dee2e6;
+      padding-bottom: 0;
+      font-size: .8rem;
+      font-weight: 300;
+      padding-bottom: 0;
+    }
+
+    #order-info {
+      margin-top: 3rem;
+      margin-bottom: 5rem;
+      font-weight: 400;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="table-responsive text-nowrap">
+
+      <h2>Your Order Detail</h2>
+
+      Please make sure the detail again.
+
+      <h3>{{ order.user.first_name }} {{ order.user.last_name }}</h3>
+
+      <h3>Order no. {{ order.id}} </h3>
+      <h3>Order date: {{ order.ordered_date }}</h3>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Item title</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total Item Price</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for order_item in order.items.all %}
+          <tr>
+            <th scope="row">
+              {{ forloop.counter }}
+            </th>
+            <td>
+              <!-- <a href="{{order_item.item.get_absolute_url}}"> -->
+              <a href="{% url 'core:product' order_item.item.slug %}">
+                {{ order_item.item.title }}
+              </a>
+            </td>
+
+            {% if order_item.item.discount_price %}
+            <td>
+              <span class=" mr-1">
+                <del>${{ order_item.item.price }}</del>
+              </span>
+              ${{ order_item.item.discount_price }}
+            </td>
+            {% else %}
+            <td>${{ order_item.item.price }}</td>
+            {% endif %}
+
+            <td>
+              <a href="{% url 'core:remove-single-item-from-cart' order_item.item.slug %}">
+                <i class="fas fa-minus mr-2"></i>
+              </a>
+              {{ order_item.quantity }}
+              <a href="{% url 'core:add-to-cart' order_item.item.slug %}">
+                <i class="fas fa-plus ml-2"></i>
+              </a>
+            </td>
+
+            <td>
+              {% if order_item.item.discount_price %}
+              ${{ order_item.get_total_discount_item_price }}
+              <span class="badge badge-info">Saving ${{ order_item.get_amount_saved }}</span>
+              {% else %}
+              ${{ order_item.get_total_item_price }}
+              {% endif %}
+              <a href="{% url 'core:remove-from-cart' order_item.item.slug %}">
+                <i class="fas fa-trash float-right"></i>
+              </a>
+            </td>
+
+            <!-- <td>
+              <a href="{{ order_item.item.get_remove_from_cart_url }}" class=" btn btn-danger btn-md my-0 p">
+              <i class="fas fa-trash"></i>
+              </a>
+            </td> -->
+          </tr>
+
+          {% empty %}
+          <tr>
+            <td colspan='5'>Your cart is empty.</td>
+          </tr>
+          {% endfor %}
+          {% if order.get_total %}
+          <tr>
+            <td colspan="4" class="bold text-right">Order Total</td>
+            <td id="total-price" class="bold">${{ order.get_total }}</td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+
+    </div>
+
+    <div id="order-info">
+      <div>
+        <p class="label mb-0">Shipping Address</p>
+        <p>{{ order.shipping_address }}</p>
+      </div>
+
+      <div>
+        <p class="label mb-0">Billing Address</p>
+        <p>{{ order.billing_address }}</p>
+      </div>
+
+      <div>
+        <p class="label mb-0">Delivery Time</p>
+        <p>{{ order.get_delivery_time_display }}</p>
+      </div>
+
+      <div>
+        <p class="label mb-0">Payment Method</p>
+        <p>{{ order.get_payment_option_display }}</p>
+      </div>
+
+    </div>
+
+  </div> <!-- container -->
+</body>
+<!--Main layout-->

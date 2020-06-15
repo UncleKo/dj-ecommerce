@@ -11,9 +11,17 @@ class OrderItemAdmin(admin.ModelAdmin):
     list_display = ['user', 'item', 'ordered']
 
 
+class ShippingAddressAdmin(admin.ModelAdmin):
+    list_display = ['user', 'street_address']
+
+
+class BillingAddressAdmin(admin.ModelAdmin):
+    list_display = ['user', 'street_address']
+
+
 admin.site.register(Item)
 admin.site.register(OrderItem, OrderItemAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Payment)
-admin.site.register(ShippingAddress)
-admin.site.register(BillingAddress)
+admin.site.register(ShippingAddress, ShippingAddressAdmin)
+admin.site.register(BillingAddress, BillingAddressAdmin)

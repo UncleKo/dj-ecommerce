@@ -98,7 +98,7 @@ class OrderItem(models.Model):
 class Order(models.Model):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE)
+                             on_delete=models.CASCADE, related_name="orders")
     items = models.ManyToManyField(OrderItem)
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField()
@@ -126,7 +126,7 @@ class Order(models.Model):
 
 class ShippingAddress(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE, related_name="shipping_address")
+                             on_delete=models.CASCADE, related_name="shipping_addresses")
     street_address = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100, default="CA")
@@ -135,12 +135,12 @@ class ShippingAddress(models.Model):
 
     def __str__(self):
         # return self.user.username
-        return f"{self.street_address}, {self.city}, {self.state} {self.zip}"
+        return f"{self.street_address}, {self.city}, {self.state} {self.zip} {self.country}"
 
 
 class BillingAddress(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE)
+                             on_delete=models.CASCADE, related_name="billing_addresses")
     street_address = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100, default="CA")
@@ -148,7 +148,7 @@ class BillingAddress(models.Model):
     country = CountryField(multiple=False)
 
     def __str__(self):
-        return f"{self.street_address}, {self.city}, {self.state} {self.zip}"
+        return f"{self.street_address}, {self.city}, {self.state} {self.zip} {self.country}"
 
 
 class Payment(models.Model):

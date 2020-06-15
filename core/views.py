@@ -1,5 +1,5 @@
 from .models import Item, OrderItem, Order, ShippingAddress, BillingAddress, Payment
-from .forms import CheckoutForm
+from .forms import CheckoutForm, BillingAddressForm
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, View
 from django.utils import timezone
+from django.contrib.auth.models import User
 # from django.db.models import F
 
 # Email
@@ -47,10 +48,10 @@ class CartView(LoginRequiredMixin, View):
             context = {
                 'order': order
             }
-            return render(self.request, 'order_summary.html', context)
+            return render(self.request, 'shopping-cart.html', context)
         except ObjectDoesNotExist:
             messages.error(self.request, "You do not have an active order")
-            return render(self.request, 'order_summary.html')
+            return render(self.request, 'shopping-cart.html')
 
 # def order_summary_view(request):
 #     try:
@@ -67,22 +68,28 @@ class CartView(LoginRequiredMixin, View):
 class CheckoutView(LoginRequiredMixin, View):
 
     def get(self, *args, **kwargs):
-        form = CheckoutForm()
-        # order = Order.objects.get(user=self.request.user, ordered=False)
-        order = get_object_or_404(Order, user=self.request.user, ordered=False)
+        form = CheckoutForm(self.request.user or None)
+        # # Edit時はDBに保存されたデータをFormに結びつける
+        # form = CheckForm({'shipping_address': order.shipping_address})
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+        # order = get_object_or_404(Order, user=self.request.user, ordered=False)
+        except ObjectDoesNotExist:
+            # messages.error(self.request, "You do not have an active order")
+            return redirect("core:shopping-cart")
 
         context = {
             'form': form,
-            'order': order,
-            'shipping_addresses': ShippingAddress.objects.filter(user=self.request.user),
-            'billing_addresses': BillingAddress.objects.filter(user=self.request.user)
+            'order': order
+            # 'shipping_addresses': ShippingAddress.objects.filter(user=self.request.user)
+            # 'billing_addresses': BillingAddress.objects.filter(user=self.request.user)
             # 'shipping_address': ShippingAddress.objects.filter(user=self.request.user).get(pk=1)
         }
         return render(self.request, "checkout.html", context)
 
     def post(self, *args, **kwargs):
-        form = CheckoutForm(self.request.POST or None)
-        # order = get_object_or_404(user=self.request.user, ordered=False)
+        form = CheckoutForm(self.request.user or None,
+                            self.request.POST or None)
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
 
@@ -90,47 +97,36 @@ class CheckoutView(LoginRequiredMixin, View):
             if form.is_valid():
                 # print(form.cleaned_data)
                 # print("The form is valid")
+                # first_name = form.cleaned_data.get('first_name')
+                # last_name = form.cleaned_data.get('last_name')
                 use_stored_shipping_address = form.cleaned_data.get(
                     'use_stored_shipping_address')
+                fill_in_new_shipping_address = form.cleaned_data.get(
+                    'fill_in_new_shipping_address')
                 stored_address = form.cleaned_data.get('stored_address')
                 street_address = form.cleaned_data.get('street_address')
                 city = form.cleaned_data.get('city')
                 state = form.cleaned_data.get('state')
                 zip = form.cleaned_data.get('zip')
                 country = form.cleaned_data.get('country')
-                # TODO: add functionality for these fields
                 delivery_time = form.cleaned_data.get('delivery_time')
                 payment_option = form.cleaned_data.get('payment_option')
-                billing_address = form.cleaned_data.get('billing_address')
-                stored_billing_address = form.cleaned_data.get(
-                    'stored_billing_address')
-                # same_billing_address = form.cleaned_data.get('same_billing_address')
                 # save_info = form.cleaned_data.get('save_info')
 
-                if use_stored_shipping_address:
-                    # if stored_address == 1:
-                    #     shipping_address = ShippingAddress.objects.filter(
-                    #         user=self.request.user).get(pk=1)
-                    shipping_address = ShippingAddress.objects.filter(
-                        user=self.request.user).get(pk=stored_address.id)
-                    order.shipping_address = shipping_address
-                    # if same_billing_address:
-                    if billing_address == 'A':
-                        billing_address = BillingAddress(
-                            user=self.request.user,
-                            street_address=shipping_address.street_address,
-                            city=shipping_address.city,
-                            state=shipping_address.state,
-                            zip=shipping_address.zip,
-                            country=shipping_address.country
-                        )
-                        billing_address.save()
-                        order.billing_address = billing_address
-                    else:
-                        billing_address = BillingAddress.objects.filter(
-                            user=self.request.user).get(pk=stored_billing_address.id)
-                        order.billing_address = billing_address
-                else:
+                # if use_stored_shipping_address and fill_in_new_shipping_address:
+                #     messages.warning(
+                #         self.request, "Please choose only one of the check box regarding shipping address.")
+                #     return redirect('core:checkout')
+                # アドレスがインプットされていればそちらを優先。重複してた場合、一度保存して後から変更・削除、あるいは他の保存アドレスを選択できるようにすれば良い。折角インプットしたアドレスが消滅してしまわないため。（フラストレーションを最小限に。）
+
+                # self.request.user.first_name = first_name
+                # self.request.user.last_name = last_name
+                # user = User.objects.filter(pk=self.request.user.id)
+                # user.first_name = first_name
+                # user.last_name = last_name
+                # user.update()
+
+                if street_address:
                     shipping_address = ShippingAddress(
                         user=self.request.user,
                         street_address=street_address,
@@ -141,61 +137,30 @@ class CheckoutView(LoginRequiredMixin, View):
                     )
                     shipping_address.save()
                     order.shipping_address = shipping_address
-                    # if same_billing_address:
-                    if billing_address == 'A':
-                        billing_address = BillingAddress(
-                            user=self.request.user,
-                            street_address=street_address,
-                            city=shipping_address.city,
-                            state=shipping_address.state,
-                            zip=shipping_address.zip,
-                            country=shipping_address.country
-                        )
-                        billing_address.save()
-                        order.billing_address = billing_address
+                elif use_stored_shipping_address:
+                    if stored_address:
+                        shipping_address = ShippingAddress.objects.filter(
+                            user=self.request.user).get(pk=stored_address.id)
+                        order.shipping_address = shipping_address
                     else:
-                        billing_address = BillingAddress.objects.filter(
-                            user=self.request.user).get(pk=stored_billing_address.id)
-                        order.billing_address = billing_address
+                        messages.warning(
+                            self.request, "Please choose one of the stored address as shipping address.")
+                        return redirect('core:checkout')
+
+                else:
+                    messages.warning(
+                        self.request, "Please select stored address or fill in new address as the shipping address.")
+                    return redirect('core:checkout')
 
                 order.delivery_time = delivery_time
                 order.payment_option = payment_option
+                # order.save_info
                 order.save()
 
-                if payment_option == 'S':
-                    return redirect('core:payment', payment_option='stripe')
+                if payment_option == 'C':
+                    return redirect('core:billing-address')
                 elif payment_option == 'B':
-                    order_items = order.items.all()
-                    order_items.update(ordered=True)
-                    for item in order_items:
-                        item.save()
-
-                    order.ordered = True
-                    order.save()
-                    # for item in order_items:
-                    #     item.delete()
-
-                    msg_plain = render_to_string('email.txt', {
-                        'order': order
-                    })
-                    # msg_html = render_to_string('templates/email.html', {
-                    #     'some_params': some_params
-                    # })
-
-                    send_mail(
-                        f'{self.request.user.username}, Thank you for the shopping!',
-                        # f'{order.id} at {order.ordered_date}',
-                        msg_plain,
-                        'uncleko496@gmail.com',
-                        ['uncleko496@gmail.com', self.request.user.email],
-                        # html_message=msg_html,
-                        # fail_silently=False,
-                    )
-
-                    messages.success(
-                        self.request, "Your order was successful!")
-                    return redirect("/")
-
+                    return redirect("core:order-summary")
                 else:
                     messages.warning(
                         self.request, "Invalid payment option selected")
@@ -205,8 +170,137 @@ class CheckoutView(LoginRequiredMixin, View):
             return redirect('core:checkout')
 
         except ObjectDoesNotExist:
-            message.error(self.request, "You do not have an active order")
+            # messages.error(self.request, "You do not have an active order")
             return redirect("core:shopping-cart")
+
+
+class BillingAddressView(LoginRequiredMixin, View):
+
+    def get(self, *args, **kwargs):
+        form = BillingAddressForm(self.request.user or None)
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+        except ObjectDoesNotExist:
+            return redirect("core:shopping-cart")
+
+        context = {
+            'form': form,
+            'order': order
+            # 'billing_addresses': BillingAddress.objects.filter(user=self.request.user)
+        }
+        return render(self.request, "billing-address.html", context)
+
+    def post(self, *args, **kwargs):
+        form = BillingAddressForm(
+            self.request.user or None, self.request.POST or None)
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+
+            if form.is_valid():
+                billing_address_option = form.cleaned_data.get(
+                    'billing_address_option')
+                stored_billing_address = form.cleaned_data.get(
+                    'stored_billing_address')
+                street_address = form.cleaned_data.get('street_address')
+                city = form.cleaned_data.get('city')
+                state = form.cleaned_data.get('state')
+                zip = form.cleaned_data.get('zip')
+                country = form.cleaned_data.get('country')
+                # same_billing_address = form.cleaned_data.get('same_billing_address')
+
+                if street_address:
+                    billing_address = BillingAddress(
+                        user=self.request.user,
+                        street_address=street_address,
+                        city=city,
+                        state=state,
+                        zip=zip,
+                        country=country
+                    )
+                    billing_address.save()
+                    order.billing_address = billing_address
+                # if same_billing_address:
+                elif billing_address_option == 'A':
+                    billing_address = BillingAddress(
+                        user=self.request.user,
+                        street_address=order.shipping_address.street_address,
+                        city=order.shipping_address.city,
+                        state=order.shipping_address.state,
+                        zip=order.shipping_address.zip,
+                        country=order.shipping_address.country
+                    )
+                    billing_address.save()
+                    order.billing_address = billing_address
+                elif billing_address_option == 'B':
+                    if stored_billing_address:
+                        billing_address = BillingAddress.objects.filter(
+                            user=self.request.user).get(pk=stored_billing_address.id)
+                        order.billing_address = billing_address
+                    else:
+                        messages.warning(
+                            self.request, "please choose one of the stored address as billing address.")
+                        return redirect('core:billing-address')
+                else:
+                    # Error (returned None instead)
+                    messages.warning(
+                        self.request, "please choose one of the radio box regarding billing address ofr fill in a new billing address.")
+                    return redirect('core:billing-address')
+
+                order.save()
+                # return redirect('core:payment', payment_option='stripe')
+                return redirect("core:order-summary")
+
+        except objectdoesnotexist:
+            return redirect("core:shopping-cart")
+
+
+class OrderSummaryView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            context = {
+                'order': order
+            }
+            return render(self.request, 'order-summary.html', context)
+        except ObjectDoesNotExist:
+            messages.error(self.request, "You do not have an active order")
+            return render(self.request, 'order-summary.html')
+
+
+@login_required
+def confirm_order(request):
+
+    try:
+        order = Order.objects.get(user=request.user, ordered=False)
+        order_items = order.items.all()
+        order_items.update(ordered=True)
+        for item in order_items:
+            item.save()
+        order.ordered = True
+        order.save()
+        # for item in order_items:
+        #   ,
+        msg_plain = render_to_string('email.txt', {
+            'order': order
+        })
+        msg_html = render_to_string('email.html', {
+            'order': order
+        })
+        send_mail(
+            f'{request.user.first_name}, Thank you for the shopping!',
+            # f'{order.id} at {order.ordered_date}',
+            msg_plain,
+            'uncleko496@gmail.com',
+            ['uncleko496@gmail.com', request.user.email],
+            html_message=msg_html,
+            # fail_silentl,
+        )
+        messages.success(request, "Thank you so much for the shopping!")
+        return render(request, 'shopping-cart.html')
+
+    except ObjectDoesNotExist:
+        messages.error(request, "You do not have an active order")
+        return render(request, 'order-summary.html')
 
 
 class PaymentView(View):

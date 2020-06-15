@@ -30,9 +30,61 @@ body,
   background-color: #929FBA;
 }
 
+h1 {
+  font-weight: 100;
+  font-size: 2rem;
+  margin-bottom: 0;
+}
+
+h2 {
+  font-weight: 100;
+  font-size: 1.6rem;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: 1rem;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.h2 {
+  font-weight: 200;
+}
+
 .label {
   font-size: 0.8rem;
   font-weight: 300;
+}
+
+.table {
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+}
+
+.table td {
+  font-weight: 400;
+}
+.table td.bold {
+  font-weight: 800;
+}
+.table td#total-price {
+  border: 1px solid #878a8d;
+}
+
+.table thead th {
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 0;
+  font-size: 0.8rem;
+  font-weight: 300;
+  padding-bottom: 0;
+}
+
+#order-info {
+  margin-top: 3rem;
+  margin-bottom: 5rem;
+  font-weight: 400;
 }
 
 /*# sourceMappingURL=style.css.map */

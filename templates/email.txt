@@ -1,6 +1,8 @@
 
 Your Order Detail.
 
+{{ order.user.first_name }} {{ order.user.last_name }}
+      
 Order no. {{ order.id}}
 
 Order date: {{ order.ordered_date }}

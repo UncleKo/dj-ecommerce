@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block head_title %}Order Summary{% endblock %}
+
+{% block content %}
+
+
+<!--Main layout-->
+<main>
+  <div class="container">
+
+    <div class="table-responsive text-nowrap">
+
+      <h2>Your Order Detail</h2>
+
+      Please make sure the detail.
+
+      <h3>{{ order.user.first_name }} {{ order.user.last_name }}</h3>
+      <h3>Order no. {{ order.id}} </h3>
+      <h3>Order date: {{ order.ordered_date }}</h3>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Item title</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total Item Price</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for order_item in order.items.all %}
+          <tr>
+            <th scope="row">
+              {{ forloop.counter }}
+            </th>
+            <td>
+              <!-- <a href="{{order_item.item.get_absolute_url}}"> -->
+              <a href="{% url 'core:product' order_item.item.slug %}">
+                {{ order_item.item.title }}
+              </a>
+            </td>
+
+            {% if order_item.item.discount_price %}
+            <td>
+              <span class=" mr-1">
+                <del>${{ order_item.item.price }}</del>
+              </span>
+              ${{ order_item.item.discount_price }}
+            </td>
+            {% else %}
+            <td>${{ order_item.item.price }}</td>
+            {% endif %}
+
+            <td>
+              <a href="{% url 'core:remove-single-item-from-cart' order_item.item.slug %}">
+                <i class="fas fa-minus mr-2"></i>
+              </a>
+              {{ order_item.quantity }}
+              <a href="{% url 'core:add-to-cart' order_item.item.slug %}">
+                <i class="fas fa-plus ml-2"></i>
+              </a>
+            </td>
+
+            <td>
+              {% if order_item.item.discount_price %}
+              ${{ order_item.get_total_discount_item_price }}
+              <span class="badge badge-info">Saving ${{ order_item.get_amount_saved }}</span>
+              {% else %}
+              ${{ order_item.get_total_item_price }}
+              {% endif %}
+              <a href="{% url 'core:remove-from-cart' order_item.item.slug %}">
+                <i class="fas fa-trash float-right"></i>
+              </a>
+            </td>
+
+            <!-- <td>
+              <a href="{{ order_item.item.get_remove_from_cart_url }}" class=" btn btn-danger btn-md my-0 p">
+              <i class="fas fa-trash"></i>
+              </a>
+            </td> -->
+          </tr>
+
+          {% empty %}
+          <tr>
+            <td colspan='5'>Your cart is empty.</td>
+          </tr>
+          {% endfor %}
+          {% if order.get_total %}
+          <tr>
+            <td colspan="4" class="bold text-right">Order Total</td>
+            <td id="total-price" class="bold">${{ order.get_total }}</td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+
+    </div>
+
+    <div id="order-info">
+      <div>
+        <p class="label mb-0">Shipping Address</p>
+        <p>{{ order.shipping_address }}</p>
+      </div>
+
+      <div>
+        <p class="label mb-0">Billing Address</p>
+        <p>{{ order.billing_address }}</p>
+      </div>
+
+      <div>
+        <p class="label mb-0">Delivery Time</p>
+        <p>{{ order.get_delivery_time_display }}</p>
+      </div>
+
+      <div>
+        <p class="label mb-0">Payment Method</p>
+        <p>{{ order.get_payment_option_display }}</p>
+      </div>
+
+    </div>
+
+    <div class="clearfix">
+      {% if order.get_total %}
+      <a class='btn btn-warning float-right ml-2' href="{% url 'core:confirm-order' %}">Confirm </a>
+      {% else %}
+      <a class='btn btn-warning float-right ml-2' href="/">Continue shopping</a>
+      {% endif %}
+      <a class='btn btn-primary float-right' href="/">Modify</a>
+    </div>
+
+  </div> <!-- container -->
+
+</main>
+<!--Main layout-->
+
+
+{% endblock content %}

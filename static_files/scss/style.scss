@@ -1,4 +1,8 @@
-// Your custom styles
+
+// :root {
+//   --font-main: 'Noto Sans JP', sans-serif;
+//   --font-bold: 'Anton', sans-serif;
+// }
 
 /* Required height of parents of the Half Page Carousel for proper displaying carousel itself */
 html,
@@ -25,8 +29,67 @@ body,
   background-color: #929FBA; }
 
 
-// My CSS
+// My CSS //
+h1 {
+  font-weight: 100;
+  font-size: 2rem;
+  margin-bottom: 0;
+}
+
+h2 {
+  font-weight: 100;
+  font-size: 1.6rem;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: 1rem;
+  font-weight: 400;
+  font-style: italic;
+  // margin-bottom: 3rem;
+}
+
+.h2 {
+  font-weight: 200;
+}
+
 .label {
   font-size: .8rem;
   font-weight: 300;
 }
+
+.table {
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+}
+
+.table td {
+  font-weight: 400;
+  &.bold {
+    font-weight: 800;
+  }
+  &#total-price {
+    border: 1px solid #878a8d;
+  }
+}
+
+.table thead th {
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 0;
+  font-size: .8rem;
+  font-weight: 300;
+  padding-bottom: 0;
+}
+
+#order-info {
+  margin-top: 3rem;
+  margin-bottom: 5rem;
+  font-weight: 400;
+}
+
+// .item-number {
+//   font-weight: 800;
+//   font-size: 1rem;
+//   margin-bottom: 0;
+// }

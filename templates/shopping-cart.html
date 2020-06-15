@@ -1,6 +1,8 @@
 {% extends "base.html" %}
-{% block content %}
 
+{% block head_title %}Shopping Cart{% endblock %}
+
+{% block content %}
 
 <!--Main layout-->
 <main>
@@ -8,12 +10,12 @@
 
     <div class="table-responsive text-nowrap">
 
-      <h2>Order Summary</h2>
+      <h2>Your Shopping Cart</h2>
 
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">#</th>
+            <th scope="col"></th>
             <th scope="col">Item title</th>
             <th scope="col">Price</th>
             <th scope="col">Quantity</th>
@@ -24,7 +26,9 @@
 
           {% for order_item in order.items.all %}
           <tr>
-            <th scope="row">{{ forloop.counter }}</th>
+            <th scope="row">
+              {{ forloop.counter }}
+            </th>
             <td>
               <!-- <a href="{{order_item.item.get_absolute_url}}"> -->
               <a href="{% url 'core:product' order_item.item.slug %}">
@@ -60,7 +64,7 @@
               {% else %}
               ${{ order_item.get_total_item_price }}
               {% endif %}
-              <a style='color: red;' href="{% url 'core:remove-from-cart' order_item.item.slug %}">
+              <a href="{% url 'core:remove-from-cart' order_item.item.slug %}">
                 <i class="fas fa-trash float-right"></i>
               </a>
             </td>
@@ -76,22 +80,11 @@
           <tr>
             <td colspan='5'>Your cart is empty.</td>
           </tr>
-          <tr>
-            <td colspan=" 5">
-              <a class='btn btn-primary float-right' href="/">Continue shopping</a>
-            </td>
-          </tr>
           {% endfor %}
           {% if order.get_total %}
           <tr>
-            <td colspan="4"><b>Order Total</b></td>
-            <td><b>${{ order.get_total }}</td>
-          </tr>
-          <tr>
-            <td colspan="5">
-              <a class='btn btn-warning float-right ml-2' href="{% url 'core:checkout' %}">Proceed to Checkout</a>
-              <a class='btn btn-primary float-right' href="/">Continue shopping</a>
-            </td>
+            <td colspan="4" class="bold text-right">Order Total</td>
+            <td id="total-price" class="bold">${{ order.get_total }}</td>
           </tr>
           {% endif %}
         </tbody>
@@ -99,7 +92,17 @@
 
     </div>
 
-  </div>
+    <div class="clearfix">
+      {% if order.get_total %}
+      <a class='btn btn-warning float-right ml-2' href="{% url 'core:checkout' %}">Proceed to Checkout</a>
+      <a class='btn btn-primary float-right' href="/">Continue shopping</a>
+      {% else %}
+      <a class='btn btn-primary float-right' href="/">Continue shopping</a>
+      {% endif %}
+    </div>
+
+  </div> <!-- container -->
+
 </main>
 <!--Main layout-->
 
