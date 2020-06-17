@@ -10,7 +10,7 @@
   <div class="container wow fadeIn">
 
     <!-- Heading -->
-    <h2 class="mt-1 mb-5 h2">Billing Address</h2>
+    <h2 class="mt-1 mb-5">Billing Address</h2>
 
     <!--Grid row-->
     <div class="row">
@@ -27,7 +27,7 @@
 
             <div>
               <p class="label mb-0">Shipping Address</p>
-              <p>{{ order.shipping_address }}</p>
+              <p class="address">{{ order.shipping_address }}</p>
             </div>
 
             <div id="div_id_billing_address_option" class="form-group">
@@ -69,7 +69,7 @@
                 <div class="custom-control custom-radio">
                   <input id="stored_billing_address_{{ forloop.counter }}" name="stored_billing_address"
                     value="{{ value }}" type="radio" class="custom-control-input">
-                  <label class="custom-control-label" for="stored_billing_address_{{ forloop.counter }}">
+                  <label class="custom-control-label address" for="stored_billing_address_{{ forloop.counter }}">
                     {{ name }}
                   </label>
                 </div>

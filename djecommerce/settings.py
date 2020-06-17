@@ -91,7 +91,8 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SITE_ID = 1
-LOGIN_REDIRECT_URL = '/'
+# Only after Signing Up. Regular Login just go back to the same page (follows ?next in URL).
+LOGIN_REDIRECT_URL = 'edit-profile'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

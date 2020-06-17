@@ -29,16 +29,18 @@ body,
   background-color: #929FBA; }
 
 
-// My CSS //
-h1 {
-  font-weight: 100;
+/* My CSS */
+/* Typography*/
+nav h1 {
+  font-family: Anton, sans-serif;
+  font-weight: 800;
   font-size: 2rem;
   margin-bottom: 0;
 }
 
 h2 {
   font-weight: 100;
-  font-size: 1.6rem;
+  font-size: 2rem;
   margin-top: 3rem;
   margin-bottom: 1rem;
 }
@@ -50,8 +52,45 @@ h3 {
   // margin-bottom: 3rem;
 }
 
-.h2 {
-  font-weight: 200;
+h5.nav-link {
+  margin: 0;
+  font-family: Anton, sans-serif;
+  font-weight: 500;
+}
+
+.card .card-body h5, h5 {
+  font-weight: 500;
+  margin-top: 2rem;
+}
+
+.card .card-body  h6 {
+  font-weight: 500;
+}
+
+#div_id_use_stored_shipping_address {
+  label {
+    font-weight: 500;
+  }
+}
+
+.alert {
+  padding-left: 0;
+}
+#messages {
+  font-size: 1.2rem;
+}
+.navbar.scrolling-navbar {
+  padding-bottom: 7px;
+}
+
+.navbar-nav,
+a#nav-cart {
+  display: flex;
+  align-items: center;
+}
+
+.alert {
+  color: red;
 }
 
 .label {
@@ -59,9 +98,12 @@ h3 {
   font-weight: 300;
 }
 
-.table {
+table.table {
   margin-top: 4rem;
   margin-bottom: 4rem;
+  a {
+    color: #878a8d;
+  }
 }
 
 .table td {
@@ -70,7 +112,7 @@ h3 {
     font-weight: 800;
   }
   &#total-price {
-    border: 1px solid #878a8d;
+    box-shadow: inset 0 0 0 5px #878a8d;
   }
 }
 
@@ -86,6 +128,10 @@ h3 {
   margin-top: 3rem;
   margin-bottom: 5rem;
   font-weight: 400;
+}
+
+.address {
+  font-family: 'Nixie One', cursive;
 }
 
 // .item-number {

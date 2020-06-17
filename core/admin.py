@@ -12,11 +12,11 @@ class OrderItemAdmin(admin.ModelAdmin):
 
 
 class ShippingAddressAdmin(admin.ModelAdmin):
-    list_display = ['user', 'street_address']
+    list_display = ['user', 'street_address', 'city', 'state', 'zip', 'id']
 
 
 class BillingAddressAdmin(admin.ModelAdmin):
-    list_display = ['user', 'street_address']
+    list_display = ['user', 'street_address', 'city', 'state', 'zip', 'id']
 
 
 admin.site.register(Item)

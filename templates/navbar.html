@@ -33,7 +33,23 @@
       <ul class="navbar-nav nav-flex-icons">
         {% if request.user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link waves-effect" href="{% url 'core:shopping-cart' %}">
+          for
+        </li>
+        <li class="nav-item">
+          {% if user.first_name and user.last_name %}
+          <h5 class="nav-link">{{ user.first_name }} {{ user.last_name }}</h5>
+          {% else %}
+          <h5 class="nav-link">{{ user.username }}</h5>
+          {% endif %}
+        </li>
+        <li class="nav-item">
+          <a class="nav-link waves-effect" href="#"> Profile </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link waves-effect" href="#"> Wish List </a>
+        </li>
+        <li class="nav-item">
+          <a id="nav-cart" class="nav-link waves-effect" href="{% url 'core:shopping-cart' %}">
             <span class="badge red z-depth-1 mr-1"> {{ request.user|cart_item_count }} </span>
             <i class="fas fa-shopping-cart"></i>
             <span class="clearfix d-none d-sm-inline-block"> Cart </span>
@@ -46,7 +62,7 @@
         </li>
         {% else %}
         <li class="nav-item">
-          <a class="nav-link waves-effect" href="{% url 'account_login' %}">
+          <a class="nav-link waves-effect" href="{% url 'account_login' %}?next={{ request.path }}">
             <span class="clearfix d-none d-sm-inline-block"> Login </span>
           </a>
         </li>

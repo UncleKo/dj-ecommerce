@@ -11,11 +11,17 @@
 
     <div class="table-responsive text-nowrap">
 
-      <h2>Your Order Detail</h2>
+      <h2>Your Order Summary</h2>
 
-      Please make sure the detail.
-
-      <h3>{{ order.user.first_name }} {{ order.user.last_name }}</h3>
+      {% if user.first_name and user.last_name %}
+      <h5 class="">{{ user.first_name }} {{ user.last_name }}</h5>
+      {% else %}
+      <h5 class="mt-4 mb-5 text-danger">
+        <i>Pease Provide Your Name First
+          <a href="{% url 'edit-profile' user.id %}?next={{ request.path }}">Click Here</a>
+        </i>
+      </h5>
+      {% endif %}
       <h3>Order no. {{ order.id}} </h3>
       <h3>Order date: {{ order.ordered_date }}</h3>
 
@@ -27,6 +33,7 @@
             <th scope="col">Price</th>
             <th scope="col">Quantity</th>
             <th scope="col">Total Item Price</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
@@ -67,15 +74,17 @@
             <td>
               {% if order_item.item.discount_price %}
               ${{ order_item.get_total_discount_item_price }}
-              <span class="badge badge-info">Saving ${{ order_item.get_amount_saved }}</span>
+              <span class="badge badge-info ml-1">Saving ${{ order_item.get_amount_saved }}</span>
               {% else %}
               ${{ order_item.get_total_item_price }}
               {% endif %}
+            </td>
+
+            <td>
               <a href="{% url 'core:remove-from-cart' order_item.item.slug %}">
                 <i class="fas fa-trash float-right"></i>
               </a>
             </td>
-
             <!-- <td>
               <a href="{{ order_item.item.get_remove_from_cart_url }}" class=" btn btn-danger btn-md my-0 p">
               <i class="fas fa-trash"></i>
@@ -102,33 +111,33 @@
     <div id="order-info">
       <div>
         <p class="label mb-0">Shipping Address</p>
-        <p>{{ order.shipping_address }}</p>
+        <p class="address">{{ order.shipping_address }}</p>
       </div>
 
       <div>
         <p class="label mb-0">Billing Address</p>
-        <p>{{ order.billing_address }}</p>
+        <p class="address">{{ order.billing_address }}</p>
       </div>
 
       <div>
         <p class="label mb-0">Delivery Time</p>
-        <p>{{ order.get_delivery_time_display }}</p>
+        <p class="address">{{ order.get_delivery_time_display }}</p>
       </div>
 
       <div>
         <p class="label mb-0">Payment Method</p>
-        <p>{{ order.get_payment_option_display }}</p>
+        <p class="address">{{ order.get_payment_option_display }}</p>
       </div>
 
     </div>
 
     <div class="clearfix">
-      {% if order.get_total %}
-      <a class='btn btn-warning float-right ml-2' href="{% url 'core:confirm-order' %}">Confirm </a>
+      {% if order.get_total and order.shipping_address and order.payment_option %}
+      <a class='btn btn-info float-right ml-2' href="{% url 'core:confirm-order' %}">Confirm </a>
       {% else %}
-      <a class='btn btn-warning float-right ml-2' href="/">Continue shopping</a>
+      <a class='btn btn-info float-right ml-2' href="/">Continue shopping</a>
       {% endif %}
-      <a class='btn btn-primary float-right' href="/">Modify</a>
+      <a class='btn btn-warning float-right' href="/">Modify</a>
     </div>
 
   </div> <!-- container -->

@@ -5,7 +5,7 @@ from .models import PAYMENT_CHOICES, DELIVERY_TIME, ShippingAddress, BillingAddr
 
 BILLING_ADDRESS_OPTION = (
     ('A', 'Billing address is the same as my shipping address'),
-    ('B', 'If it is already in the list below, please select it (to avoid duplication on your data).'),
+    ('B', 'If it is already in the list below, please select it (to avoid duplication on your data).')
 )
 
 
@@ -36,14 +36,14 @@ class CheckoutForm(forms.Form):
     street_address = forms.CharField(
         widget=forms.TextInput(attrs={
             'placeholder': '1234 Main St #101',
-            'class': 'form-control'
+            'class': 'form-control address'
         }),
         required=False
     )
     city = forms.CharField(
         widget=forms.TextInput(attrs={
             'placeholder': 'Los Angeles',
-            'class': 'form-control'
+            'class': 'form-control address'
         }),
         required=False
     )
@@ -51,14 +51,14 @@ class CheckoutForm(forms.Form):
     state = forms.CharField(
         widget=forms.TextInput(attrs={
             'placeholder': 'CA',
-            'class': 'form-control'
+            'class': 'form-control address'
         }),
         required=False
     )
 
     zip = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'form-control'
+            'class': 'form-control address'
         }),
         required=False
     )
@@ -66,7 +66,7 @@ class CheckoutForm(forms.Form):
     country = CountryField(
         blank_label='(select country)').formfield(
         widget=CountrySelectWidget(attrs={
-            'class': 'custom-select d-block w-100'
+            'class': 'custom-select d-block w-100 address'
         }),
         required=False
     )
@@ -116,14 +116,14 @@ class BillingAddressForm(forms.Form):
     street_address = forms.CharField(
         widget=forms.TextInput(attrs={
             'placeholder': '1234 Main St #101',
-            'class': 'form-control'
+            'class': 'form-control address'
         }),
         required=False
     )
     city = forms.CharField(
         widget=forms.TextInput(attrs={
             'placeholder': 'Los Angeles',
-            'class': 'form-control'
+            'class': 'form-control address'
         }),
         required=False
     )
@@ -131,14 +131,14 @@ class BillingAddressForm(forms.Form):
     state = forms.CharField(
         widget=forms.TextInput(attrs={
             'placeholder': 'CA',
-            'class': 'form-control'
+            'class': 'form-control address'
         }),
         required=False
     )
 
     zip = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'form-control'
+            'class': 'form-control address'
         }),
         required=False
     )
@@ -146,7 +146,7 @@ class BillingAddressForm(forms.Form):
     country = CountryField(
         blank_label='(select country)').formfield(
         widget=CountrySelectWidget(attrs={
-            'class': 'custom-select d-block w-100'
+            'class': 'custom-select d-block w-100 address'
         }),
         required=False
     )

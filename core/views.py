@@ -69,11 +69,18 @@ class CheckoutView(LoginRequiredMixin, View):
 
     def get(self, *args, **kwargs):
         form = CheckoutForm(self.request.user or None)
-        # # Edit時はDBに保存されたデータをFormに結びつける
-        # form = CheckForm({'shipping_address': order.shipping_address})
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
-        # order = get_object_or_404(Order, user=self.request.user, ordered=False)
+            # Edit時はDBに保存されたデータをFormに結びつける
+            if order.shipping_address:
+                form = CheckoutForm(self.request.user or None, {
+                                    'street_address': order.shipping_address.street_address,
+                                    'city': order.shipping_address.city,
+                                    'state': order.shipping_address.state,
+                                    'zip': order.shipping_address.zip,
+                                    'country': order.shipping_address.country
+                                    })
+
         except ObjectDoesNotExist:
             # messages.error(self.request, "You do not have an active order")
             return redirect("core:shopping-cart")
@@ -126,7 +133,7 @@ class CheckoutView(LoginRequiredMixin, View):
                 # user.last_name = last_name
                 # user.update()
 
-                if street_address:
+                if street_address and city and state and zip:
                     shipping_address = ShippingAddress(
                         user=self.request.user,
                         street_address=street_address,
@@ -180,6 +187,12 @@ class BillingAddressView(LoginRequiredMixin, View):
         form = BillingAddressForm(self.request.user or None)
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
+
+            if not order.shipping_address:
+                messages.error(
+                    self.request, "Please provide your shipping address first.")
+                return redirect("core:checkout")
+
         except ObjectDoesNotExist:
             return redirect("core:shopping-cart")
 
@@ -208,7 +221,7 @@ class BillingAddressView(LoginRequiredMixin, View):
                 country = form.cleaned_data.get('country')
                 # same_billing_address = form.cleaned_data.get('same_billing_address')
 
-                if street_address:
+                if street_address and city and state and zip:
                     billing_address = BillingAddress(
                         user=self.request.user,
                         street_address=street_address,
@@ -243,7 +256,7 @@ class BillingAddressView(LoginRequiredMixin, View):
                 else:
                     # Error (returned None instead)
                     messages.warning(
-                        self.request, "please choose one of the radio box regarding billing address ofr fill in a new billing address.")
+                        self.request, "please choose one of the radio box regarding billing address or fill in a new billing address.")
                     return redirect('core:billing-address')
 
                 order.save()
@@ -261,7 +274,17 @@ class OrderSummaryView(LoginRequiredMixin, View):
             context = {
                 'order': order
             }
+            if not order.shipping_address or not order.payment_option:
+                messages.warning(
+                    self.request, "Please Provide All Information We need.")
+                # Where should they go back? shopping cart? checkout?
+                # return render(self.request, 'order-summary.html', context)
             return render(self.request, 'order-summary.html', context)
+            # else:
+            #     messages.error(
+            #         self.request, "Please Provide All Information We need.")
+            #     return render(self.request, 'order-summary.html')
+
         except ObjectDoesNotExist:
             messages.error(self.request, "You do not have an active order")
             return render(self.request, 'order-summary.html')
@@ -272,6 +295,13 @@ def confirm_order(request):
 
     try:
         order = Order.objects.get(user=request.user, ordered=False)
+
+        if not user.first_name or not last_name or not order.get_total or not order.shipping_address or not order.payment_option:
+            messages.warning(
+                request, "Please Provide All Information We need.")
+            # Where should they go back? shopping cart? checkout?
+            return redirect('core:order-summary')
+
         order_items = order.items.all()
         order_items.update(ordered=True)
         for item in order_items:
@@ -300,7 +330,7 @@ def confirm_order(request):
 
     except ObjectDoesNotExist:
         messages.error(request, "You do not have an active order")
-        return render(request, 'order-summary.html')
+        return render(request, 'shopping-cart.html')
 
 
 class PaymentView(View):
