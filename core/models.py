@@ -132,6 +132,7 @@ class ShippingAddress(models.Model):
     state = models.CharField(max_length=100, default="CA")
     zip = models.CharField(max_length=100)
     country = CountryField(multiple=False)
+    primary = models.BooleanField(default=False)
 
     def __str__(self):
         # return self.user.username
@@ -146,6 +147,7 @@ class BillingAddress(models.Model):
     state = models.CharField(max_length=100, default="CA")
     zip = models.CharField(max_length=100)
     country = CountryField(multiple=False)
+    primary = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.street_address}, {self.city}, {self.state} {self.zip} {self.country}"

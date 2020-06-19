@@ -67,8 +67,18 @@ h5.nav-link {
   font-weight: 500;
 }
 
-#div_id_use_stored_shipping_address label {
-  font-weight: 500;
+.address, .payment-option {
+  font-weight: 600;
+}
+
+.radio-label {
+  font-weight: 300;
+}
+
+#div_id_use_stored_shipping_address .pickup-address {
+  font-style: italic;
+  font-size: 0.9rem;
+  margin-left: 3rem;
 }
 
 .alert {
@@ -130,8 +140,19 @@ table.table a {
   font-weight: 400;
 }
 
-.address {
-  font-family: "Nixie One", cursive;
+#pickup-address {
+  margin-left: 7rem;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+#shipping-address,
+#billing-address {
+  margin-top: 2rem;
+}
+
+.md-form {
+  margin-bottom: 0;
 }
 
 /*# sourceMappingURL=style.css.map */

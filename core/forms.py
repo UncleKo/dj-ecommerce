@@ -3,36 +3,44 @@ from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 from .models import PAYMENT_CHOICES, DELIVERY_TIME, ShippingAddress, BillingAddress
 
+SHIPPING_ADDRESS_OPTION = (
+    ('A', 'Ship them to this address.'),
+    ('B', 'OR provide another shipping address if you wish.')
+)
+
 BILLING_ADDRESS_OPTION = (
+    ('B', 'Use the address below as the billing address (if it exists).'),
     ('A', 'Billing address is the same as my shipping address'),
-    ('B', 'If it is already in the list below, please select it (to avoid duplication on your data).')
+    ('C', 'OR provide another billing address if you wish.')
 )
 
 
-class CheckoutForm(forms.Form):
+class PrimaryShippingAddressForm(forms.Form):
 
-    # first_name = forms.CharField(
-    #     widget=forms.TextInput(attrs={
-    #         'class': 'form-control'
-    #     }),
-    #     # required=True
-    # )
-    # last_name = forms.CharField(
-    #     widget=forms.TextInput(attrs={
-    #         'class': 'form-control'
-    #     }),
-    #     # required=True
-    # )
-
-    use_stored_shipping_address = forms.BooleanField(required=False)
-    # fill_in_new_shipping_address = forms.BooleanField(required=False)
-    stored_address = forms.ModelChoiceField(
+    list_stored_address = forms.ModelChoiceField(
         widget=forms.RadioSelect,
         # queryset=ShippingAddress.objects.all(),
         queryset=None,
         required=False,
         empty_label=None
     )
+
+    def __init__(self, user, *args, **kwargs):
+        super(PrimaryShippingAddressForm, self).__init__(*args, **kwargs)
+        self.fields['list_stored_address'].queryset = ShippingAddress.objects.filter(
+            user=user)
+
+
+class CheckoutForm(forms.Form):
+
+    # use_stored_shipping_address = forms.BooleanField(required=False)
+    # fill_in_new_shipping_address = forms.BooleanField(required=False)
+    shipping_address_option = forms.ChoiceField(
+        widget=forms.RadioSelect,
+        choices=SHIPPING_ADDRESS_OPTION,
+        required=False
+    )
+
     street_address = forms.CharField(
         widget=forms.TextInput(attrs={
             'placeholder': '1234 Main St #101',
@@ -40,6 +48,7 @@ class CheckoutForm(forms.Form):
         }),
         required=False
     )
+
     city = forms.CharField(
         widget=forms.TextInput(attrs={
             'placeholder': 'Los Angeles',
@@ -83,8 +92,11 @@ class CheckoutForm(forms.Form):
 
     def __init__(self, user, *args, **kwargs):
         super(CheckoutForm, self).__init__(*args, **kwargs)
-        self.fields['stored_address'].queryset = ShippingAddress.objects.filter(
-            user=user)
+        # self.fields['list_stored_address'].queryset = ShippingAddress.objects.filter(
+        # user = user)
+        # if user.shipping_addresses.count():
+        #     self.fields['shipping_address_option'].required = True
+
         if not user.shipping_addresses.count():
             self.fields['street_address'].required = True
             self.fields['city'].required = True
@@ -155,11 +167,11 @@ class BillingAddressForm(forms.Form):
         super(BillingAddressForm, self).__init__(*args, **kwargs)
         self.fields['stored_billing_address'].queryset = BillingAddress.objects.filter(
             user=user)
-        if not user.billing_addresses.count():
-            self.fields['street_address'].required = True
-            self.fields['city'].required = True
-            self.fields['state'].required = True
-            self.fields['zip'].required = True
+        # if not user.billing_addresses.count():
+        #     self.fields['street_address'].required = True
+        #     self.fields['city'].required = True
+        #     self.fields['state'].required = True
+        #     self.fields['zip'].required = True
 
 # class OrderForm(forms.Form):
 

@@ -9,7 +9,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('', include('core.urls', namespace='core')),
-    # path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login')
+    # path('login/', auth_views.LoginView.as_view(template_name='user/login.html'), name='login')
     # path('edit-profile/', user_views.edit_profile, name='edit-profile')
     path('edit-profile/user/<int:pk>/',
          user_views.ProfileUpdateView.as_view(), name='edit-profile')

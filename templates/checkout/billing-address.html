@@ -36,106 +36,95 @@
               </label>
               <div id="id_billing_address_option" class="d-block">
                 {% for value, name in form.fields.billing_address_option.choices %}
-                <div class="custom-control custom-radio">
+                <div class="custom-control custom-radio {% if not forloop.counter == 1 %}mt-4{% endif %}">
                   <input id="billing_address_option_{{ forloop.counter }}" name="billing_address_option"
                     value="{{ value }}" type="radio" class="custom-control-input">
                   <label class="custom-control-label"
                     for="billing_address_option_{{ forloop.counter }}">{{ name }}</label>
                 </div>
+                {% if forloop.counter == 1 and user.billing_addresses.count %}
+                {% if user.billing_addresses.count == 1 %}
+                <p class="address mb-0 ml-4">{{ first_billing_address }}</p>
+                {% else %}
+                <div id="div_id_stored_billing_address" class="ml-4" form-group">
+                  <label for="id_stored_billinig_address" class="label mb-0">Select One</label>
+                  <div id="id_stored_billing_address" class="d-block">
+                    {% for value, name in form.fields.stored_billing_address.choices %}
+                    <div class="custom-control custom-radio">
+                      <input id="stored_billing_address_{{ forloop.counter }}" name="stored_billing_address"
+                        value="{{ value }}" type="radio" class="custom-control-input">
+                      <label class="custom-control-label address" for="stored_billing_address_{{ forloop.counter }}">
+                        {{ name }}
+                      </label>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+                {% endif %}
+                {% endif %}
                 {% endfor %}
               </div>
             </div>
-            <!-- <div class="custom-control custom-checkbox">
-              <input {% if form.same_billing_address.value %}checked{% endif %} type="checkbox"
-                class="custom-control-input" name="same_billing_address" id="same-address">
-              <label class="custom-control-label" for="same-address">Billing address is the same as my shipping
-                address</label>
-              <small>If not, you can select or fill in another billing address on the next paage.</small>
-            </div> -->
 
-            {% if user.billing_addresses.count %}
-            <!-- <div class="custom-control custom-checkbox mt-3 mb-2">
-              <input {% if form.use_stored_billing_address.value %}checked{% endif %} type="checkbox"
-                class="custom-control-input" name="use_stored_billing_address" id="use_stored_billing_address">
-              <label class="custom-control-label" for="use_stored_billing_address">Use the address below as my billing
-                address.</label>
-            </div> -->
+            <div id="billing-address">
 
-
-            <div id="div_id_stored_billing_address class=" form-group">
-              <label for="id_stored_billinig_address" class="label">Select One</label>
-              <div id="id_stored_billing_address" class="d-block">
-                {% for value, name in form.fields.stored_billing_address.choices %}
-                <div class="custom-control custom-radio">
-                  <input id="stored_billing_address_{{ forloop.counter }}" name="stored_billing_address"
-                    value="{{ value }}" type="radio" class="custom-control-input">
-                  <label class="custom-control-label address" for="stored_billing_address_{{ forloop.counter }}">
-                    {{ name }}
-                  </label>
-                </div>
-                {% endfor %}
+              <div class="md-form">
+                {{ form.street_address }}
+                <label for="id_street_address" class="active">Street Address & Apartment No.</label>
               </div>
-            </div>
-            {% endif %}
 
+              <div class="md-form">
+                {{ form.city }}
+                <label for="id_apartment_address" class="active">City</label>
+              </div>
 
-            <h6 class="mt-5">OR Fill in Another Billing Address if you wish.</h6>
+              <!--Grid row-->
+              <div class="row">
 
-            <div class="md-form mt-5">
-              {{ form.street_address }}
-              <label for="id_street_address" class="active">Street Address & Apartment No.</label>
-            </div>
+                <!--Grid column-->
+                <div class="col-lg-4 col-md-6 mb-4">
 
-            <div class="md-form mt-5">
-              {{ form.city }}
-              <label for="id_apartment_address" class="active">City</label>
-            </div>
+                  <label for="id_state" class="label">State</label>
+                  {{ form.state }}
+                  <div class="invalid-feedback">
+                    State required.
+                  </div>
 
-            <!--Grid row-->
-            <div class="row">
-
-              <!--Grid column-->
-              <div class="col-lg-4 col-md-6 mb-4">
-
-                <label for="id_state" class="label">State</label>
-                {{ form.state }}
-                <div class="invalid-feedback">
-                  State required.
                 </div>
+                <!--Grid column-->
+
+                <!--Grid column-->
+                <div class="col-lg-4 col-md-6 mb-4">
+
+                  <label for="id_zip" class="label">Zip</label>
+                  {{ form.zip }}
+                  <div class="invalid-feedback">
+                    Zip code required.
+                  </div>
+
+                </div>
+                <!--Grid column-->
+
+                <!--Grid column-->
+                <div class="col-lg-4 col-md-12 mb-4">
+
+                  <label for="id_country" class="label">Country</label>
+                  {{ form.country }}
+                  <div class="invalid-feedback">
+                    Please select a valid country.
+                  </div>
+
+                </div>
+                <!--Grid column-->
 
               </div>
-              <!--Grid column-->
 
-              <!--Grid column-->
-              <div class="col-lg-4 col-md-6 mb-4">
-
-                <label for="id_zip" class="label">Zip</label>
-                {{ form.zip }}
-                <div class="invalid-feedback">
-                  Zip code required.
-                </div>
-
-              </div>
-              <!--Grid column-->
-
-              <!--Grid column-->
-              <div class="col-lg-4 col-md-12 mb-4">
-
-                <label for="id_country" class="label">Country</label>
-                {{ form.country }}
-                <div class="invalid-feedback">
-                  Please select a valid country.
-                </div>
-
-              </div>
-              <!--Grid column-->
-
-            </div>
+            </div> <!-- billing-address -->
 
             <hr class="mb-4">
 
             {% if order.get_total %}
-            <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+            <button class="btn btn-info btn-lg btn-block" type="submit">Continue to checkout</button>
             {% else %}
             <a class="btn btn-warning btn-lg btn-block" href="/">Continue shopping</a>
             {% endif %}

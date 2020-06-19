@@ -13,7 +13,7 @@ from core.boost import DynamicRedirectMixin
 class ProfileUpdateView(LoginRequiredMixin, DynamicRedirectMixin, UpdateView):
     model = User
     form_class = ProfileUpdateForm
-    template_name = 'edit-profile.html'
+    template_name = 'user/edit-profile.html'
     success_url = reverse_lazy('core:checkout')
     # success_url = reverse_lazy('profile')
 
@@ -41,4 +41,4 @@ class ProfileUpdateView(LoginRequiredMixin, DynamicRedirectMixin, UpdateView):
 #             # 'p_form': p_form
 #         }
 
-#     return render(request, 'edit-profile.html', context)
+#     return render(request, 'user/edit-profile.html', context)

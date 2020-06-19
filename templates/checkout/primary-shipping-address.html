@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}Checkout Form{% endblock %}
+
+{% block content %}
+
+<!--Main layout-->
+<main class="mt-5 pt-4">
+  <div class="container wow fadeIn">
+
+    <!-- Heading -->
+    <h2 class="mt-1 mb-5">Choose the Shipping address</h2>
+
+    <!--Grid row-->
+    <div class="row">
+
+      <!--Grid column-->
+      <div class="col-md-8 mb-4">
+
+        <!--Card-->
+        <div class="card">
+
+          <!--Card content-->
+          <form method="POST" class="card-body">
+            {% csrf_token %}
+
+            {% if user.shipping_addresses.count %}
+            <div id="div_id_list_stored_address" class="mb-5 form-group">
+              <label for="id_list_stored_address" class="label">Select One</label>
+              <div id="id_list_stored_address" class="d-block">
+                {% for value, name in form.fields.list_stored_address.choices %}
+                <div class="custom-control custom-radio">
+                  <input id="list_stored_address_{{forloop.counter}}" name="list_stored_address" value="{{ value }}"
+                    type="radio" class="custom-control-input">
+                  <label class="custom-control-label address" for="list_stored_address_{{ forloop.counter }}">
+                    {{ name }}
+                  </label>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+            {% endif %}
+
+            <button class="btn btn-info btn-lg btn-block" type="submit">Ship them to this address</button>
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+<!--Main layout-->
+
+{% endblock content %}
