@@ -49,8 +49,10 @@
                 {% if forloop.counter == 1 %}
                 <div class="mb-4">
                   <p class="address mb-0 ml-4">{{ primary_shipping_address}}</p>
+                  {% if user.shipping_addresses.count > 1 %}
                   <p class="" id="pickup-address">(Pick up another address from stored addresses?)
                     <a href="{% url 'core:primary-shipping-address' %}?next={{ request.path }}">Click Here</a>
+                    {% endif %}
                 </div>
                 {% endif %}
                 {% endfor %}

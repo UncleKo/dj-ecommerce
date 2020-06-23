@@ -22,7 +22,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_countries',
 
-    'core'
+    'core',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -92,7 +93,7 @@ AUTHENTICATION_BACKENDS = (
 
 SITE_ID = 1
 # Only after Signing Up. Regular Login just go back to the same page (follows ?next in URL).
-LOGIN_REDIRECT_URL = 'edit-profile'
+LOGIN_REDIRECT_URL = 'user:edit-profile'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

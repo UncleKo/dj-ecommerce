@@ -18,7 +18,7 @@
       {% else %}
       <h5 class="mt-4 mb-5 text-danger">
         <i>Pease Provide Your Name First
-          <a href="{% url 'edit-profile' user.id %}?next={{ request.path }}">Click Here</a>
+          <a href="{% url 'user:edit-profile' user.id %}?next={{ request.path }}">Click Here</a>
         </i>
       </h5>
       {% endif %}

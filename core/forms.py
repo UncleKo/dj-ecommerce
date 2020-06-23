@@ -1,7 +1,8 @@
 from django import forms
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
-from .models import PAYMENT_CHOICES, DELIVERY_TIME, ShippingAddress, BillingAddress
+from .models import PAYMENT_CHOICES, DELIVERY_TIME
+from users.models import ShippingAddress, BillingAddress
 
 SHIPPING_ADDRESS_OPTION = (
     ('A', 'Ship them to this address.'),
@@ -9,8 +10,8 @@ SHIPPING_ADDRESS_OPTION = (
 )
 
 BILLING_ADDRESS_OPTION = (
-    ('B', 'Use the address below as the billing address (if it exists).'),
     ('A', 'Billing address is the same as my shipping address'),
+    ('B', 'Use the address below as the billing address (if it exists).'),
     ('C', 'OR provide another billing address if you wish.')
 )
 

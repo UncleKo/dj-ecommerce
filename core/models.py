@@ -1,8 +1,9 @@
 from django.conf import settings
 from django.db import models
 from django.shortcuts import reverse
-from django_countries.fields import CountryField
 from django.template.defaultfilters import slugify
+
+from users.models import ShippingAddress, BillingAddress
 
 CATEGORY_CHOICES = (
     ('S', 'Shirt'),
@@ -104,9 +105,9 @@ class Order(models.Model):
     ordered_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
     shipping_address = models.ForeignKey(
-        'ShippingAddress', on_delete=models.SET_NULL, blank=True, null=True)
+        'users.ShippingAddress', on_delete=models.SET_NULL, blank=True, null=True)
     billing_address = models.ForeignKey(
-        'BillingAddress', on_delete=models.SET_NULL, blank=True, null=True)
+        'users.BillingAddress', on_delete=models.SET_NULL, blank=True, null=True)
     payment_option = models.CharField(
         choices=PAYMENT_CHOICES, max_length=2, blank=True, null=True)
     delivery_time = models.CharField(
@@ -122,35 +123,6 @@ class Order(models.Model):
         for order_item in self.items.all():
             total += order_item.get_final_price()
         return total
-
-
-class ShippingAddress(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE, related_name="shipping_addresses")
-    street_address = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100, default="CA")
-    zip = models.CharField(max_length=100)
-    country = CountryField(multiple=False)
-    primary = models.BooleanField(default=False)
-
-    def __str__(self):
-        # return self.user.username
-        return f"{self.street_address}, {self.city}, {self.state} {self.zip} {self.country}"
-
-
-class BillingAddress(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE, related_name="billing_addresses")
-    street_address = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100, default="CA")
-    zip = models.CharField(max_length=100)
-    country = CountryField(multiple=False)
-    primary = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f"{self.street_address}, {self.city}, {self.state} {self.zip} {self.country}"
 
 
 class Payment(models.Model):

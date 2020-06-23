@@ -42,7 +42,7 @@
                   <label class="custom-control-label"
                     for="billing_address_option_{{ forloop.counter }}">{{ name }}</label>
                 </div>
-                {% if forloop.counter == 1 and user.billing_addresses.count %}
+                {% if forloop.counter == 2 and user.billing_addresses.count %}
                 {% if user.billing_addresses.count == 1 %}
                 <p class="address mb-0 ml-4">{{ first_billing_address }}</p>
                 {% else %}

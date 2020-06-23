@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import HomeView, ItemDetailView, CartView, CheckoutView, BillingAddressView, OrderSummaryView, PaymentView, add_to_cart, remove_from_cart, remove_single_item_from_cart, confirm_order, PrimaryShippingAddress
+# from .views import HomeView, ItemDetailView, CartView, CheckoutView, BillingAddressView, OrderSummaryView, PaymentView, add_to_cart, remove_from_cart, remove_single_item_from_cart, confirm_order, PrimaryShippingAddress
+from .views import *
 
 app_name = 'core'
 
@@ -21,5 +22,4 @@ urlpatterns = [
 
     path('primary-shipping-address/', PrimaryShippingAddress.as_view(),
          name='primary-shipping-address'),
-
 ]

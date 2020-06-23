@@ -8,15 +8,21 @@ from django.views.generic import UpdateView  # , DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin  # UserPassesTestMixin
 from .forms import ProfileUpdateForm
 from core.boost import DynamicRedirectMixin
+from core.models import ShippingAddress
 
 
 class ProfileUpdateView(LoginRequiredMixin, DynamicRedirectMixin, UpdateView):
     model = User
     form_class = ProfileUpdateForm
-    template_name = 'user/edit-profile.html'
+    template_name = 'users/edit-profile.html'
     success_url = reverse_lazy('core:checkout')
     # success_url = reverse_lazy('profile')
 
+
+class ShippingAddressUpdateView(LoginRequiredMixin, DynamicRedirectMixin, UpdateView):
+    model = ShippingAddress
+    fields = ['street_address', 'city']
+    # template_name = 'user/shipping_address_form.html'
 
 # @login_required
 # def edit_profile(request):
