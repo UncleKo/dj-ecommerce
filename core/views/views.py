@@ -94,8 +94,11 @@ def confirm_order(request):
 
         order_items = order.items.all()
         order_items.update(ordered=True)
-        for item in order_items:
-            item.save()
+        for order_item in order_items:
+            if order_item.item.stock:
+                order_item.item.stock -= order_item.quantity
+                order_item.item.save()
+            order_item.save()
         order.ordered = True
         order.save()
         # for item in order_items:
@@ -139,11 +142,15 @@ def add_to_cart(request, slug):
         order = order_qs[0]
         # check if the order item
         if order.items.filter(item__slug=item.slug).exists():
-            order_item.quantity += 1
-            # # To avoid a race condition:  2 people click "Add to cart" at the same time or a user clicks very fast that the first request isn't finished.
-            # order_item.quantity = F('quantity') + 1
-            order_item.save()
-            messages.info(request, "This item quantity was updated.")
+            if order_item.quantity < order_item.item.stock:
+                order_item.quantity += 1
+                # # To avoid a race condition:  2 people click "Add to cart" at the same time or a user clicks very fast that the first request isn't finished.
+                # order_item.quantity = F('quantity') + 1
+                order_item.save()
+                messages.info(request, "This item quantity was updated.")
+            else:
+                messages.warning(
+                    request, "You are tying to add the item over stock.")
         else:
             order.items.add(order_item)
             messages.info(request, "This item was added to your cart.")

@@ -43,18 +43,26 @@
 
           <p>{{ item.description }} </p>
 
-          <!-- <form class="d-flex justify-content-left">
-          <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
-          <button class="btn btn-primary btn-md my-0 p" type="submit">Add to cart
-            <i class="fas fa-shopping-cart ml-1"></i>
-          </button>
-          </form> -->
+          {% if item.stock == 0 %}
+          <p class="text-danger">This item was sold out</p>
+          {% elif item.stock %}
+          <p>Stock: {{ item.stock }}</p>
+          {% endif %}
+
           <a href="{{ item.get_add_to_cart_url }}" class=" btn btn-primary btn-md my-0 p">Add to cart
             <!-- <a href="{% url 'core:add-to-cart' item.slug %}" class=" btn btn-primary btn-md my-0 p">Add to cart -->
             <i class="fas fa-shopping-cart ml-1"></i>
           </a>
           <a href="{{ item.get_remove_from_cart_url }}" class=" btn btn-danger btn-md my-0 p">Remove from cart
           </a>
+
+
+          <!-- <form class="d-flex justify-content-left">
+          <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
+          <button class="btn btn-primary btn-md my-0 p" type="submit">Add to cart
+            <i class="fas fa-shopping-cart ml-1"></i>
+          </button>
+          </form> -->
 
         </div>
         <!--Content-->

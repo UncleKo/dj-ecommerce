@@ -114,10 +114,12 @@
         <p class="address">{{ order.shipping_address }}</p>
       </div>
 
+      {% if order.billing_address %}
       <div>
         <p class="label mb-0">Billing Address</p>
         <p class="address">{{ order.billing_address }}</p>
       </div>
+      {% endif %}
 
       <div>
         <p class="label mb-0">Delivery Time</p>

@@ -47,8 +47,11 @@ class PaymentView(View):
 
             order_items = order.items.all()
             order_items.update(ordered=True)
-            for item in order_items:
-                item.save()
+            for order_item in order_items:
+                if order_item.item.stock:
+                    order_item.item.stock -= order_item.quantity
+                    order_item.item.save()
+                order_item.save()
 
             order.ordered = True
             order.payment = payment
