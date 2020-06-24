@@ -20,6 +20,4 @@ urlpatterns = [
          remove_single_item_from_cart, name='remove-single-item-from-cart'),
     path('confirm-order/', confirm_order, name='confirm-order'),
 
-    path('primary-shipping-address/', PrimaryShippingAddress.as_view(),
-         name='primary-shipping-address'),
 ]

@@ -12,7 +12,6 @@ from django.contrib.auth.models import User
 
 from ..models import Item, OrderItem, Order, Payment
 from users.models import ShippingAddress, BillingAddress
-from ..forms import PrimaryShippingAddressForm
 # from .boost import DynamicRedirectMixin
 
 # Email
@@ -213,48 +212,3 @@ def remove_single_item_from_cart(request, slug):
     else:
         messages.info(request, "You do not have an active order.")
     return redirect("core:product", slug=slug)
-
-
-class PrimaryShippingAddress(LoginRequiredMixin, View):
-
-    # # DynamicRedirectMixinが効かない原因
-    # success_url = reverse_lazy('core:primary-shipping-address')
-
-    def get(self, *args, **kwargs):
-        form = PrimaryShippingAddressForm(self.request.user or None)
-        context = {
-            'form': form
-        }
-        return render(self.request, "checkout/primary-shipping-address.html", context)
-
-    def post(self, *args, **kwargs):
-        form = PrimaryShippingAddressForm(self.request.user or None,
-                                          self.request.POST or None)
-        try:
-            shipping_addresses = ShippingAddress.objects.filter(
-                user=self.request.user)
-            if form.is_valid():
-                list_stored_address = form.cleaned_data.get(
-                    'list_stored_address')
-
-            # for address in stored_adress:
-            #     address.primary = False
-
-            if list_stored_address:
-                for shipping_address in shipping_addresses:
-                    shipping_address.primary = False
-                    shipping_address.save()
-                primary_shipping_address = shipping_addresses.get(
-                    pk=list_stored_address.id)
-                primary_shipping_address.primary = True
-                primary_shipping_address.save()
-                return redirect("core:checkout")
-            else:
-                messages.warning(
-                    self.request, "Please choose one of the stored address as shipping address.")
-                return redirect("core:primary-shipping-address")
-
-        except ObjectDoesNotExist:
-            messages.error(
-                self.request, "You do not have stored shipping addresses")
-            return redirect("core:checkout")

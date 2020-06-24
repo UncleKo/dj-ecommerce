@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}Delete Shipping Address{% endblock %}
+
+{% block content %}
+<div class="container">
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <fieldset class="form-group">
+      <h5 class="text-alert">Delete this shipping address?</h5>
+      {{ object.street_address }},
+      {{ object.city }},
+      {{ object.state }}
+      {{ object.zip }}
+      {{ object.country }}
+    </fieldset>
+    <div class="form-group">
+      <button class="btn btn-outline-danger" type="submit">Delete</button>
+    </div>
+    {% endblock content %}

@@ -29,13 +29,19 @@
             <div id="div_id_list_stored_address" class="mb-5 form-group">
               <label for="id_list_stored_address" class="label">Select One</label>
               <div id="id_list_stored_address" class="d-block">
+                <!-- {% for field in form.fields.list_stored_address.choices %}
+                {{ field }}
+                {% endfor %} -->
                 {% for value, name in form.fields.list_stored_address.choices %}
                 <div class="custom-control custom-radio">
                   <input id="list_stored_address_{{forloop.counter}}" name="list_stored_address" value="{{ value }}"
-                    type="radio" class="custom-control-input">
+                    {% if value == primary_id %} checked="checked" {% endif %} type="radio"
+                    class="custom-control-input">
                   <label class="custom-control-label address" for="list_stored_address_{{ forloop.counter }}">
                     {{ name }}
                   </label>
+                  <a href="{% url 'user:update-shipping-address' pk=value %}">edit</a>
+                  <a href="{% url 'user:delete-shipping-address' pk=value %}">delete</a>
                 </div>
                 {% endfor %}
               </div>

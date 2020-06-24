@@ -43,7 +43,7 @@
           {% endif %}
         </li>
         <li class="nav-item">
-          <a class="nav-link waves-effect" href="#"> Profile </a>
+          <a class="nav-link waves-effect" href="{% url 'user:edit-profile' user.id %}"> Profile </a>
         </li>
         <li class="nav-item">
           <a class="nav-link waves-effect" href="#"> Wish List </a>

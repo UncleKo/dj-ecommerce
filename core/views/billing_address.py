@@ -50,21 +50,21 @@ class BillingAddressView(LoginRequiredMixin, View):
 
                 if billing_address_option == 'A':
                     # 保存データに既にある場合、そっちを持ってくる（新しく作らない）
-                    # already_stored_billing_address = get_object_or_404(
-                    #     BillingAddress, street_address=order.shipping_address.street_address)
-                    # if already_stored_billing_address:
-                    #     billing_address = already_stored_billing_address
-                    # else:
-                    billing_address = BillingAddress(
-                        user=self.request.user,
-                        street_address=order.shipping_address.street_address,
-                        city=order.shipping_address.city,
-                        state=order.shipping_address.state,
-                        zip=order.shipping_address.zip,
-                        country=order.shipping_address.country
-                    )
-                    billing_address.save()
-                    order.billing_address = billing_address
+                    already_stored_billing_address = BillingAddress.objects.filter(
+                        street_address=order.shipping_address.street_address)
+                    if already_stored_billing_address:
+                        billing_address = already_stored_billing_address
+                    else:
+                        billing_address = BillingAddress(
+                            user=self.request.user,
+                            street_address=order.shipping_address.street_address,
+                            city=order.shipping_address.city,
+                            state=order.shipping_address.state,
+                            zip=order.shipping_address.zip,
+                            country=order.shipping_address.country
+                        )
+                        billing_address.save()
+                        order.billing_address = billing_address
 
                 elif billing_address_option == 'B':
 

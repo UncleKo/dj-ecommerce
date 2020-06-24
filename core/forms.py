@@ -16,22 +16,6 @@ BILLING_ADDRESS_OPTION = (
 )
 
 
-class PrimaryShippingAddressForm(forms.Form):
-
-    list_stored_address = forms.ModelChoiceField(
-        widget=forms.RadioSelect,
-        # queryset=ShippingAddress.objects.all(),
-        queryset=None,
-        required=False,
-        empty_label=None
-    )
-
-    def __init__(self, user, *args, **kwargs):
-        super(PrimaryShippingAddressForm, self).__init__(*args, **kwargs)
-        self.fields['list_stored_address'].queryset = ShippingAddress.objects.filter(
-            user=user)
-
-
 class CheckoutForm(forms.Form):
 
     # use_stored_shipping_address = forms.BooleanField(required=False)
@@ -93,8 +77,6 @@ class CheckoutForm(forms.Form):
 
     def __init__(self, user, *args, **kwargs):
         super(CheckoutForm, self).__init__(*args, **kwargs)
-        # self.fields['list_stored_address'].queryset = ShippingAddress.objects.filter(
-        # user = user)
         # if user.shipping_addresses.count():
         #     self.fields['shipping_address_option'].required = True
 
