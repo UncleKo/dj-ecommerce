@@ -4,93 +4,95 @@
 {% block head_title %}Add or Edit Shipping Address{% endblock %}
 
 {% block content %}
-<div class="container">
-  <form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    <fieldset class="form-group">
-      <h2>
-        {% if edit %}
-        Edit this
-        {% else %}
-        Add a
-        {% endif %}
-        Shipping Address
-      </h2>
-      <div id="shipping-address" class="mt-5">
-        <!--address-->
-        <div class="md-form">
-          <!-- <input type="text" id="address" class="form-control" placeholder="1234 Main St"> -->
+<main>
+  <div class="container">
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <fieldset class="form-group">
+        <h2>
+          {% if edit %}
+          Edit this
+          {% else %}
+          Add a
+          {% endif %}
+          Shipping Address
+        </h2>
+        <div id="shipping-address" class="mt-5">
+          <!--address-->
+          <div class="md-form">
+            <!-- <input type="text" id="address" class="form-control" placeholder="1234 Main St"> -->
 
-          {{ form.street_address }}
-          <label for="id_street_address" class="active">Street Address & Apartment No.</label>
-        </div>
-
-        <!--address-2-->
-        <div class="md-form">
-          <!-- <input type="text" id="apartment_address" class="form-control" placeholder="Apartment or suite"> -->
-          {{ form.city }}
-          <label for="id_apartment_address" class="active">City</label>
-        </div>
-
-        <!--Grid row-->
-        <div class="row">
-
-          <!--Grid column-->
-          <div class="col-lg-4 col-md-6 mb-4">
-            <label for="id_state" class="label">State</label>
-            {{ form.state }}
-            <div class="invalid-feedback">
-              State required.
-            </div>
+            {{ form.street_address }}
+            <label for="id_street_address" class="active">Street Address & Apartment No.</label>
           </div>
-          <!--Grid column-->
 
-          <!--Grid column-->
-          <div class="col-lg-4 col-md-6 mb-4">
-            <label for="id_zip" class="label">Zip</label>
-            <!-- <input type="text" class="form-control" id="zip" placeholder="" required> -->
-            {{ form.zip }}
-            <div class="invalid-feedback">
-              Zip code required.
-            </div>
+          <!--address-2-->
+          <div class="md-form">
+            <!-- <input type="text" id="apartment_address" class="form-control" placeholder="Apartment or suite"> -->
+            {{ form.city }}
+            <label for="id_apartment_address" class="active">City</label>
           </div>
-          <!--Grid column-->
 
-          <!--Grid column-->
-          <div class="col-lg-4 col-md-12 mb-4">
-            <label for="id_country" class="label">Country</label>
-            </select> -->
-            {{ form.country }}
-            <div class="invalid-feedback">
-              Please select a valid country.
+          <!--Grid row-->
+          <div class="row">
+
+            <!--Grid column-->
+            <div class="col-lg-4 col-md-6 mb-4">
+              <label for="id_state" class="label">State</label>
+              {{ form.state }}
+              <div class="invalid-feedback">
+                State required.
+              </div>
             </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-lg-4 col-md-6 mb-4">
+              <label for="id_zip" class="label">Zip</label>
+              <!-- <input type="text" class="form-control" id="zip" placeholder="" required> -->
+              {{ form.zip }}
+              <div class="invalid-feedback">
+                Zip code required.
+              </div>
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-lg-4 col-md-12 mb-4">
+              <label for="id_country" class="label">Country</label>
+              </select> -->
+              {{ form.country }}
+              <div class="invalid-feedback">
+                Please select a valid country.
+              </div>
+            </div>
+            <!--Grid column-->
+
           </div>
-          <!--Grid column-->
+          <!--Grid row-->
 
-        </div>
-        <!--Grid row-->
-
-        <!-- <div id="div_id_primary" class="custom-control custom-checkbox mt-3 mb-2">
+          <!-- <div id="div_id_primary" class="custom-control custom-checkbox mt-3 mb-2">
           <input {% if form.primary.value %}checked{% endif %} type="checkbox" class="custom-control-input"
             name="primary" id="primary">
           <label class="custom-control-label" for="primary">Primary Address</label>
         </div> -->
 
-      </div> <!-- shipping-address -->
+        </div> <!-- shipping-address -->
 
-      <!-- {{ form|crispy }} -->
+        <!-- {{ form|crispy }} -->
 
-    </fieldset>
+      </fieldset>
 
-    <div class="form-group">
-      <button class="btn btn-info" type="submit">
-        {% if edit %}
-        Update
-        {% else %}
-        Create
-        {% endif %}
-      </button>
-    </div>
-  </form>
-</div>
+      <div class="form-group">
+        <button class="btn btn-main" type="submit">
+          {% if edit %}
+          Update
+          {% else %}
+          Create
+          {% endif %}
+        </button>
+      </div>
+    </form>
+  </div>
+</main>
 {% endblock content %}

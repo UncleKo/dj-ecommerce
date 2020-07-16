@@ -6,9 +6,10 @@ from django.template.defaultfilters import slugify
 from users.models import ShippingAddress, BillingAddress
 
 CATEGORY_CHOICES = (
-    ('S', 'Shirt'),
-    ('SW', 'Sport wear'),
-    ('O', 'Outwear')
+    ('L', 'PC'),
+    ('P', 'Parts'),
+    ('G', 'Green'),
+    ('F', 'Furniture')
 )
 
 
@@ -44,6 +45,7 @@ class Item(models.Model):
     description = models.TextField()
     image = models.ImageField()
     stock = models.IntegerField(blank=True, null=True)
+    featured = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

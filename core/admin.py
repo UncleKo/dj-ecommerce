@@ -3,6 +3,10 @@ from django.contrib import admin
 from .models import Item, OrderItem, Order, Payment, ShippingAddress, BillingAddress
 
 
+class ItemAdmin(admin.ModelAdmin):
+    list_display = ['title', 'price', 'category', 'stock', 'featured', 'id']
+
+
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['user', 'ordered', 'id', 'ordered_date']
 
@@ -21,7 +25,7 @@ class BillingAddressAdmin(admin.ModelAdmin):
                     'street_address', 'city', 'state', 'zip', 'id']
 
 
-admin.site.register(Item)
+admin.site.register(Item, ItemAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Payment)

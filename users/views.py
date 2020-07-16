@@ -1,20 +1,30 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, resolve_url  # get_object_or_404
 from django.urls import reverse_lazy
+from django.utils.http import is_safe_url
+from django.contrib.auth.views import SuccessURLAllowedHostsMixin
 
 from django.contrib.auth.models import User
 from django.views.generic import View, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from core.boost import DynamicRedirectMixin
 from .models import ShippingAddress
+from core.models import Order
 from .forms import ProfileUpdateForm, AddressForm, PrimaryShippingAddressForm
 
 
 class ProfileView(LoginRequiredMixin, UserPassesTestMixin, DynamicRedirectMixin, DetailView):
     model = User
     template_name = 'users/profile.html'
-    # def get(self, *args, **kwargs):
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["orders"] = Order.objects.filter(
+            user=self.request.user,
+            ordered=True
+        )
+        return context
 
     def test_func(self):
         user = self.get_object()
@@ -23,11 +33,17 @@ class ProfileView(LoginRequiredMixin, UserPassesTestMixin, DynamicRedirectMixin,
         return False
 
 
-class ProfileUpdateView(LoginRequiredMixin, UserPassesTestMixin, DynamicRedirectMixin, UpdateView):
+class ProfileUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = User
     form_class = ProfileUpdateForm
     template_name = 'users/edit-profile.html'
-    success_url = reverse_lazy('profile')
+    # success_url = reverse_lazy('user:profile')
+
+    def get_success_url(self):
+        # return reverse("user:profile", kwargs={
+        #     'pk': self.kwargs['pk']
+        # })
+        return resolve_url('user:profile', pk=self.kwargs['pk'])
 
     def test_func(self):
         user = self.get_object()
@@ -40,7 +56,7 @@ class ShippingAddressCreateView(LoginRequiredMixin, DynamicRedirectMixin, Create
     model = ShippingAddress
     form_class = AddressForm
     # template_name = 'users/shipping_address_form.html'
-    success_url = reverse_lazy('profile')
+    # success_url = reverse_lazy('user:profile')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -51,7 +67,7 @@ class ShippingAddressCreateView(LoginRequiredMixin, DynamicRedirectMixin, Create
 class ShippingAddressUpdateView(LoginRequiredMixin, UserPassesTestMixin, DynamicRedirectMixin, UpdateView):
     model = ShippingAddress
     form_class = AddressForm
-    success_url = reverse_lazy('profile')
+    # success_url = reverse_lazy('user:profile')
 
     def test_func(self):
         user = self.get_object().user
@@ -78,7 +94,7 @@ class ShippingAddressDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteV
         return False
 
 
-class PrimaryShippingAddress(LoginRequiredMixin, View):
+class PrimaryShippingAddress(LoginRequiredMixin, SuccessURLAllowedHostsMixin, View):
 
     # # DynamicRedirectMixinが効かない原因
     # success_url = reverse_lazy('core:primary-shipping-address')
@@ -119,7 +135,21 @@ class PrimaryShippingAddress(LoginRequiredMixin, View):
                     pk=list_stored_address.id)
                 primary_shipping_address.primary = True
                 primary_shipping_address.save()
-                return redirect("core:checkout")
+                # return redirect("core:checkout")
+
+                redirect_field_name = 'next'
+                redirect_to = self.request.POST.get(
+                    self.redirect_field_name,
+                    self.request.GET.get(self.redirect_field_name, '')
+                )
+                url_is_safe = is_safe_url(
+                    url=redirect_to,
+                    allowed_hosts=self.get_success_url_allowed_hosts(),
+                    require_https=self.request.is_secure(),
+                )
+                return redirect(redirect_to) if url_is_safe else ''
+                # redirect_to_next(self)
+
             else:
                 messages.warning(
                     self.request, "Please choose one of the stored address as shipping address.")

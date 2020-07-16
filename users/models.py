@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.shortcuts import resolve_url
 from django.urls import reverse
 from django_countries.fields import CountryField
 
@@ -18,6 +19,11 @@ class ShippingAddress(models.Model):
         # return self.user.username
         return f"{self.street_address}, {self.city}, {self.state} {self.zip} {self.country}"
 
+    def get_absolute_url(self):
+        # return reverse("user:profile", kwargs={
+        #     'pk': self.user.pk
+        # })
+        return resolve_url('user:profile', pk=self.user.pk)
     # def get_absolute_url(self):
     #     return reverse("user:update-shipping-address", kwargs={
     #         'pk': self.pk
@@ -36,3 +42,8 @@ class BillingAddress(models.Model):
 
     def __str__(self):
         return f"{self.street_address}, {self.city}, {self.state} {self.zip} {self.country}"
+
+    def get_absolute_url(self):
+        return reverse("user:profile", kwargs={
+            'pk': self.user.pk
+        })

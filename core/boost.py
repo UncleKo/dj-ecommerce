@@ -23,3 +23,18 @@ class DynamicRedirectMixin(SuccessURLAllowedHostsMixin):
             require_https=self.request.is_secure(),
         )
         return redirect_to if url_is_safe else ''
+
+
+# def redirect_to_next(self):
+
+#     redirect_field_name = 'next'
+#     redirect_to = self.request.POST.get(
+#         self.redirect_field_name,
+#         self.request.GET.get(self.redirect_field_name, '')
+#     )
+#     url_is_safe = is_safe_url(
+#         url=redirect_to,
+#         allowed_hosts=self.get_success_url_allowed_hosts(),
+#         require_https=self.request.is_secure(),
+#     )
+#     return redirect(redirect_to) if url_is_safe else ''

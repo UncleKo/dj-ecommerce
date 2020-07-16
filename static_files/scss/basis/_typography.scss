@@ -1,0 +1,135 @@
+
+body {
+  font-family: "Lato", sans-serif;
+  font-size: 16px;
+}
+
+#checkout,
+#billing-address,
+#order-info,
+#profile {
+  font-family: "roboto", sans-serif;
+  .cart-sidebar {
+    font-family: "Lato", sans-serif;
+  }
+}
+
+nav h1 {
+  font-family: Anton, sans-serif;
+  font-weight: 800;
+  font-size: 2rem;
+  margin-bottom: 0;
+}
+
+h2 {
+  font-family: "roboto", sans-serif;
+  font-weight: 100;
+  font-size: 2rem;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+#edit-profile h2,
+.item-detail h2 {
+  margin-bottom: 1rem;
+}
+
+.feature .item-detail {
+
+  h2 {
+    font-family: "Lato", sans-serif;
+    margin-top: 1rem;
+    font-weight: 300;
+  }
+  p {
+    font-weight: 300;
+  }
+  small {
+    font-weight: 100;
+  }
+  a.btn-main {
+    color: #fff;
+  }
+
+}
+
+h3 {
+  font-size: 1rem;
+  font-weight: 800;
+  // font-style: italic;
+  // margin-bottom: 3rem;
+}
+
+.shipping-address h3,
+.billing-address h3 {
+  font-weight: 300;
+  border-top: 1px solid #999;
+  border-bottom: 1px solid #999;
+  padding: 3px 2px;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+}
+
+.items > div > ul > li {
+
+    & > div h3 {
+      color: white;
+      background: $asagi;
+      font-weight: 400;
+      font-size: 1.1rem;
+      margin: 0;
+      padding: 3px 5px;
+      height: 1.5rem;
+      overflow: hidden; 
+    }
+
+    & > div h4 {
+      color: white;
+      background: $rikyushiracha;
+      opacity: .5;
+      font-size: 1rem;
+      margin: 0;
+      padding: 5px 7px;
+      text-align: right;
+      font-family: meiryo, "Noto Sans JP", sans-serif;
+    }
+
+  }
+
+h5.username {
+  font-family: Anton, sans-serif;
+  font-weight: 500;
+  margin: 0;
+  padding-right: .5rem;
+  padding-left: .5rem;
+}
+
+.card .card-body h5, h5 {
+  font-weight: 500;
+  margin-top: 2rem;
+}
+
+.card .card-body  h6 {
+  font-weight: 500;
+}
+
+.address, 
+.payment-option,
+.bold {
+  // font-family: 'Nixie One', cursive;
+  font-weight: 600;
+}
+
+.radio-label {
+  font-weight: 300;
+}
+
+#div_id_use_stored_shipping_address {
+  // label {
+  //   font-weight: 500;
+  // }
+  .pickup-address {
+    font-style: italic;
+    font-size: .9rem;
+    margin-left: 3rem;
+  }
+}

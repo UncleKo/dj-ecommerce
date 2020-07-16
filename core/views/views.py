@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 # from django.urls import reverse_lazy
 
 from ..models import Item, OrderItem, Order, Payment
+from ..models import CATEGORY_CHOICES
 from users.models import ShippingAddress, BillingAddress
 # from .boost import DynamicRedirectMixin
 
@@ -26,7 +27,16 @@ class HomeView(ListView):
     model = Item
     template_name = "home.html"
     context_object_name = 'items'
-    paginate_by = 10
+    # paginate_by = 10
+    # ordering = ['-id']
+    ordering = ['?']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["featured_item"] = Item.objects.filter(featured=True).first()
+        context["category_choices"] = CATEGORY_CHOICES
+
+        return context
 
 # def home(request):
 #     context = {
@@ -39,6 +49,13 @@ class ItemDetailView(DetailView):
     model = Item
     template_name = "product.html"
     context_object_name = 'item'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["other_items"] = Item.objects.exclude(
+            slug=self.kwargs['slug']).order_by('?')[:3]
+        context["category_choices"] = CATEGORY_CHOICES
+        return context
 
 
 class CartView(LoginRequiredMixin, View):
@@ -142,15 +159,20 @@ def add_to_cart(request, slug):
         order = order_qs[0]
         # check if the order item
         if order.items.filter(item__slug=item.slug).exists():
-            if order_item.quantity < order_item.item.stock:
+            if order_item.item.stock:
+                if order_item.quantity < order_item.item.stock:
+                    order_item.quantity += 1
+                    # # To avoid a race condition:  2 people click "Add to cart" at the same time or a user clicks very fast that the first request isn't finished.
+                    # order_item.quantity = F('quantity') + 1
+                    order_item.save()
+                    messages.info(request, "This item quantity was updated.")
+                else:
+                    messages.warning(
+                        request, "You are tying to add the item over stock.")
+            else:
                 order_item.quantity += 1
-                # # To avoid a race condition:  2 people click "Add to cart" at the same time or a user clicks very fast that the first request isn't finished.
-                # order_item.quantity = F('quantity') + 1
                 order_item.save()
                 messages.info(request, "This item quantity was updated.")
-            else:
-                messages.warning(
-                    request, "You are tying to add the item over stock.")
         else:
             order.items.add(order_item)
             messages.info(request, "This item was added to your cart.")
