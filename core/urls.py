@@ -6,13 +6,21 @@ app_name = 'core'
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
-    path('product/<slug>/', ItemDetailView.as_view(), name='product'),
+    path('item/create/', ItemCreateView.as_view(), name='item-create'),
+    path('item/<slug>/', ItemDetailView.as_view(), name='item'),
+    path('item/<slug>/update', ItemUpdateView.as_view(), name='item-update'),
     path('shopping-cart/', CartView.as_view(), name='shopping-cart'),
 
     path('checkout/', CheckoutView.as_view(), name='checkout'),
-    path('order-summary/', OrderSummaryView.as_view(), name='order-summary'),
     path('billing-address/', BillingAddressView.as_view(), name='billing-address'),
+    path('order-summary/', OrderSummaryView.as_view(), name='order-summary'),
     path('payment/<payment_option>/', PaymentView.as_view(), name='payment'),
+
+    path('order-list', OrderListView.as_view(), name='order-list'),
+    #     path('user/<int:pk>/order-list',
+    #          UserOrderListView.as_view(), name='user-order-list'),
+    path('order-history',
+         UserOrderListView.as_view(), name='user-order-list'),
 
     path('add-to-cart/<slug>/', add_to_cart, name='add-to-cart'),
     path('remove-from-cart/<slug>/', remove_from_cart, name='remove-from-cart'),

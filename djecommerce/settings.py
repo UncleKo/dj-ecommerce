@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'crispy_forms',
     'django_countries',
+    'imagekit',
 
     'core',
     'users'
@@ -63,8 +64,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static_files')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/images/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 
 DATABASES = {
     "default": {
@@ -93,7 +94,7 @@ AUTHENTICATION_BACKENDS = (
 
 SITE_ID = 1
 # Only after Signing Up. Regular Login just go back to the same page (follows ?next in URL).
-LOGIN_REDIRECT_URL = 'user:edit-profile'
+LOGIN_REDIRECT_URL = 'user:profile'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -107,3 +108,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
+
+# IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = 'imagekit.cachefiles.strategies.Optimistic'
+IMAGEKIT_CACHEFILE_DIR = 'OPTIONS'

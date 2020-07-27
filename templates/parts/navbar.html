@@ -43,7 +43,7 @@
           {% endif %}
         </li>
         <li class="nav-item">
-          <a class="nav-link waves-effect" href="{% url 'user:profile' user.id %}"> Profile </a>
+          <a class="nav-link waves-effect" href="{% url 'user:profile' %}"> Profile </a>
         </li>
         <li class="nav-item">
           <a class="nav-link waves-effect" href="#"> Wish List </a>
@@ -56,18 +56,18 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link waves-effect" href="{% url 'account_logout' %}">
+          <a class="nav-link waves-effect" href="{% url 'logout' %}">
             <span class="clearfix d-none d-sm-inline-block"> Logout </span>
           </a>
         </li>
         {% else %}
         <li class="nav-item">
-          <a class="nav-link waves-effect" href="{% url 'account_login' %}?next={{ request.path }}">
+          <a class="nav-link waves-effect" href="{% url 'login' %}?next={{ request.path }}">
             <span class="clearfix d-none d-sm-inline-block"> Login </span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link waves-effect" href="{% url 'account_signup' %}">
+          <a class="nav-link waves-effect" href="{% url 'register' %}">
             <span class="clearfix d-none d-sm-inline-block"> Signup </span>
           </a>
         </li>

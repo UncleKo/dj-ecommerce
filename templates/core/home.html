@@ -1,12 +1,9 @@
 {% extends "base.html" %}
 {% block head_title %}Home{% endblock %}
-
 {% block content %}
-
 
 <!--Main layout-->
 <main>
-
 
   <div id="home" class="container">
 
@@ -56,7 +53,7 @@
       <div>
         {% if featured_item.image %}
         <a href="{{ featured_item.get_absolute_url }}">
-          <img src="{{ featured_item.image.url }}" class="card-img-top" alt="">
+          <img src="{{ featured_item.image_medium.url }}" class="card-img-top" alt="">
         </a>
         {% endif %}
         <!-- <img class="item-photo" src="https://source.unsplash.com/random/300x300?v=2"> -->
@@ -119,13 +116,17 @@
           {% for item in items %}
           <li>
             <div>
-              <h3>{{ item.title }}</h3>
+              <a href="{{ item.get_absolute_url }}">
+                <h3>{{ item.title }}</h3>
+              </a>
               <h4>${{ item.price }}</h4>
               {% if item.image %}
               <div>
+                {% if item.image %}
                 <a href="{{ item.get_absolute_url }}">
-                  <img src="{{ item.image.url }}" class="" alt="" />
+                  <img src="{{ item.image_small.url }}" class="" alt="" />
                 </a>
+                {% endif %}
               </div>
               {% endif %}
             </div>

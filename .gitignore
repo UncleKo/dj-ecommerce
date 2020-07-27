@@ -1,13 +1,13 @@
 venv
 **/*.pyc
 **/__pycache__
-media
+images
 .DS_Store
 *.sqlite3
 *.env
+.gitignore
 
 # Accept these files in the repository
-!.gitignore
 !.travis.yml
 /.env
 /.vscode

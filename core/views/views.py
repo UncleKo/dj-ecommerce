@@ -2,9 +2,9 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import ListView, DetailView, View
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, View
 from django.utils import timezone
 from django.contrib.auth.models import User
 # from django.db.models import F
@@ -25,7 +25,7 @@ from django.template.loader import render_to_string
 
 class HomeView(ListView):
     model = Item
-    template_name = "home.html"
+    template_name = "core/home.html"
     context_object_name = 'items'
     # paginate_by = 10
     # ordering = ['-id']
@@ -42,12 +42,12 @@ class HomeView(ListView):
 #     context = {
 #         'items': Item.objects.all()
 #     }
-#     return render(request, "home.html", context)
+#     return render(request, "core/home.html", context)
 
 
 class ItemDetailView(DetailView):
     model = Item
-    template_name = "product.html"
+    template_name = "core/item.html"
     context_object_name = 'item'
 
     def get_context_data(self, **kwargs):
@@ -58,6 +58,28 @@ class ItemDetailView(DetailView):
         return context
 
 
+class ItemCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Item
+    fields = ['title', 'price', 'discount_price', 'category',
+              'description', 'stock', 'featured', 'image', 'draft']
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
+
+
+class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Item
+    fields = ['title', 'price', 'discount_price', 'category',
+              'description', 'stock', 'featured', 'image', 'draft', 'slug']
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
+
+
 class CartView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         try:
@@ -65,10 +87,10 @@ class CartView(LoginRequiredMixin, View):
             context = {
                 'order': order
             }
-            return render(self.request, 'shopping-cart.html', context)
+            return render(self.request, 'core/shopping-cart.html', context)
         except ObjectDoesNotExist:
             messages.error(self.request, "You do not have an active order")
-            return render(self.request, 'shopping-cart.html')
+            return render(self.request, 'core/shopping-cart.html')
 
 
 class OrderSummaryView(LoginRequiredMixin, View):
@@ -92,6 +114,40 @@ class OrderSummaryView(LoginRequiredMixin, View):
         except ObjectDoesNotExist:
             messages.error(self.request, "You do not have an active order")
             return render(self.request, 'checkout/order-summary.html')
+
+
+class OrderListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+
+    model = Order
+    template_name = 'core/order-list.html'
+    context_object_name = 'orders'
+    # pagenate_by = 3
+
+    def get_queryset(self):
+        return Order.objects.filter(ordered=True).order_by('-ordered_date')
+
+    # ユーザーがスタッフの時にのみ許可
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
+
+
+class UserOrderListView(LoginRequiredMixin, ListView):
+
+    model = Order
+    template_name = 'core/order-list.html'
+    context_object_name = 'orders'
+
+    def get_queryset(self):
+        # user = get_object_or_404(User, pk=self.kwargs.get('pk'))
+        return Order.objects.filter(user=self.request.user, ordered=True).order_by('-ordered_date')
+
+    # def test_func(self):
+    #     user = get_object_or_404(User, pk=self.kwargs.get('pk'))
+    #     if self.request.user == user:
+    #         return True
+    #     return False
 
 
 @login_required
@@ -136,11 +192,11 @@ def confirm_order(request):
             # fail_silentl,
         )
         messages.success(request, "Thank you so much for the shopping!")
-        return render(request, 'shopping-cart.html')
+        return render(request, 'core/shopping-cart.html')
 
     except ObjectDoesNotExist:
         messages.error(request, "You do not have an active order")
-        return render(request, 'shopping-cart.html')
+        return render(request, 'core/shopping-cart.html')
 
 
 @login_required
@@ -209,7 +265,7 @@ def remove_from_cart(request, slug):
             messages.info(request, "This item was not in your cart.")
     else:
         messages.info(request, "You do not have an active order.")
-    return redirect("core:product", slug=slug)
+    return redirect("core:item", slug=slug)
 
 
 @login_required
@@ -240,4 +296,4 @@ def remove_single_item_from_cart(request, slug):
             messages.info(request, "This item was not in your cart.")
     else:
         messages.info(request, "You do not have an active order.")
-    return redirect("core:product", slug=slug)
+    return redirect("core:item", slug=slug)

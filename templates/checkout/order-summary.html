@@ -46,7 +46,7 @@
             </th>
             <td>
               <!-- <a href="{{order_item.item.get_absolute_url}}"> -->
-              <a href="{% url 'core:product' order_item.item.slug %}">
+              <a href="{% url 'core:item' order_item.item.slug %}">
                 {{ order_item.item.title }}
               </a>
             </td>

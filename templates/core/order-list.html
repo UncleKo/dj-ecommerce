@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block head_title %}Order List{% endblock %}
+
+{% block content %}
+
+<!--Main layout-->
+<main>
+
+  <div id="order-list" class="container">
+
+    <h2>Order List</h2>
+
+    {% for order in orders %}
+    <p class="label mb-0">Order No: {{ order.id }}</p>
+    <p class="">{{ order.ordered_date }}</p>
+    {% endfor %}
+  </div>
+
+</main>
+
+{% endblock %}

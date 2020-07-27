@@ -2,6 +2,8 @@ from django.conf import settings
 from django.db import models
 from django.shortcuts import reverse
 from django.template.defaultfilters import slugify
+from imagekit.models import ImageSpecField, ProcessedImageField
+from imagekit.processors import ResizeToFill, ResizeToFit
 
 from users.models import ShippingAddress, BillingAddress
 
@@ -43,15 +45,38 @@ class Item(models.Model):
     label = models.CharField(choices=LABEL_CHOICES, max_length=2)
     slug = models.SlugField(blank=True, null=True)
     description = models.TextField()
-    image = models.ImageField()
     stock = models.IntegerField(blank=True, null=True)
     featured = models.BooleanField(default=False)
+    draft = models.BooleanField(default=False)
+    image = models.ImageField(blank=True)
+    image_large = ImageSpecField(source="image",
+                                 processors=[ResizeToFit(1280, 1280)],
+                                 format='JPEG'
+                                 )
+
+    image_medium = ImageSpecField(source='image',
+                                  processors=[ResizeToFit(700, 700)],
+                                  format="JPEG",
+                                  options={'quality': 80}
+                                  )
+
+    image_small = ImageSpecField(source='image',
+                                 processors=[ResizeToFit(250, 250)],
+                                 format="JPEG",
+                                 options={'quality': 80}
+                                 )
+
+    image_thumbnail = ImageSpecField(source='image',
+                                     processors=[ResizeToFill(75, 75)],
+                                     format="JPEG",
+                                     options={'quality': 80}
+                                     )
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("core:product", kwargs={
+        return reverse("core:item", kwargs={
             'slug': self.slug
         })
 

@@ -56,8 +56,9 @@
       <!--Grid column-->
       <div class="">
 
-        <img src="{{ item.image.url }}" class="card-img-top" alt="">
-        <!-- <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/14.jpg" class="img-fluid" alt=""> -->
+        {% if item.image %}
+        <img src="{{ item.image_medium.url }}" class="card-img-top" alt="">
+        {% endif %}
 
       </div>
       <!--Grid column-->
@@ -74,7 +75,9 @@
               <span class="badge {{ item.get_category_display }}-color mr-1">{{ item.get_category_display }}</span>
             </a>
 
-            <h2>{{ item.title }}</h2>
+            <a href="{{ item.get_absolute_url }}">
+              <h2>{{ item.title }}</h2>
+            </a>
             <p class="lead">
               {% if item.discount_price %}
               <span class="mr-1">
@@ -128,7 +131,7 @@
         <div class="item {% if item.featured %}featured-item{% endif %}">
           {% if item.image %}
           <a href="{{ item.get_absolute_url }}">
-            <img src="{{ item.image.url }}" class="card-img-top" alt="">
+            <img src="{{ item.image_small.url }}" class="card-img-top" alt="">
           </a>
           {% endif %}
           <!-- <img class="item-photo" src="https://source.unsplash.com/random/300x300?v=2"> -->
