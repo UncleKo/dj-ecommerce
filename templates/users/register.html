@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
-{% block head_title %}Login{% endblock %}
+{% block head_title %}Signup{% endblock %}
 
 {% block content %}
 
@@ -9,21 +9,19 @@
     <form method="POST">
       {% csrf_token %}
       <fieldset class="form-group">
-        <legend class="border-bottm mt-5 mb-4">Login</legend>
+        <legend class="border-bottm mt-5 mb-4">Signup</legend>
+        <!-- {{ form.as_p }} -->
         {{ form|crispy }}
       </fieldset>
       <div class="form-group">
-        <button class="btn btn-main" type="submit">Login</button>
-        <small class="text-muted ml-2">
-        </small>
+        <button class="btn btn-main" type="submit">Signup</button>
       </div>
     </form>
     <div class="border-top pt-3">
       <small class="text-muted">
-        If you have not created an account yet, then please<a href="{% url 'register' %}" class="ml-2">Signup</a> first.
+        Already have An Account? <a href="{% url 'login' %}" class="ml-2">Login</a>
       </small>
     </div>
   </div>
 </main>
-
 {% endblock content %}

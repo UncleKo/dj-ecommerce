@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 
@@ -6,8 +7,16 @@ from django.contrib.auth.models import User
 from .models import ShippingAddress
 
 
+class UserRegisterForm(UserCreationForm):
+    email = forms.EmailField(label="Eメール")
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
+
+
 class ProfileUpdateForm(forms.ModelForm):
-    # email = forms.EmailField(label="Eメール")
+        # email = forms.EmailField(label="Eメール")
 
     first_name = forms.CharField(
         widget=forms.TextInput(attrs={

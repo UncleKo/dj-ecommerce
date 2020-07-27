@@ -1,49 +1,54 @@
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import render, redirect, resolve_url  # get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.http import is_safe_url
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import SuccessURLAllowedHostsMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth import authenticate, login
+from django.core.mail import send_mail
 
 from django.contrib.auth.models import User
 from django.views.generic import View, ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from core.boost import DynamicRedirectMixin
 from .models import ShippingAddress
 from core.models import Order
-from .forms import ProfileUpdateForm, AddressForm, PrimaryShippingAddressForm
+from .forms import ProfileUpdateForm, AddressForm, PrimaryShippingAddressForm, UserRegisterForm
 
 
-class ProfileView(LoginRequiredMixin, UserPassesTestMixin, DynamicRedirectMixin, DetailView):
-    model = User
-    template_name = 'users/profile.html'
+class ProfileView(LoginRequiredMixin, DynamicRedirectMixin, View):
+    # model = User
+    # template_name = 'users/profile.html'
+    def get(self, *args, **kwargs):
+        return render(self.request, "users/profile.html")
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["orders"] = Order.objects.filter(
-            user=self.request.user,
-            ordered=True
-        )
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context["orders"] = Order.objects.filter(
+    #         user=self.request.user,
+    #         ordered=True
+    #     )
+    #     return context
 
-    def test_func(self):
-        user = self.get_object()
-        if self.request.user == user:
-            return True
-        return False
+    # def test_func(self):
+    #     user = self.get_object()
+    #     if self.request.user == user:
+    #         return True
+    #     return False
 
 
 class ProfileUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = User
     form_class = ProfileUpdateForm
-    template_name = 'users/edit-profile.html'
+    template_name = 'users/profile-edit.html'
     # success_url = reverse_lazy('user:profile')
 
     def get_success_url(self):
         # return reverse("user:profile", kwargs={
         #     'pk': self.kwargs['pk']
         # })
-        return resolve_url('user:profile', pk=self.kwargs['pk'])
+        # return resolve_url('user:profile', pk=self.kwargs['pk'])
+        return resolve_url('user:profile')
 
     def test_func(self):
         user = self.get_object()
@@ -185,3 +190,27 @@ class PrimaryShippingAddress(LoginRequiredMixin, SuccessURLAllowedHostsMixin, Vi
 #         }
 
 #     return render(request, 'user/edit-profile.html', context)
+
+
+def register(request):
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            new_user = form.save()
+            messages.info(
+                request, "Thanks for registering. You are now logged in.")
+            new_user = authenticate(username=form.cleaned_data['username'],
+                                    password=form.cleaned_data['password1'],
+                                    )
+            login(request, new_user)
+            send_mail(
+                'Thank you for registering',
+                f'You were registered as {request.user.username}',
+                'uncleko496@gmail.com',
+                [request.user.email, 'uncleko496@gmail.com'],
+                fail_silently=False,
+            )
+            return redirect('user:profile')  # or blog-home, etc..
+    else:
+        form = UserRegisterForm()
+    return render(request, 'users/register.html', {'form': form})
