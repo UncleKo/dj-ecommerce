@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, View
@@ -27,7 +27,7 @@ class HomeView(ListView):
     model = Item
     template_name = "core/home.html"
     context_object_name = 'items'
-    # paginate_by = 10
+    # paginate_by = 3
     # ordering = ['-id']
     ordering = ['?']
 
@@ -121,7 +121,7 @@ class OrderListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Order
     template_name = 'core/order-list.html'
     context_object_name = 'orders'
-    # pagenate_by = 3
+    paginate_by = 2
 
     def get_queryset(self):
         return Order.objects.filter(ordered=True).order_by('-ordered_date')
@@ -132,12 +132,18 @@ class OrderListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
             return True
         return False
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["list_for_staff"] = 1
+        return context
+
 
 class UserOrderListView(LoginRequiredMixin, ListView):
 
     model = Order
     template_name = 'core/order-list.html'
     context_object_name = 'orders'
+    paginate_by = 2
 
     def get_queryset(self):
         # user = get_object_or_404(User, pk=self.kwargs.get('pk'))
@@ -148,6 +154,34 @@ class UserOrderListView(LoginRequiredMixin, ListView):
     #     if self.request.user == user:
     #         return True
     #     return False
+
+
+@permission_required('is_staff')
+def order_shipped(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    msg_plain = render_to_string('parts/email.txt', {
+        'order': order,
+        'shipped': True
+    })
+    msg_html = render_to_string('parts/email.html', {
+        'order': order,
+        'shipped': True
+    })
+    if order.shipped:
+        order.shipped = False
+    else:
+        order.shipped = True
+        send_mail(
+            f'Your Order: No. {order.id} has been shipped!',
+            msg_plain,
+            'uncleko496@gmail.com',
+            [request.user.email, 'uncleko496@gmail.com'],
+            html_message=msg_html,
+            fail_silently=False,
+        )
+    order.save()
+    # redirect to the same page (including paging)
+    return redirect(request.META['HTTP_REFERER'])
 
 
 @login_required

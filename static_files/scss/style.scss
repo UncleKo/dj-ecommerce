@@ -93,9 +93,17 @@ footer {
   background-color: $asagi;
   color: white;
 }
+.btn-outline-main {
+  border: 2px solid $asagi !important;
+  color: $asagi !important;
+}
 .btn-second {
   background-color: $rikyushiracha;
   color: white;
+}
+.pagination .btn {
+  padding: 5px 10px;
+  margin: 0 2px;
 }
 
 .badge-quantity,
@@ -180,20 +188,22 @@ header {
 }
 
 
-/* Half Page Carousel itself*/
-// .carousel {
-//   height: 50%; }
-//   .carousel .carousel-inner {
-//     height: 100%; }
-//     .carousel .carousel-inner .carousel-item,
-//     .carousel .carousel-inner .active {
-//       height: 100%; }
+.order-status {
+  p {
+    margin-bottom: .1rem;
+    font-weight: 400;
+    &.bold {
+      font-weight: 600;
+    }
+    &.status {
+      color: $asagi;
+    }
+  }
+}
 
-// /* Adjustment for mobile devices*/
-// @media (max-width: 776px) {
-//   .carousel {
-//     height: 100%; } }
 
-// /* Footer color for sake of consistency with Navbar */
-// .page-footer {
-//   background-color: #929FBA; }
+.total-price {
+  text-decoration: underline;
+}
+
+

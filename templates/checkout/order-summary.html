@@ -29,11 +29,11 @@
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">Item title</th>
+            <th scope="col"></th>
+            <th scope="col">Item Name</th>
             <th scope="col">Price</th>
             <th scope="col">Quantity</th>
-            <th scope="col">Total Item Price</th>
+            <th scope="col">Item Total Price</th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -41,9 +41,13 @@
 
           {% for order_item in order.items.all %}
           <tr>
-            <th scope="row">
-              {{ forloop.counter }}
-            </th>
+            <td>
+              {% if order_item.item.image %}
+              <a href="{% url 'core:item' order_item.item.slug %}">
+                <img src="{{ order_item.item.image_thumbnail.url }}" class="thumb">
+              </a>
+              {% endif %}
+            </td>
             <td>
               <!-- <a href="{{order_item.item.get_absolute_url}}"> -->
               <a href="{% url 'core:item' order_item.item.slug %}">
@@ -63,9 +67,15 @@
             {% endif %}
 
             <td>
+              {% if order_item.quantity == 1 %}
+              <a href="{% url 'core:remove-from-cart' order_item.item.slug %}">
+                <i class="fas fa-trash mr-2"></i>
+              </a>
+              {% else %}
               <a href="{% url 'core:remove-single-item-from-cart' order_item.item.slug %}">
                 <i class="fas fa-minus mr-2"></i>
               </a>
+              {% endif %}
               {{ order_item.quantity }}
               <a href="{% url 'core:add-to-cart' order_item.item.slug %}">
                 <i class="fas fa-plus ml-2"></i>
@@ -100,8 +110,8 @@
           {% endfor %}
           {% if order.get_total %}
           <tr>
-            <td colspan="4" class="bold text-right">Order Total</td>
-            <td id="total-price" class="bold">${{ order.get_total }}</td>
+            <td colspan="4" class="bold text-right">Total Price</td>
+            <td class="bold total-price">${{ order.get_total }}</td>
           </tr>
           {% endif %}
         </tbody>

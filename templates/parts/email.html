@@ -661,9 +661,12 @@
 
     <div class="table-responsive text-nowrap">
 
+      {% if shipped %}
+      <h2> Your Order: No. {{ order.id }} has been shipped!</h2>
+      {% else %}
       <h2>Your Order Detail</h2>
-
-      Please make sure the detail again.
+      <p>Please make sure the detail again.</p>
+      {% endif %}
 
       <h3>{{ order.user.first_name }} {{ order.user.last_name }}</h3>
 
@@ -716,22 +719,9 @@
             </td>
 
             <td>
-              {% if order_item.item.discount_price %}
-              ${{ order_item.get_total_discount_item_price }}
-              <span class="badge badge-info">Saving ${{ order_item.get_amount_saved }}</span>
-              {% else %}
               ${{ order_item.get_total_item_price }}
-              {% endif %}
-              <a href="{% url 'core:remove-from-cart' order_item.item.slug %}">
-                <i class="fas fa-trash float-right"></i>
-              </a>
             </td>
 
-            <!-- <td>
-              <a href="{{ order_item.item.get_remove_from_cart_url }}" class=" btn btn-danger btn-md my-0 p">
-              <i class="fas fa-trash"></i>
-              </a>
-            </td> -->
           </tr>
 
           {% empty %}

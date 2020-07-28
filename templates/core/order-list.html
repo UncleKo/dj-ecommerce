@@ -11,9 +11,91 @@
     <h2>Order List</h2>
 
     {% for order in orders %}
-    <p class="label mb-0">Order No: {{ order.id }}</p>
-    <p class="">{{ order.ordered_date }}</p>
+    <div class="order-status">
+      <p class="label mb-0">Order No: {{ order.id }}</p>
+      <p class="bold">{{ order.ordered_date }}</p>
+      <p class="status">Status: {% if order.shipped %}Shipped{% else %}Preparing for Shippment{% endif %}
+        {% if list_for_staff %}
+        <!-- <a href="{% url 'core:order-shipped' order.id %}" class=" btn btn-outline-primary btn-sm"> -->
+        <a href="{{ order.get_order_shipped }}" class=" btn btn-outline-main btn-sm">
+          {% if order.shipped %}
+          Make it Unshipped
+          {% else %}
+          Make it Shipped
+          {% endif %}
+        </a>
+        {% endif %}
+      <p class="bold total-price">Total Price: ${{ order.get_total }}</p>
+      </p>
+
+
+    </div>
+    <table class="table">
+      <tbody>
+
+        {% for order_item in order.items.all %}
+        <tr>
+          <th scope="row">
+            {% if order_item.item.image %}
+            <a href="{% url 'core:item' order_item.item.slug %}">
+              <img src="{{ order_item.item.image_thumbnail.url }}" class="thumb">
+            </a>
+            {% endif %}
+          </th>
+          <td>
+            <!-- <a href="{{order_item.item.get_absolute_url}}"> -->
+            <a href="{% url 'core:item' order_item.item.slug %}">
+              {{ order_item.item.title }}
+            </a>
+          </td>
+
+          {% if order_item.item.discount_price %}
+          <td>
+            <span class=" mr-1">
+              <del>${{ order_item.item.price }}</del>
+            </span>
+            ${{ order_item.item.discount_price }}
+          </td>
+          {% else %}
+          <td>${{ order_item.item.price }}</td>
+          {% endif %}
+
+          <td>
+            {{ order_item.quantity }}
+          </td>
+
+          <td>
+            ${{ order_item.get_total_item_price }}
+          </td>
+
+
+          <!-- <td>
+              <a href="{{ order_item.item.get_remove_from_cart_url }}" class=" btn btn-danger btn-md my-0 p">
+              <i class="fas fa-trash"></i>
+              </a>
+            </td> -->
+        </tr>
+
+        {% endfor %}
+
+        <tr>
+          <td colspan="4"></td>
+          <td>
+            {% if order.get_total %}
+            <p class="bold total-price">Total Price: ${{ order.get_total }}</p>
+            {% endif %}
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
     {% endfor %}
+
+
+
+    {% include "parts/pagination.html" %}
+
+
   </div>
 
 </main>

@@ -37,9 +37,14 @@ table.table {
   &.bold {
     font-weight: 800;
   }
-  &#total-price {
-    box-shadow: inset 0 0 0 5px #878a8d;
+  &.total-price {
+    box-shadow: inset 0 0 0 2px #878a8d;
   }
+}
+
+.table td,
+.table th {
+  border: none;
 }
 
 .table thead th {
@@ -48,4 +53,8 @@ table.table {
   font-size: .8rem;
   font-weight: 300;
   padding-bottom: 0;
+}
+
+img.thumb {
+  width: auto;
 }

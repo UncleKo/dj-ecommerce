@@ -28,4 +28,6 @@ urlpatterns = [
          remove_single_item_from_cart, name='remove-single-item-from-cart'),
     path('confirm-order/', confirm_order, name='confirm-order'),
 
+    path('order-shipped/<int:pk>', order_shipped, name='order-shipped'),
+
 ]

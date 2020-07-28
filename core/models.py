@@ -67,7 +67,7 @@ class Item(models.Model):
                                  )
 
     image_thumbnail = ImageSpecField(source='image',
-                                     processors=[ResizeToFill(75, 75)],
+                                     processors=[ResizeToFit(75, 75)],
                                      format="JPEG",
                                      options={'quality': 80}
                                      )
@@ -132,6 +132,7 @@ class Order(models.Model):
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
+    shipped = models.BooleanField(default=False)
     shipping_address = models.ForeignKey(
         'users.ShippingAddress', on_delete=models.SET_NULL, blank=True, null=True)
     billing_address = models.ForeignKey(
@@ -151,6 +152,11 @@ class Order(models.Model):
         for order_item in self.items.all():
             total += order_item.get_final_price()
         return total
+
+    def get_order_shipped(self):
+        return reverse("core:order-shipped", kwargs={
+            'pk': self.pk
+        })
 
 
 class Payment(models.Model):

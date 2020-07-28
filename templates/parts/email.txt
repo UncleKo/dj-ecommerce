@@ -1,5 +1,9 @@
 
+{% if shipped %}
+Your Order: No. {order.id} has been shipped!
+{% else %}
 Your Order Detail.
+{% endif %}
 
 {{ order.user.first_name }} {{ order.user.last_name }}
       
