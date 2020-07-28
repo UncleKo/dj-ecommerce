@@ -195,14 +195,15 @@ header {
     &.bold {
       font-weight: 600;
     }
-    &.status {
-      color: $asagi;
-    }
+  }
+  .status {
+    color: $asagi;
+
   }
 }
 
 
-.total-price {
+#order-list .total-price {
   text-decoration: underline;
 }
 

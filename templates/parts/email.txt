@@ -1,6 +1,6 @@
 
-{% if shipped %}
-Your Order: No. {order.id} has been shipped!
+{% if dispatched %}
+Your Order: No. {order.id} has been dispatched!
 {% else %}
 Your Order Detail.
 {% endif %}
@@ -27,7 +27,12 @@ Item: {{ order_item.item.title }}
 {% endif %}
 {% endfor %}
 
-Total Price: {{ order.get_total }}
+Sub Total Price: {{ order.get_total }}
+-----------------------------------------
+Shipping Fee: {{ order.get_postage }}
+
+Total Price: {{ order.get_total_w_postage }}
+
 
 Payment Option: {{ order.get_payment_option_display }}
 

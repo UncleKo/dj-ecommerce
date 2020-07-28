@@ -69,12 +69,13 @@
             </td>
 
             <td>
-              {% if order_item.item.discount_price %}
+              <!-- {% if order_item.item.discount_price %}
               ${{ order_item.get_total_discount_item_price }}
               <span class="badge badge-saving ml-1">Saving ${{ order_item.get_amount_saved }}</span>
               {% else %}
               ${{ order_item.get_total_item_price }}
-              {% endif %}
+              {% endif %} -->
+              {{ order_item.get_final_price }}
             </td>
 
             <td>
@@ -97,8 +98,16 @@
           {% endfor %}
           {% if order.get_total %}
           <tr>
+            <td colspan="4" class="text-right">Sub Total Price</td>
+            <td class="">${{ order.get_total }}</td>
+          </tr>
+          <tr>
+            <td colspan="4" class="text-right">Shipping Fee</td>
+            <td class="">${{ order.get_postage }}</td>
+          </tr>
+          <tr>
             <td colspan="4" class="bold text-right">Total Price</td>
-            <td class="total-price bold">${{ order.get_total }}</td>
+            <td class="total-price bold">${{ order.get_total_w_postage }}</td>
           </tr>
           {% endif %}
         </tbody>

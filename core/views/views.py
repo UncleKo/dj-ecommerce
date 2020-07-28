@@ -157,22 +157,22 @@ class UserOrderListView(LoginRequiredMixin, ListView):
 
 
 @permission_required('is_staff')
-def order_shipped(request, pk):
+def order_dispatched(request, pk):
     order = get_object_or_404(Order, pk=pk)
     msg_plain = render_to_string('parts/email.txt', {
         'order': order,
-        'shipped': True
+        'dispatched': True
     })
     msg_html = render_to_string('parts/email.html', {
         'order': order,
-        'shipped': True
+        'dispatched': True
     })
-    if order.shipped:
-        order.shipped = False
+    if order.dispatched:
+        order.dispatched = False
     else:
-        order.shipped = True
+        order.dispatched = True
         send_mail(
-            f'Your Order: No. {order.id} has been shipped!',
+            f'Order no. {order.id} has been dispatched!',
             msg_plain,
             'uncleko496@gmail.com',
             [request.user.email, 'uncleko496@gmail.com'],

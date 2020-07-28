@@ -394,10 +394,9 @@ header {
   font-weight: 400; }
   .order-status p.bold {
     font-weight: 600; }
-  .order-status p.status {
-    color: #33A6B8; }
 
-.total-price {
+.order-status .status {
+  color: #33A6B8; }
+
+#order-list .total-price {
   text-decoration: underline; }
-
-/* Half Page Carousel itself*/

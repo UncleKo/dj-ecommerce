@@ -110,8 +110,16 @@
           {% endfor %}
           {% if order.get_total %}
           <tr>
+            <td colspan="4" class="text-right">Sub Total Price</td>
+            <td class="">${{ order.get_total }}</td>
+          </tr>
+          <tr>
+            <td colspan="4" class="text-right">Shipping Fee</td>
+            <td class="">${{ order.get_postage }}</td>
+          </tr>
+          <tr>
             <td colspan="4" class="bold text-right">Total Price</td>
-            <td class="bold total-price">${{ order.get_total }}</td>
+            <td class="total-price bold">${{ order.get_total_w_postage }}</td>
           </tr>
           {% endif %}
         </tbody>

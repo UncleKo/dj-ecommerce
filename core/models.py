@@ -132,7 +132,7 @@ class Order(models.Model):
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
-    shipped = models.BooleanField(default=False)
+    dispatched = models.BooleanField(default=False)
     shipping_address = models.ForeignKey(
         'users.ShippingAddress', on_delete=models.SET_NULL, blank=True, null=True)
     billing_address = models.ForeignKey(
@@ -153,8 +153,18 @@ class Order(models.Model):
             total += order_item.get_final_price()
         return total
 
-    def get_order_shipped(self):
-        return reverse("core:order-shipped", kwargs={
+    def get_postage(self):
+        total = self.get_total()
+        if total > 50:
+            return 0
+        else:
+            return 5
+
+    def get_total_w_postage(self):
+        return self.get_total() + self.get_postage()
+
+    def get_order_dispatched(self):
+        return reverse("core:order-dispatched", kwargs={
             'pk': self.pk
         })
 

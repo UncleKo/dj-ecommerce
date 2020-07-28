@@ -14,19 +14,22 @@
     <div class="order-status">
       <p class="label mb-0">Order No: {{ order.id }}</p>
       <p class="bold">{{ order.ordered_date }}</p>
-      <p class="status">Status: {% if order.shipped %}Shipped{% else %}Preparing for Shippment{% endif %}
+      <p>
+        <span class="label">Status:</span>
+        <span class="status">{% if order.dispatched %}Dispatched{% else %}Preparing for Shippment{% endif %}</span>
         {% if list_for_staff %}
-        <!-- <a href="{% url 'core:order-shipped' order.id %}" class=" btn btn-outline-primary btn-sm"> -->
-        <a href="{{ order.get_order_shipped }}" class=" btn btn-outline-main btn-sm">
-          {% if order.shipped %}
-          Make it Unshipped
+        <!-- <a href="{% url 'core:order-dispatched' order.id %}" class=" btn btn-outline-primary btn-sm"> -->
+        <a href="{{ order.get_order_dispatched }}" class=" btn btn-outline-main btn-sm">
+          {% if order.dispatched %}
+          Undo Dispatched
           {% else %}
-          Make it Shipped
+          Dispatched
           {% endif %}
         </a>
-        {% endif %}
-      <p class="bold total-price">Total Price: ${{ order.get_total }}</p>
       </p>
+      {% endif %}
+      <p class="">Shipping Fee: ${{ order.get_postage }}</p>
+      <p class="bold total-price">Total Price: ${{ order.get_total_w_postage }}</p>
 
 
     </div>
@@ -51,9 +54,6 @@
 
           {% if order_item.item.discount_price %}
           <td>
-            <span class=" mr-1">
-              <del>${{ order_item.item.price }}</del>
-            </span>
             ${{ order_item.item.discount_price }}
           </td>
           {% else %}
@@ -65,7 +65,7 @@
           </td>
 
           <td>
-            ${{ order_item.get_total_item_price }}
+            ${{ order_item.get_final_price }}
           </td>
 
 
@@ -79,10 +79,10 @@
         {% endfor %}
 
         <tr>
-          <td colspan="4"></td>
+          <td colspan="4" class="text-right">Sub Total Price</td>
           <td>
             {% if order.get_total %}
-            <p class="bold total-price">Total Price: ${{ order.get_total }}</p>
+            <p class="bold total-price">${{ order.get_total }}</p>
             {% endif %}
           </td>
         </tr>
