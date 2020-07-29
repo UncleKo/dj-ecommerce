@@ -79,6 +79,11 @@ class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         return False
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["edit"] = 1
+        return context
+
 
 class CartView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):

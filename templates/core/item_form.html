@@ -9,7 +9,13 @@
       <fieldset class="form-group">
         <legend class="border-bottm mt-5 mb-4">Add Item</legend>
         {{ form|crispy }}
-        <button class="btn btn-main mt-5" type="submit">Update</button>
+        <button class="btn btn-main mt-5" type="submit">
+          {% if edit %}
+          Update
+          {% else %}
+          Create
+          {% endif %}
+        </button>
       </fieldset>
     </form>
   </div>

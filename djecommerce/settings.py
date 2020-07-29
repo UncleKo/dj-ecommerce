@@ -4,8 +4,9 @@ import django_heroku
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 
 DEBUG = True
+# DEBUG = (os.getenv('DEGUG_VALLUE') == 'True')
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# SECRET_KEY = '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj'
 SECRET_KEY = os.getenv('SECRET_KEY')
 ALLOWED_HOSTS = ['store-for-nobody.herokuapp.com', '127.0.0.1']
 
@@ -78,17 +79,17 @@ DATABASES = {
     }
 }
 
-if ENVIRONMENT == 'production':
-    DEBUG = False
-    SECRET_KEY = os.getenv('SECRET_KEY')
-    SESSION_COOKIE_SECURE = True
-    SECURE_BROWSER_XSS_FILTER = True
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_SECONDS = 31536000
-    SECURE_REDIRECT_EXEMPT = []
-    SECURE_SSL_REDIRECT = True
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# if ENVIRONMENT == 'production':
+#     DEBUG = False
+#     SECRET_KEY = os.getenv('SECRET_KEY')
+#     SESSION_COOKIE_SECURE = True
+#     SECURE_BROWSER_XSS_FILTER = True
+#     SECURE_CONTENT_TYPE_NOSNIFF = True
+#     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+#     SECURE_HSTS_SECONDS = 31536000
+#     SECURE_REDIRECT_EXEMPT = []
+#     SECURE_SSL_REDIRECT = True
+#     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 AUTHENTICATION_BACKENDS = (
@@ -103,16 +104,17 @@ LOGIN_REDIRECT_URL = 'user:profile'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
-STRIPE_PUBLIC_KEY = 'STRIPE_LIVE_PUBLIC_KEY'
-STRIPE_SECRET_KEY = 'STRIPE_LIVE_SECRET_KEY'
+# STRIPE_PUBLIC_KEY = 'STRIPE_LIVE_PUBLIC_KEY'
+# STRIPE_SECRET_KEY = 'STRIPE_LIVE_SECRET_KEY'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
+EMAIL_HOST_USER = os.getenv('EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASS')
 
+# Make Every Size when Image Upload
 # IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = 'imagekit.cachefiles.strategies.Optimistic'
 IMAGEKIT_CACHEFILE_DIR = 'OPTIONS'
 
@@ -122,11 +124,10 @@ if ENVIRONMENT == 'production':
     django_heroku.settings(locals())
 
     DEFAULT_FILE_STORAGE = 'core.storages.CustomS3Boto3Storage'
-    # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+    AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
 
     AWS_S3_FILE_OVERWRITE = False
     AWS_DEFAULT_ACL = None
