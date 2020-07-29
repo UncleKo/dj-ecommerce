@@ -1,11 +1,14 @@
 import os
+import django_heroku
 
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 
 DEBUG = True
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECRET_KEY = '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj'
-ALLOWED_HOSTS = []
+# SECRET_KEY = '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj'
+SECRET_KEY = os.getenv('SECRET_KEY')
+ALLOWED_HOSTS = ['store-for-nobody.herokuapp.com', '127.0.0.1']
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -22,6 +25,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_countries',
     'imagekit',
+    'storages',
 
     'core',
     'users'
@@ -111,3 +115,19 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
 
 # IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = 'imagekit.cachefiles.strategies.Optimistic'
 IMAGEKIT_CACHEFILE_DIR = 'OPTIONS'
+
+django_heroku.settings(locals())
+
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+# https を有効にします
+AWS_S3_SECURE_URLS = True
+# 認証クエリーを無効にします
+AWS_QUERYSTRING_AUTH = False
+
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'core.storages.CustomS3Boto3Storage'
