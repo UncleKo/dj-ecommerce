@@ -116,18 +116,21 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
 # IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = 'imagekit.cachefiles.strategies.Optimistic'
 IMAGEKIT_CACHEFILE_DIR = 'OPTIONS'
 
-django_heroku.settings(locals())
 
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+if ENVIRONMENT == 'production':
 
-AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = None
-# https を有効にします
-AWS_S3_SECURE_URLS = True
-# 認証クエリーを無効にします
-AWS_QUERYSTRING_AUTH = False
+    django_heroku.settings(locals())
 
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-DEFAULT_FILE_STORAGE = 'core.storages.CustomS3Boto3Storage'
+    DEFAULT_FILE_STORAGE = 'core.storages.CustomS3Boto3Storage'
+    # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_DEFAULT_ACL = None
+    # https を有効にします
+    AWS_S3_SECURE_URLS = True
+    # 認証クエリーを無効にします
+    AWS_QUERYSTRING_AUTH = False
