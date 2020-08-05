@@ -11,9 +11,9 @@ from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from django.views.generic import View, ListView, DetailView, CreateView, UpdateView, DeleteView
 from core.boost import DynamicRedirectMixin
-from .models import ShippingAddress
+from .models import ShippingAddress, BillingAddress
 from core.models import Order
-from .forms import ProfileUpdateForm, AddressForm, PrimaryShippingAddressForm, UserRegisterForm
+from .forms import ProfileUpdateForm, ShippingAddressForm, PrimaryShippingAddressForm, UserRegisterForm, BillingAddressForm
 
 
 class ProfileView(LoginRequiredMixin, DynamicRedirectMixin, View):
@@ -57,22 +57,45 @@ class ProfileUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return False
 
 
+class OrderHistoryView(LoginRequiredMixin, ListView):
+
+    model = Order
+    template_name = 'core/order-list.html'
+    context_object_name = 'orders'
+    paginate_by = 2
+
+    def get_queryset(self):
+        # user = get_object_or_404(User, pk=self.kwargs.get('pk'))
+        return Order.objects.filter(user=self.request.user, ordered=True).order_by('-ordered_date')
+
+    # def test_func(self):
+    #     user = get_object_or_404(User, pk=self.kwargs.get('pk'))
+    #     if self.request.user == user:
+    #         return True
+    #     return False
+
+
 class ShippingAddressCreateView(LoginRequiredMixin, DynamicRedirectMixin, CreateView):
     model = ShippingAddress
-    form_class = AddressForm
+    form_class = ShippingAddressForm
     # template_name = 'users/shipping_address_form.html'
-    # success_url = reverse_lazy('user:profile')
+    success_url = reverse_lazy('user:profile')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        shipping_addresses = self.request.user.shipping_addresses.all()
+        for shipping_address in shipping_addresses:
+            shipping_address.primary = False
+            shipping_address.save()
         form.instance.primary = True
+
         return super().form_valid(form)
 
 
 class ShippingAddressUpdateView(LoginRequiredMixin, UserPassesTestMixin, DynamicRedirectMixin, UpdateView):
     model = ShippingAddress
-    form_class = AddressForm
-    # success_url = reverse_lazy('user:profile')
+    form_class = ShippingAddressForm
+    success_url = reverse_lazy('user:profile')
 
     def test_func(self):
         user = self.get_object().user
@@ -88,7 +111,7 @@ class ShippingAddressUpdateView(LoginRequiredMixin, UserPassesTestMixin, Dynamic
 
 class ShippingAddressDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = ShippingAddress
-    success_url = reverse_lazy('profile')
+    success_url = reverse_lazy('user:profile')
 
     def test_func(self):
         user = self.get_object().user
@@ -165,6 +188,43 @@ class PrimaryShippingAddress(LoginRequiredMixin, SuccessURLAllowedHostsMixin, Vi
                 self.request, "You do not have stored shipping addresses")
             return redirect("core:checkout")
 
+
+class BillingAddressCreateView(LoginRequiredMixin, DynamicRedirectMixin, CreateView):
+    model = BillingAddress
+    form_class = BillingAddressForm
+    success_url = reverse_lazy('user:profile')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class BillingAddressUpdateView(LoginRequiredMixin, UserPassesTestMixin, DynamicRedirectMixin, UpdateView):
+    model = BillingAddress
+    form_class = BillingAddressForm
+    success_url = reverse_lazy('user:profile')
+
+    def test_func(self):
+        user = self.get_object().user
+        if self.request.user == user:
+            return True
+        return False
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["edit"] = 1
+        return context
+
+
+class BillingAddressDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = BillingAddress
+    success_url = reverse_lazy('user:profile')
+
+    def test_func(self):
+        user = self.get_object().user
+        if self.request.user == user:
+            return True
+        return False
 
 # @login_required
 # def edit_profile(request):

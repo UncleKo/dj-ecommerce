@@ -8,7 +8,7 @@
 
   <div id="order-list" class="container">
 
-    <h2>Order List</h2>
+    <h2>注文履歴</h2>
 
     {% for order in orders %}
     <div class="order-status">
@@ -89,6 +89,8 @@
 
       </tbody>
     </table>
+    {% empty %}
+    <p>You do not have any order yet.</p>
     {% endfor %}
 
 

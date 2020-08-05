@@ -22,14 +22,14 @@ LABEL_CHOICES = (
 )
 
 PAYMENT_CHOICES = (
-    ('C', 'Credit Card'),
-    ('B', 'Bank Transfer')
+    ('C', 'クレジットカード'),
+    ('B', '銀行振込')
     # ('P', 'PayPal'),
 )
 
 DELIVERY_TIME = (
-    ('', 'Anytime'),
-    ('A', 'morning'),
+    ('', '指定なし'),
+    ('A', '午前中'),
     ('B', '0pm-2pm'),
     ('C', '2pm-4pm'),
     ('D', '4pm-6pm'),
@@ -39,8 +39,8 @@ DELIVERY_TIME = (
 
 class Item(models.Model):
     title = models.CharField(max_length=100)
-    price = models.FloatField()
-    discount_price = models.FloatField(blank=True, null=True)
+    price = models.IntegerField()
+    discount_price = models.IntegerField(blank=True, null=True)
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=2)
     label = models.CharField(choices=LABEL_CHOICES, max_length=2)
     slug = models.SlugField(blank=True, null=True)

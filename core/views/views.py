@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, View
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from django.utils import timezone
 from django.contrib.auth.models import User
 # from django.db.models import F
@@ -85,6 +85,15 @@ class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return context
 
 
+class ItemDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Item
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
+
+
 class CartView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         try:
@@ -94,7 +103,7 @@ class CartView(LoginRequiredMixin, View):
             }
             return render(self.request, 'core/shopping-cart.html', context)
         except ObjectDoesNotExist:
-            messages.error(self.request, "You do not have an active order")
+            # messages.error(self.request, "ショッピングカートに商品はありません")
             return render(self.request, 'core/shopping-cart.html')
 
 
@@ -107,7 +116,7 @@ class OrderSummaryView(LoginRequiredMixin, View):
             }
             if not order.shipping_address or not order.payment_option:
                 messages.warning(
-                    self.request, "Please Provide All Information We need.")
+                    self.request, "必要な情報をすべて記入してください。")
                 # Where should they go back? shopping cart? checkout?
                 # return render(self.request, 'checkout/order-summary.html', context)
             return render(self.request, 'checkout/order-summary.html', context)
@@ -117,7 +126,7 @@ class OrderSummaryView(LoginRequiredMixin, View):
             #     return render(self.request, 'checkout/order-summary.html')
 
         except ObjectDoesNotExist:
-            messages.error(self.request, "You do not have an active order")
+            messages.error(self.request, "カートに何も入ってません。")
             return render(self.request, 'checkout/order-summary.html')
 
 
@@ -143,24 +152,6 @@ class OrderListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return context
 
 
-class UserOrderListView(LoginRequiredMixin, ListView):
-
-    model = Order
-    template_name = 'core/order-list.html'
-    context_object_name = 'orders'
-    paginate_by = 2
-
-    def get_queryset(self):
-        # user = get_object_or_404(User, pk=self.kwargs.get('pk'))
-        return Order.objects.filter(user=self.request.user, ordered=True).order_by('-ordered_date')
-
-    # def test_func(self):
-    #     user = get_object_or_404(User, pk=self.kwargs.get('pk'))
-    #     if self.request.user == user:
-    #         return True
-    #     return False
-
-
 @permission_required('is_staff')
 def order_dispatched(request, pk):
     order = get_object_or_404(Order, pk=pk)
@@ -177,7 +168,7 @@ def order_dispatched(request, pk):
     else:
         order.dispatched = True
         send_mail(
-            f'Order no. {order.id} has been dispatched!',
+            f'Order no. {order.id} 商品が発送されました。',
             msg_plain,
             'uncleko496@gmail.com',
             [request.user.email, 'uncleko496@gmail.com'],
@@ -197,7 +188,7 @@ def confirm_order(request):
 
         if not request.user.first_name or not request.user.last_name or not order.get_total or not order.shipping_address or not order.payment_option:
             messages.warning(
-                request, "Please Provide All Information We need.")
+                request, "必要な情報をすべて記入してください。")
             # Where should they go back? shopping cart? checkout?
             return redirect('core:order-summary')
 
@@ -222,7 +213,7 @@ def confirm_order(request):
             'order': order
         })
         send_mail(
-            f'{request.user.first_name}, Thank you for the shopping!',
+            f'{request.user.first_name}様, お買い上げありがとうございます。',
             # f'{order.id} at {order.ordered_date}',
             msg_plain,
             'uncleko496@gmail.com',
@@ -230,11 +221,11 @@ def confirm_order(request):
             html_message=msg_html,
             # fail_silentl,
         )
-        messages.success(request, "Thank you so much for the shopping!")
+        messages.success(request, "お買い上げありがとうございます。")
         return render(request, 'core/shopping-cart.html')
 
     except ObjectDoesNotExist:
-        messages.error(request, "You do not have an active order")
+        messages.error(request, "カートに何も入ってません。")
         return render(request, 'core/shopping-cart.html')
 
 
@@ -246,37 +237,50 @@ def add_to_cart(request, slug):
         user=request.user,
         ordered=False
     )
-    order_qs = Order.objects.filter(
-        user=request.user,
-        ordered=False
-    )
-    if order_qs.exists():
-        order = order_qs[0]
-        # check if the order item
-        if order.items.filter(item__slug=item.slug).exists():
-            if order_item.item.stock:
-                if order_item.quantity < order_item.item.stock:
+    if order_item.item.stock == 0:
+        messages.warning(request, "在庫がありません。")
+    else:
+        order_qs = Order.objects.filter(
+            user=request.user,
+            ordered=False
+        )
+        if order_qs.exists():
+            order = order_qs[0]
+            # check if the order item
+            if order.items.filter(item__slug=item.slug).exists():
+                # stockが設定されてる場合
+                if order_item.item.stock:
+                    if order_item.quantity < order_item.item.stock:
+                        order_item.quantity += 1
+                        # # To avoid a race condition:  2 people click "Add to cart" at the same time or a user clicks very fast that the first request isn't finished.
+                        # order_item.quantity = F('quantity') + 1
+                        order_item.save()
+                        messages.info(request, "商品がカートに入りました。")
+                    else:
+                        messages.warning(
+                            request, "在庫が不足しています。")
+                # stockが設定されてれない場合
+                else:
                     order_item.quantity += 1
-                    # # To avoid a race condition:  2 people click "Add to cart" at the same time or a user clicks very fast that the first request isn't finished.
-                    # order_item.quantity = F('quantity') + 1
                     order_item.save()
                     messages.info(request, "This item quantity was updated.")
-                else:
-                    messages.warning(
-                        request, "You are tying to add the item over stock.")
+
             else:
-                order_item.quantity += 1
-                order_item.save()
-                messages.info(request, "This item quantity was updated.")
+                # if order_item.item.stock:
+                order.items.add(order_item)
+                messages.info(request, "商品がカートに入りました。")
+                # else:
+                #     messages.warning(request, "在庫がありません。")
+
         else:
+            ordered_date = timezone.now()
+            order = Order.objects.create(
+                user=request.user, ordered_date=ordered_date)
+            # if order_item.item.stock:
             order.items.add(order_item)
-            messages.info(request, "This item was added to your cart.")
-    else:
-        ordered_date = timezone.now()
-        order = Order.objects.create(
-            user=request.user, ordered_date=ordered_date)
-        order.items.add(order_item)
-        messages.info(request, "This item was added to your cart.")
+            messages.info(request, "商品がカートに入りました。")
+            # else:
+            #     messages.warning(request, "在庫がありません。")
     return redirect("core:shopping-cart")
 
 
@@ -298,12 +302,12 @@ def remove_from_cart(request, slug):
             )[0]
             order.items.remove(order_item)
             order_item.delete()
-            messages.info(request, "This item was removed from your cart.")
+            messages.info(request, "商品がカートから外されました。")
             return redirect("core:shopping-cart")
         else:
-            messages.info(request, "This item was not in your cart.")
+            messages.info(request, "この商品はカートに入ってません。")
     else:
-        messages.info(request, "You do not have an active order.")
+        messages.info(request, "カートに何も入ってません。")
     return redirect("core:item", slug=slug)
 
 
@@ -329,10 +333,10 @@ def remove_single_item_from_cart(request, slug):
             else:
                 order.items.remove(order_item)
                 order_item.delete()
-            messages.info(request, "This item quantity was updated.")
+            messages.info(request, "商品の数量が変更されました。")
             return redirect("core:shopping-cart")
         else:
-            messages.info(request, "This item was not in your cart.")
+            messages.info(request, "この商品はカートに入ってません。")
     else:
-        messages.info(request, "You do not have an active order.")
+        messages.info(request, "カートに何も入ってません。")
     return redirect("core:item", slug=slug)

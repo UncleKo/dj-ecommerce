@@ -5,14 +5,14 @@ from .models import PAYMENT_CHOICES, DELIVERY_TIME
 from users.models import ShippingAddress, BillingAddress
 
 SHIPPING_ADDRESS_OPTION = (
-    ('A', 'Ship them to this address.'),
-    ('B', 'OR provide another shipping address if you wish.')
+    ('A', 'この住所に送る'),
+    ('B', '別の配送先住所を登録する')
 )
 
 BILLING_ADDRESS_OPTION = (
-    ('A', 'Billing address is the same as my shipping address'),
-    ('B', 'Use the address below as the billing address (if it exists).'),
-    ('C', 'OR provide another billing address if you wish.')
+    ('A', '請求先住所を配送先住所と同じにする'),
+    ('B', '下の登録済み請求先住所から選択する'),
+    ('C', '別の請求先住所を登録する')
 )
 
 

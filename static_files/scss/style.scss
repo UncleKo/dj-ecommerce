@@ -46,13 +46,25 @@ img {
   padding: 0;
 }
 
+#item-delete img {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  width: auto;
+  display: block;
+}
+
 .wrapper {
   min-height: 100vh;
   position: relative;
 }
 
 main {
+  padding-top: 3rem;
   padding-bottom: 10rem;
+}
+#home,
+#item {
+  margin-top: -3rem;
 }
 
 footer {
@@ -113,6 +125,12 @@ footer {
   padding-bottom: 4px;
 }
 
+.badge-momo {
+  background-color: $momo;
+  color: white;
+  padding-bottom: 4px;
+}
+
 .promo-code {
   color: $nakabeni;
   background-color: RGB(245, 150, 170, .3);
@@ -129,6 +147,24 @@ a#nav-cart {
   display: flex;
   align-items: center;
 }
+
+#main-menu .nav-flex-icons {
+  div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+  } //div
+  @media (max-width: 768px) {
+    flex-direction: column;
+    div {
+      width: 100%;
+    }
+    li {
+      padding: 10px;
+    }
+  } //@media
+} //#main-manu .navbar .nav-flex-icons
 
 .md-form {
   margin-bottom: 0;
@@ -206,5 +242,4 @@ header {
 #order-list .total-price {
   text-decoration: underline;
 }
-
 

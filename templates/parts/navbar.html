@@ -1,15 +1,12 @@
 {% load cart_template_tags %}
 
-<nav class="navbar navbar-expand-lg navbar-light white scrolling-navbar">
+<nav id="main-menu" class="navbar navbar-expand-lg navbar-light white scrolling-navbar">
   <div class="container">
 
     <!-- Brand -->
     <a class="navbar-brand waves-effect" href="{% url 'core:home' %}">
-      <h1>A Market</h1>
+      <h1>a Store</h1>
     </a>
-    <span class="testing-alert">
-      !!!This is just a testing site!!!
-    </span>
 
     <!-- Collapse -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -22,78 +19,67 @@
 
       <!-- Left -->
       <ul class="navbar-nav mr-auto">
-        <!-- <li class="nav-item">
-          <a class="nav-link waves-effect" href="{% url 'core:home' %}">Home
-            <span class="sr-only">(current)</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link waves-effect" href="{% url 'core:checkout' %}">Checkout</a>
-        </li> -->
       </ul>
 
       <!-- Right -->
       <ul class="navbar-nav nav-flex-icons">
         {% if request.user.is_authenticated %}
-        <li class="nav-item">
-          for
-        </li>
-        <li class="nav-item">
-          {% if user.first_name and user.last_name %}
-          <h5 class="username">{{ user.first_name }} {{ user.last_name }}</h5>
-          {% else %}
-          <h5 class="username">{{ user.username }}</h5>
-          {% endif %}
-        </li>
-        <li class="nav-item">
-          <a class="nav-link waves-effect" href="{% url 'user:profile' %}"> Profile </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link waves-effect" href="#"> Wish List </a>
-        </li>
-        <li class="nav-item">
-          <a id="nav-cart" class="nav-link waves-effect" href="{% url 'core:shopping-cart' %}">
-            <span class="badge badge-quantity z-depth-1"> {{ request.user|cart_item_count }} </span>
-            <i class="fas fa-shopping-cart"></i>
-            <span class="clearfix d-none d-sm-inline-block"> Cart </span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link waves-effect" href="{% url 'logout' %}">
-            <span class="clearfix d-none d-sm-inline-block"> Logout </span>
-          </a>
-        </li>
+        <div>
+          <li class="nav-item">
+            for
+            {% if user.first_name and user.last_name %}
+            <h5 class="username">{{ user.last_name }}{{ user.first_name }}</h5>
+            {% else %}
+            <h5 class="username">{{ user.username }}</h5>
+            {% endif %}
+          </li>
+          <li class="nav-item">
+            <a class="nav-link waves-effect" href="{% url 'user:profile' %}"> プロフィール </a>
+          </li>
+        </div>
+        <div>
+          <li class="nav-item">
+            <a class="nav-link waves-effect" href="{% url 'user:order-history' %}"> 注文履歴 </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link waves-effect" href="#"> お気に入り </a>
+          </li>
+        </div>
+        <div>
+          <li class="nav-item">
+            <a id="nav-cart" class="nav-link waves-effect" href="{% url 'core:shopping-cart' %}">
+              <span class="badge badge-quantity z-depth-1"> {{ request.user|cart_item_count }} </span>
+              <i class="fas fa-shopping-cart"></i>
+              <!-- <span class="clearfix d-none d-sm-inline-block"> カート </span> -->
+              <span class="clearfix d-sm-inline-block"> カート </span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link waves-effect" href="{% url 'logout' %}">
+              <span class="clearfix d-sm-inline-block"> ログアウト </span>
+            </a>
+          </li>
+        </div>
         {% else %}
         <li class="nav-item">
           <a class="nav-link waves-effect" href="{% url 'login' %}?next={{ request.path }}">
-            <span class="clearfix d-none d-sm-inline-block"> Login </span>
+            <span class="clearfix d-sm-inline-block"> ログイン </span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link waves-effect" href="{% url 'register' %}">
-            <span class="clearfix d-none d-sm-inline-block"> Signup </span>
+            <span class="clearfix d-sm-inline-block"> 新規登録 </span>
           </a>
         </li>
         {% endif %}
-        <!-- <li class="nav-item">
-                        <a href="https://www.facebook.com/mdbootstrap" class="nav-link waves-effect" target="_blank">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="https://twitter.com/MDBootstrap" class="nav-link waves-effect" target="_blank">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="https://github.com/mdbootstrap/bootstrap-material-design"
-                            class="nav-link border border-light rounded waves-effect" target="_blank">
-                            <i class="fab fa-github mr-2"></i>MDB GitHub
-                        </a>
-                    </li> -->
       </ul>
 
     </div>
 
   </div>
 </nav>
+<div class="container">
+  <p class="testing-alert">
+    ※このサイトはEコマースのサンプルサイトです。決済機能を完結してお試し頂けますが、実際の注文は発生致しません。ご了承下さい。
+  </p>
+</div>

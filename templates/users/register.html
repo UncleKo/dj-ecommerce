@@ -5,21 +5,21 @@
 {% block content %}
 
 <main>
-  <div id="order-list" class="container">
+  <div id="signup" class="container">
     <form method="POST">
       {% csrf_token %}
       <fieldset class="form-group">
-        <legend class="border-bottm mt-5 mb-4">Signup</legend>
+        <legend class="border-bottm">メンバー登録</legend>
         <!-- {{ form.as_p }} -->
         {{ form|crispy }}
       </fieldset>
       <div class="form-group">
-        <button class="btn btn-main" type="submit">Signup</button>
+        <button class="btn btn-main" type="submit">新規登録</button>
       </div>
     </form>
     <div class="border-top pt-3">
       <small class="text-muted">
-        Already have An Account? <a href="{% url 'login' %}" class="ml-2">Login</a>
+        既にメンバー登録済みの方は<a href="{% url 'login' %}" class="ml-2">こちら</a>よりログインしてください。
       </small>
     </div>
   </div>

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block head_title %}Order Summary{% endblock %}
+{% block head_title %}ご注文内容のご確認{% endblock %}
 
 {% block content %}
 
@@ -12,13 +12,13 @@
 
     <div class="table-responsive text-nowrap">
 
-      <h2>Your Order Summary</h2>
+      <h2>ご注文内容のご確認</h2>
 
       {% if user.first_name and user.last_name %}
-      <h5 class="">{{ user.first_name }} {{ user.last_name }}</h5>
+      <h5 class="">{{ user.last_name }}{{ user.first_name }}様</h5>
       {% else %}
       <h5 class="mt-4 mb-5 text-danger">
-        <i>Pease Provide Your Name First
+        <i>ここでお名前をご登録ください
           <a href="{% url 'user:edit-profile' user.id %}?next={{ request.path }}">Click Here</a>
         </i>
       </h5>
@@ -58,12 +58,12 @@
             {% if order_item.item.discount_price %}
             <td>
               <span class=" mr-1">
-                <del>${{ order_item.item.price }}</del>
+                <del>¥{{ order_item.item.price }}</del>
               </span>
-              ${{ order_item.item.discount_price }}
+              ¥{{ order_item.item.discount_price }}
             </td>
             {% else %}
-            <td>${{ order_item.item.price }}</td>
+            <td>¥{{ order_item.item.price }}</td>
             {% endif %}
 
             <td>
@@ -84,10 +84,10 @@
 
             <td>
               {% if order_item.item.discount_price %}
-              ${{ order_item.get_total_discount_item_price }}
-              <span class="badge badge-saving ml-1">Saving ${{ order_item.get_amount_saved }}</span>
+              ¥{{ order_item.get_total_discount_item_price }}
+              <span class="badge badge-saving ml-1">Saving ¥{{ order_item.get_amount_saved }}</span>
               {% else %}
-              ${{ order_item.get_total_item_price }}
+              ¥{{ order_item.get_total_item_price }}
               {% endif %}
             </td>
 
@@ -105,21 +105,21 @@
 
           {% empty %}
           <tr>
-            <td colspan='5'>Your cart is empty.</td>
+            <td colspan='5'>カートに何も入っていません</td>
           </tr>
           {% endfor %}
           {% if order.get_total %}
           <tr>
-            <td colspan="4" class="text-right">Sub Total Price</td>
-            <td class="">${{ order.get_total }}</td>
+            <td colspan="4" class="text-right">小計(税込)</td>
+            <td class="">¥{{ order.get_total }}</td>
           </tr>
           <tr>
-            <td colspan="4" class="text-right">Shipping Fee</td>
-            <td class="">${{ order.get_postage }}</td>
+            <td colspan="4" class="text-right">送料</td>
+            <td class="">¥{{ order.get_postage }}</td>
           </tr>
           <tr>
-            <td colspan="4" class="bold text-right">Total Price</td>
-            <td class="total-price bold">${{ order.get_total_w_postage }}</td>
+            <td colspan="4" class="bold text-right">ご注文合計金額</td>
+            <td class="total-price bold">¥{{ order.get_total_w_postage }}</td>
           </tr>
           {% endif %}
         </tbody>
@@ -129,24 +129,24 @@
 
     <div id="order-info">
       <div>
-        <p class="label mb-0">Shipping Address</p>
+        <p class="label mb-0">配送先住所</p>
         <p class="address">{{ order.shipping_address }}</p>
       </div>
 
       {% if order.billing_address %}
       <div>
-        <p class="label mb-0">Billing Address</p>
+        <p class="label mb-0">請求先住所</p>
         <p class="address">{{ order.billing_address }}</p>
       </div>
       {% endif %}
 
       <div>
-        <p class="label mb-0">Delivery Time</p>
+        <p class="label mb-0">配達時間ご指定</p>
         <p class="address">{{ order.get_delivery_time_display }}</p>
       </div>
 
       <div>
-        <p class="label mb-0">Payment Method</p>
+        <p class="label mb-0">お支払い方法</p>
         <p class="address">{{ order.get_payment_option_display }}</p>
       </div>
 
@@ -154,11 +154,11 @@
 
     <div class="clearfix">
       {% if order.get_total and order.shipping_address and order.payment_option %}
-      <a class='btn btn-main float-right ml-2' href="{% url 'core:confirm-order' %}">Confirm </a>
+      <a class='btn btn-main float-right ml-2' href="{% url 'core:confirm-order' %}">ご注文を確定する </a>
       {% else %}
-      <a class='btn btn-main float-right ml-2' href="/">Continue shopping</a>
+      <a class='btn btn-main float-right ml-2' href="/">買い物を続ける</a>
       {% endif %}
-      <a class='btn btn-second float-right' href="/">Modify</a>
+      <a class='btn btn-second float-right' href="/">ご注文内容を変更する</a>
     </div>
 
   </div> <!-- container -->

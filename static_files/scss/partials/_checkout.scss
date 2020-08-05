@@ -1,13 +1,12 @@
 
-.label {
-  font-size: .8rem;
-  font-weight: 300;
-}
-
 .shipping-address {
   .address {
     display: flex;
     align-items: center;
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 }
 
@@ -16,13 +15,6 @@
   margin-bottom: 5rem;
   font-weight: 400;
 }
-
-#pickup-address {
-  margin-left: 7rem;
-  font-size: .9rem;
-  font-style: italic; 
-}
-
 
 table.table {
   margin-top: 4rem;

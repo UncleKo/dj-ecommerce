@@ -11,7 +11,7 @@
   <div id="billing-address" class="container wow fadeIn">
 
     <!-- Heading -->
-    <h2>Billing Address</h2>
+    <h2>請求先住所</h2>
 
     <!--Grid row-->
     <div class="row">
@@ -27,13 +27,13 @@
             {% csrf_token %}
 
             <div>
-              <p class="label mb-0">Shipping Address</p>
+              <p class="label mb-0">配送先住所</p>
               <p class="address">{{ order.shipping_address }}</p>
             </div>
 
             <div id="div_id_billing_address_option" class="form-group">
               <label for="id_billing_address_option" class="label">
-                Billing Address Option
+                請求先住所の選択
               </label>
               <div id="id_billing_address_option" class="d-block">
                 {% for value, name in form.fields.billing_address_option.choices %}
@@ -48,7 +48,7 @@
                 <p class="address mb-0 ml-4">{{ first_billing_address }}</p>
                 {% else %}
                 <div id="div_id_stored_billing_address" class="ml-4" form-group">
-                  <label for="id_stored_billinig_address" class="label mb-0">Select One</label>
+                  <label for="id_stored_billinig_address" class="label mb-0">ご選択ください</label>
                   <div id="id_stored_billing_address" class="d-block">
                     {% for value, name in form.fields.stored_billing_address.choices %}
                     <div class="custom-control custom-radio">
@@ -71,12 +71,12 @@
 
               <div class="md-form">
                 {{ form.street_address }}
-                <label for="id_street_address" class="active">Street Address & Apartment No.</label>
+                <label for="id_street_address" class="active">番地/部屋番号(Street Address & Apartment No.)</label>
               </div>
 
               <div class="md-form">
                 {{ form.city }}
-                <label for="id_apartment_address" class="active">City</label>
+                <label for="id_apartment_address" class="active">市町村(City)</label>
               </div>
 
               <!--Grid row-->
@@ -85,7 +85,7 @@
                 <!--Grid column-->
                 <div class="col-lg-4 col-md-6 mb-4">
 
-                  <label for="id_state" class="label">State</label>
+                  <label for="id_state" class="label">都道府県(State)</label>
                   {{ form.state }}
                   <div class="invalid-feedback">
                     State required.
@@ -97,7 +97,7 @@
                 <!--Grid column-->
                 <div class="col-lg-4 col-md-6 mb-4">
 
-                  <label for="id_zip" class="label">Zip</label>
+                  <label for="id_zip" class="label">郵便番号(Zip)</label>
                   {{ form.zip }}
                   <div class="invalid-feedback">
                     Zip code required.
@@ -109,7 +109,7 @@
                 <!--Grid column-->
                 <div class="col-lg-4 col-md-12 mb-4">
 
-                  <label for="id_country" class="label">Country</label>
+                  <label for="id_country" class="label">Country(option)</label>
                   {{ form.country }}
                   <div class="invalid-feedback">
                     Please select a valid country.
@@ -125,9 +125,9 @@
             <hr class="mb-4">
 
             {% if order.get_total %}
-            <button class="btn btn-main btn-lg btn-block" type="submit">Continue to checkout</button>
+            <button class="btn btn-main btn-lg btn-block" type="submit">注文内容確認画面に進む</button>
             {% else %}
-            <a class="btn btn-warning btn-lg btn-block" href="/">Continue shopping</a>
+            <a class="btn btn-warning btn-lg btn-block" href="/">買い物を続ける</a>
             {% endif %}
 
           </form>

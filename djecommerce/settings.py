@@ -20,9 +20,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
     'crispy_forms',
     'django_countries',
     'imagekit',
@@ -60,8 +60,10 @@ TEMPLATES = [
     },
 ]
 
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+# LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ja'
+# TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tokyo'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
@@ -92,14 +94,17 @@ DATABASES = {
 #     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-)
-
+# # Allauth
+# AUTHENTICATION_BACKENDS = (
+#     'django.contrib.auth.backends.ModelBackend',
+#     'allauth.account.auth_backends.AuthenticationBackend',
+# )
 SITE_ID = 1
+
 # Only after Signing Up. Regular Login just go back to the same page (follows ?next in URL).
 LOGIN_REDIRECT_URL = 'user:profile'
+
+LOGIN_URL = 'login'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -135,3 +140,7 @@ if ENVIRONMENT == 'production':
     AWS_S3_SECURE_URLS = True
     # 認証クエリーを無効にします
     AWS_QUERYSTRING_AUTH = False
+
+
+# 数字を千単位で区切る
+USE_THOUSAND_SEPARATOR = True

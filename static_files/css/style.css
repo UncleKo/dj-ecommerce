@@ -9,7 +9,7 @@
   background-color: #86C166; }
 
 body {
-  font-family: "Lato", sans-serif;
+  font-family: "Noto Sans JP", sans-serif;
   font-size: 16px; }
 
 #checkout,
@@ -24,16 +24,21 @@ body {
     font-family: "Lato", sans-serif; }
 
 nav h1 {
-  font-family: Anton, sans-serif;
-  font-weight: 800;
-  font-size: 2rem;
-  margin-bottom: 0; }
+  font: 0/0 a;
+  background: url(https://store-for-nobody.s3-ap-northeast-1.amazonaws.com/logo.png);
+  width: 120px;
+  height: 30px;
+  background-size: contain;
+  background-repeat: no-repeat; }
+
+nav#main-menu {
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: .8rem; }
 
 h2 {
-  font-family: "roboto", sans-serif;
+  font-family: "Noto Sans JP", sans-serif;
   font-weight: 100;
   font-size: 2rem;
-  margin-top: 3rem;
   margin-bottom: 3rem; }
 
 #edit-profile h2,
@@ -54,12 +59,18 @@ h2 {
 .feature .item-detail a.btn-main {
   color: #fff; }
 
+.feature .item-detail .stock {
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: .8rem;
+  font-weight: 400; }
+
 h3 {
   font-size: 1rem;
   font-weight: 800; }
 
 .shipping-address h3,
 .billing-address h3 {
+  font-family: "Noto Sans JP", sans-serif;
   font-weight: 300;
   border-top: 1px solid #999;
   border-bottom: 1px solid #999;
@@ -88,8 +99,10 @@ h3 {
   font-family: meiryo, "Noto Sans JP", sans-serif; }
 
 h5.username {
-  font-family: Anton, sans-serif;
-  font-weight: 500;
+  display: inline;
+  font-family: "Noto Sans JP", sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
   margin: 0;
   padding-right: .5rem;
   padding-left: .5rem; }
@@ -104,18 +117,45 @@ h5.username {
 .address,
 .payment-option,
 .bold {
-  font-weight: 600; }
+  font-weight: 500; }
 
 .radio-label {
   font-weight: 300; }
 
+#pickup-address {
+  margin-left: 3rem;
+  font-size: .7rem; }
+
 #div_id_use_stored_shipping_address .pickup-address {
   font-style: italic;
-  font-size: .9rem;
+  font-size: .6rem;
   margin-left: 3rem; }
 
+form {
+  font-family: "Noto Sans JP", sans-serif; }
+  form legend {
+    font-size: 1.7rem;
+    font-weight: 200;
+    margin-bottom: 3rem; }
+  form label {
+    font-size: .8rem;
+    font-weight: 300; }
+  form small {
+    font-size: .7rem; }
+
+.label {
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: .7rem;
+  font-weight: 300; }
+
+.testing-alert {
+  color: red;
+  font-weight: 400;
+  font-size: .7rem;
+  margin-top: 10px;
+  margin-bottom: 10px; }
+
 #category-menu {
-  margin-top: 1rem;
   margin-bottom: 1rem;
   background-color: #3A8FB7; }
   #category-menu a, #category-menu input::placeholder {
@@ -205,23 +245,18 @@ h5.username {
     .other-items .item a {
       color: #666; }
 
-.label {
-  font-size: .8rem;
-  font-weight: 300; }
-
 .shipping-address .address {
   display: flex;
   align-items: center; }
+  @media (max-width: 768px) {
+    .shipping-address .address {
+      flex-direction: column;
+      align-items: flex-start; } }
 
 #order-info {
   margin-top: 3rem;
   margin-bottom: 5rem;
   font-weight: 400; }
-
-#pickup-address {
-  margin-left: 7rem;
-  font-size: .9rem;
-  font-style: italic; }
 
 table.table {
   margin-top: 4rem;
@@ -276,12 +311,23 @@ img {
   margin: 0;
   padding: 0; }
 
+#item-delete img {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  width: auto;
+  display: block; }
+
 .wrapper {
   min-height: 100vh;
   position: relative; }
 
 main {
+  padding-top: 3rem;
   padding-bottom: 10rem; }
+
+#home,
+#item {
+  margin-top: -3rem; }
 
 footer {
   position: absolute;
@@ -329,6 +375,11 @@ footer {
   color: white;
   padding-bottom: 4px; }
 
+.badge-momo {
+  background-color: #F596AA;
+  color: white;
+  padding-bottom: 4px; }
+
 .promo-code {
   color: #DB4D6D;
   background-color: RGB(245, 150, 170, 0.3); }
@@ -341,6 +392,20 @@ footer {
 a#nav-cart {
   display: flex;
   align-items: center; }
+
+#main-menu .nav-flex-icons div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center; }
+
+@media (max-width: 768px) {
+  #main-menu .nav-flex-icons {
+    flex-direction: column; }
+    #main-menu .nav-flex-icons div {
+      width: 100%; }
+    #main-menu .nav-flex-icons li {
+      padding: 10px; } }
 
 .md-form {
   margin-bottom: 0; }
@@ -400,3 +465,5 @@ header {
 
 #order-list .total-price {
   text-decoration: underline; }
+
+/*# sourceMappingURL=style.css.map */

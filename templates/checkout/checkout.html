@@ -11,7 +11,7 @@
   <div id="checkout" class="container wow fadeIn">
 
     <!-- Heading -->
-    <h2>Checkout form</h2>
+    <h2>配送先住所とお支払い方法</h2>
 
     <!--Grid row-->
     <div class="row">
@@ -36,9 +36,9 @@
             {% if user.shipping_addresses.count %}
 
             <div id="div_id_shipping_address_option" class="form-group">
-              <label for="id_shipping_address_option" class="label mb-3">
-                Shipping Address Option
-              </label>
+              <!-- <label for="id_shipping_address_option" class="label mb-3">
+                住所を選択する
+              </label> -->
               <div id="id_shipping_address_option" class="d-block">
                 {% for value, name in form.fields.shipping_address_option.choices %}
                 <div class="custom-control custom-radio">
@@ -51,8 +51,8 @@
                 <div class="mb-4">
                   <p class="address mb-0 ml-4">{{ primary_shipping_address}}</p>
                   {% if user.shipping_addresses.count > 1 %}
-                  <p class="" id="pickup-address">Pick up another address from stored addresses?
-                    <a href="{% url 'user:primary-shipping-address' %}?next={{ request.path }}">Click Here</a>
+                  <p class="" id="pickup-address">他の登録済み住所を選択する
+                    <a href="{% url 'user:primary-shipping-address' %}?next={{ request.path }}">こちらをクリック</a>
                     {% endif %}
                 </div>
                 {% endif %}
@@ -68,7 +68,7 @@
             </div> -->
 
             {% else %}
-            <h6 class="mt-3 mb-5">Please Fill in your Shipping Address.</h6>
+            <h6 class="mt-3 mb-5">配送先住所をご記入ください</h6>
             {% endif %}
 
             <div id="shipping-address">
@@ -77,14 +77,14 @@
                 <!-- <input type="text" id="address" class="form-control" placeholder="1234 Main St"> -->
 
                 {{ form.street_address }}
-                <label for="id_street_address" class="active">Street Address & Apartment No.</label>
+                <label for="id_street_address" class="active">番地/部屋番号</label>
               </div>
 
               <!--address-2-->
               <div class="md-form">
                 <!-- <input type="text" id="apartment_address" class="form-control" placeholder="Apartment or suite"> -->
                 {{ form.city }}
-                <label for="id_apartment_address" class="active">City</label>
+                <label for="id_apartment_address" class="active">市町村</label>
               </div>
 
               <!--Grid row-->
@@ -92,7 +92,7 @@
 
                 <!--Grid column-->
                 <div class="col-lg-4 col-md-6 mb-4">
-                  <label for="id_state" class="label">State</label>
+                  <label for="id_state" class="label">都道府県</label>
                   {{ form.state }}
                   <div class="invalid-feedback">
                     State required.
@@ -102,7 +102,7 @@
 
                 <!--Grid column-->
                 <div class="col-lg-4 col-md-6 mb-4">
-                  <label for="id_zip" class="label">Zip</label>
+                  <label for="id_zip" class="label">郵便番号</label>
                   <!-- <input type="text" class="form-control" id="zip" placeholder="" required> -->
                   {{ form.zip }}
                   <div class="invalid-feedback">
@@ -113,12 +113,12 @@
 
                 <!--Grid column-->
                 <div class="col-lg-4 col-md-12 mb-4">
-                  <label for="id_country" class="label">Country</label>
+                  <!-- <label for="id_country" class="label">国(任意)</label> -->
                   <!-- <select class="custom-select d-block w-100" id="country" required>
                   <option value="">Choose...</option>
                   <option>United States</option>
                 </select> -->
-                  {{ form.country }}
+                  <!-- {{ form.country }} -->
                   <div class="invalid-feedback">
                     Please select a valid country.
                   </div>
@@ -133,7 +133,7 @@
             <hr>
 
             <div id="div_id_delivery_time" class="form-group">
-              <label for="id_delivery_time" class="label">Delivery time</label>
+              <label for="id_delivery_time" class="label">配達時間ご指定</label>
               <div id="id_delivery_time" class="">
                 <select name="delivery_time" class="select form-control" id="id_delivery_time">
                   {% for value, name in form.fields.delivery_time.choices %}
@@ -147,7 +147,7 @@
 
             <div id="div_id_payment_option" class="form-group">
               <label for="id_payment_option" class="label requiredField">
-                Payment option<span class="asteriskField">*</span>
+                お支払い方法<span class="asteriskField">*</span>
               </label>
               <div id="id_payment_option" class="d-block">
                 {% for value, name in form.fields.payment_option.choices %}
@@ -183,7 +183,7 @@
             <hr class="mb-4">
 
             {% if order.get_total %}
-            <button class="btn btn-main btn-lg btn-block" type="submit">Continue to Checkout</button>
+            <button class="btn btn-main btn-lg btn-block" type="submit">注文手続きを進める</button>
             {% else %}
             <a class="btn btn-main btn-lg btn-block" href="/">Continue shopping</a>
             {% endif %}

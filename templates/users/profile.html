@@ -8,58 +8,81 @@
 <main>
   <div id="profile" class="container">
 
-    <h2>Your Profile</h2>
+    <h2>プロフィール</h2>
 
-    <div class="mt-5">
+    <div>
 
       <div>
-        <p class="label mb-0">Your Name</p>
-        <p class="bold">{{ user.first_name }} {{ user.last_name }}</p>
+        <p class="label mb-0">お名前</p>
+        <p class="bold">{{ user.last_name }}{{ user.first_name }} </p>
       </div>
 
       <div>
-        <p class="label mb-0">Your Email Address</p>
+        <p class="label mb-0">メールアドレス</p>
         <p class="bold">{{ user.email }}</p>
       </div>
 
       <div>
-        <p class="label mb-0">Your Username</p>
+        <p class="label mb-0">ユーザーネーム</p>
         <p class="bold">{{ user.username }}</p>
       </div>
 
-      <a href="{% url 'user:edit-profile' pk=user.id %} " class="btn btn-outline-primary btn-sm mt-4">Edit Profile</a>
+      <a href="{% url 'user:edit-profile' pk=user.id %} " class="btn btn-outline-main btn-sm mt-4">プロフィールを編集する</a>
 
     </div>
 
     <div class="shipping-address">
-      <h3>Shipping Addresses</h3>
+      <h3>配送先住所</h3>
       {% for shipping_address in user.shipping_addresses.all %}
       <div class="mb-3">
-        <p class=" label mb-0">Shipping address {% if forloop.counter %}{{ forloop.counter }}{% endif %}</p>
+        <p class=" label mb-0">配送先住所 {% if forloop.counter %}{{ forloop.counter }}{% endif %}</p>
         <p class="address mb-0">
-          <span>{{ shipping_address }}</span>
-          {% if shipping_address.primary %}
-          <span class="badge badge-danger ml-2">Primary Address</span>
-          <a href="{% url 'user:primary-shipping-address' %}?next={{ request.path }}"
-            class="btn btn-outline-primary btn-sm">Change Primary Address</a>
-          {% endif %}
+          〒{{ shipping_address.zip }}
         </p>
+        <p class="address mb-0">
+          {{ shipping_address.state }}
+          {{ shipping_address.city }}
+          {{ shipping_address.street_address }}
+        </p>
+        {% if shipping_address.primary and user.shipping_addresses.count > 1 %}
+        <div>
+          <span class="badge badge-danger ml-2">Primary Address</span>
+          <a href="{% url 'user:primary-shipping-address' %}?next={{ request.path }}" class=""><small>Primary
+              Addressを変更する</small></a>
+
+        </div>
+        {% endif %}
         <a href="{% url 'user:update-shipping-address' pk=shipping_address.id %}"
-          class="btn btn-outline-primary btn-sm">edit</a>
+          class="btn btn-outline-main btn-sm">編集する</a>
+        {% if not shipping_address.primary %}
         <a href="{% url 'user:delete-shipping-address' pk=shipping_address.id %}"
-          class="btn btn-outline-danger btn-sm">delete</a>
+          class="btn btn-outline-danger btn-sm">削除する</a>
+        {% endif %}
       </div>
       {% endfor %}
+      <a href="{% url 'user:create-shipping-address' %}" class="btn btn-main btn-sm">配送先住所を追加</a>
     </div>
 
     <div class="billing-address">
-      <h3>Billing Addresses</h3>
+      <h3>請求先住所</h3>
       {% for billing_address in user.billing_addresses.all %}
       <div class="mb-3">
-        <p class=" label mb-0">Billing Address {% if forloop.counter %}{{ forloop.counter }}{% endif %}</p>
-        <p class="bold mb-0">{{ billing_address }}</p>
+        <p class=" label mb-0">請求先住所 {% if forloop.counter %}{{ forloop.counter }}{% endif %}</p>
+        <p class="address mb-0">
+          〒{{ billing_address.zip }}
+        </p>
+        <p class="address mb-0">
+          {{ billing_address.state }}
+          {{ billing_address.city }}
+          {{ billing_address.street_address }}
+        </p>
+        <a href="{% url 'user:update-billing-address' pk=billing_address.id %}"
+          class="btn btn-outline-main btn-sm">編集する</a>
+        <a href="{% url 'user:delete-billing-address' pk=billing_address.id %}"
+          class="btn btn-outline-danger btn-sm">削除する</a>
       </div>
       {% endfor %}
+      <a href="{% url 'user:create-billing-address' %}" class="btn btn-main btn-sm">請求先住所を追加</a>
     </div>
 
 

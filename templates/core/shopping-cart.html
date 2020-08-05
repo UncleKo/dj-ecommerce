@@ -11,7 +11,7 @@
 
     <div class="table-responsive text-nowrap">
 
-      <h2>Your Shopping Cart</h2>
+      <h2>ショッピングカート</h2>
 
       <table class="table">
         <thead>
@@ -44,12 +44,12 @@
             {% if order_item.item.discount_price %}
             <td>
               <span class=" mr-1">
-                <del>${{ order_item.item.price }}</del>
+                <del>¥{{ order_item.item.price }}</del>
               </span>
-              ${{ order_item.item.discount_price }}
+              ¥{{ order_item.item.discount_price }}
             </td>
             {% else %}
-            <td>${{ order_item.item.price }}</td>
+            <td>¥{{ order_item.item.price }}</td>
             {% endif %}
 
             <td>
@@ -70,10 +70,10 @@
 
             <td>
               <!-- {% if order_item.item.discount_price %}
-              ${{ order_item.get_total_discount_item_price }}
-              <span class="badge badge-saving ml-1">Saving ${{ order_item.get_amount_saved }}</span>
+              ¥{{ order_item.get_total_discount_item_price }}
+              <span class="badge badge-saving ml-1">Saving ¥{{ order_item.get_amount_saved }}</span>
               {% else %}
-              ${{ order_item.get_total_item_price }}
+              ¥{{ order_item.get_total_item_price }}
               {% endif %} -->
               {{ order_item.get_final_price }}
             </td>
@@ -93,21 +93,21 @@
 
           {% empty %}
           <tr>
-            <td colspan='5'>Your cart is empty.</td>
+            <td colspan='5'>ショッピングカートに商品は入ってません</td>
           </tr>
           {% endfor %}
           {% if order.get_total %}
           <tr>
-            <td colspan="4" class="text-right">Sub Total Price</td>
-            <td class="">${{ order.get_total }}</td>
+            <td colspan="4" class="text-right">小計(税込)</td>
+            <td class="">¥{{ order.get_total }}</td>
           </tr>
           <tr>
-            <td colspan="4" class="text-right">Shipping Fee</td>
-            <td class="">${{ order.get_postage }}</td>
+            <td colspan="4" class="text-right">送料</td>
+            <td class="">¥{{ order.get_postage }}</td>
           </tr>
           <tr>
-            <td colspan="4" class="bold text-right">Total Price</td>
-            <td class="total-price bold">${{ order.get_total_w_postage }}</td>
+            <td colspan="4" class="bold text-right">合計金額</td>
+            <td class="total-price bold">¥{{ order.get_total_w_postage }}</td>
           </tr>
           {% endif %}
         </tbody>
@@ -117,10 +117,10 @@
 
     <div class="clearfix">
       {% if order.get_total %}
-      <a class='btn btn-main float-right ml-2' href="{% url 'core:checkout' %}">Proceed to Checkout</a>
-      <a class='btn btn-second float-right' href="/">Continue shopping</a>
+      <a class='btn btn-main float-right ml-2' href="{% url 'core:checkout' %}">ご注文手続きに進む</a>
+      <a class='btn btn-second float-right' href="/">買い物を続ける</a>
       {% else %}
-      <a class='btn btn-second float-right' href="/">Continue shopping</a>
+      <a class='btn btn-second float-right' href="/">買い物を続ける</a>
       {% endif %}
     </div>
 

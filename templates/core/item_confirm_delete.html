@@ -1,18 +1,16 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 
-{% block head_title %}送付先住所の削除{% endblock %}
+{% block head_title %}Delete Item{% endblock %}
 
 {% block content %}
-<div class="container">
+<div id="item-delete" class="container">
   <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <fieldset class="form-group">
-      <h5 class="text-alert">この住所を削除してもよろしいですか？</h5>
-      〒{{ object.zip }}
-      {{ object.state }}
-      {{ object.city }},
-      {{ object.street_address }}
+      <h5 class="text-alert">この商品を削除してもよろしいですか？</h5>
+      <img src="{{ item.image_small.url }}" alt="">
+      {{ object.title }}
     </fieldset>
     <div class="form-group">
       <button class="btn btn-outline-danger" type="submit">削除する</button>

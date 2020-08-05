@@ -16,14 +16,14 @@ class ShippingAddress(models.Model):
     primary = models.BooleanField(default=False)
 
     def __str__(self):
-        # return self.user.username
-        return f"{self.street_address}, {self.city}, {self.state} {self.zip} {self.country}"
+        return f"〒{self.zip} {self.state} {self.city} {self.street_address}"
+        # return f"{self.street_address}, {self.city}, {self.state} {self.zip} {self.country}"
 
-    def get_absolute_url(self):
-        # return reverse("user:profile", kwargs={
-        #     'pk': self.user.pk
-        # })
-        return resolve_url('user:profile', pk=self.user.pk)
+    # def get_absolute_url(self):
+    #     # return reverse("user:profile", kwargs={
+    #     #     'pk': self.user.pk
+    #     # })
+    #     return resolve_url('user:profile', pk=self.user.pk)
     # def get_absolute_url(self):
     #     return reverse("user:update-shipping-address", kwargs={
     #         'pk': self.pk
@@ -41,7 +41,8 @@ class BillingAddress(models.Model):
     primary = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.street_address}, {self.city}, {self.state} {self.zip} {self.country}"
+        return f"〒{self.zip} {self.state} {self.city} {self.street_address}"
+        # return f"{self.street_address}, {self.city}, {self.state} {self.zip} {self.country}"
 
     def get_absolute_url(self):
         return reverse("user:profile", kwargs={
