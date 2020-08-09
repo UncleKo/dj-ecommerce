@@ -125,6 +125,10 @@ footer {
   padding-bottom: 4px;
 }
 
+.badge-dispatched {
+  background-color: $asagi;
+}
+
 .badge-momo {
   background-color: $momo;
   color: white;
@@ -243,3 +247,39 @@ header {
   text-decoration: underline;
 }
 
+ .flex-buttons {
+   width: 50%;
+   float: right;
+   display: flex;
+   flex-wrap: wrap;
+   button,
+   a {
+     flex: 1;
+     &:first-child {
+       margin-left: 0;
+     }
+     &:last-child {
+       margin-right: 0;
+     }
+   } //a
+   @media (max-width: 768px) {
+     width: 100%;
+     a {
+       flex-basis: 100%;
+       margin-left: 0;
+       margin-right: 0;
+     } //a
+    } //@media
+ } //.flex-buttons
+
+ #btn-add-item {
+   width: 100%;
+   margin-left: 0;
+   margin-right: 0;
+ }
+
+//  .table.item-list {
+//      @media (max-width: 768px) {
+//        display: none;
+//      }
+//  }

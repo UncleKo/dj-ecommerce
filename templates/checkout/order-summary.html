@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load humanize %}
 
 {% block head_title %}ご注文内容のご確認{% endblock %}
 
@@ -58,12 +59,12 @@
             {% if order_item.item.discount_price %}
             <td>
               <span class=" mr-1">
-                <del>¥{{ order_item.item.price }}</del>
+                <del>¥{{ order_item.item.price | intcomma }}</del>
               </span>
-              ¥{{ order_item.item.discount_price }}
+              ¥{{ order_item.item.discount_price | intcomma }}
             </td>
             {% else %}
-            <td>¥{{ order_item.item.price }}</td>
+            <td>¥{{ order_item.item.price | intcomma }}</td>
             {% endif %}
 
             <td>
@@ -84,10 +85,10 @@
 
             <td>
               {% if order_item.item.discount_price %}
-              ¥{{ order_item.get_total_discount_item_price }}
-              <span class="badge badge-saving ml-1">Saving ¥{{ order_item.get_amount_saved }}</span>
+              ¥{{ order_item.get_total_discount_item_price | intcomma }}
+              <span class="badge badge-saving ml-1">Saving ¥{{ order_item.get_amount_saved | intcomma }}</span>
               {% else %}
-              ¥{{ order_item.get_total_item_price }}
+              ¥{{ order_item.get_total_item_price | intcomma }}
               {% endif %}
             </td>
 
@@ -111,15 +112,15 @@
           {% if order.get_total %}
           <tr>
             <td colspan="4" class="text-right">小計(税込)</td>
-            <td class="">¥{{ order.get_total }}</td>
+            <td class="">¥{{ order.get_total | intcomma }}</td>
           </tr>
           <tr>
             <td colspan="4" class="text-right">送料</td>
-            <td class="">¥{{ order.get_postage }}</td>
+            <td class="">¥{{ order.get_postage | intcomma }}</td>
           </tr>
           <tr>
             <td colspan="4" class="bold text-right">ご注文合計金額</td>
-            <td class="total-price bold">¥{{ order.get_total_w_postage }}</td>
+            <td class="total-price bold">¥{{ order.get_total_w_postage | intcomma }}</td>
           </tr>
           {% endif %}
         </tbody>

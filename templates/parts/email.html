@@ -662,25 +662,24 @@
     <div class="table-responsive text-nowrap">
 
       {% if dispatched %}
-      <h2> Your Order has been dispatched!</h2>
+      <h2>商品が発送されました。</h2>
       {% else %}
-      <h2>Your Order Detail</h2>
-      <p>Please make sure the detail again.</p>
+      <h2>ご注文内容</h2>
       {% endif %}
 
       <h3>{{ order.user.first_name }} {{ order.user.last_name }}</h3>
 
-      <h3>Order no. {{ order.id}} </h3>
-      <h3>Order date: {{ order.ordered_date }}</h3>
+      <h3>注文番号: {{ order.id}} </h3>
+      <h3>注文日時: {{ order.ordered_date }}</h3>
 
       <table class="table">
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Item title</th>
-            <th scope="col">Price</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Total Item Price</th>
+            <th scope="col">商品名</th>
+            <th scope="col">価格</th>
+            <th scope="col">数量</th>
+            <th scope="col">合計</th>
           </tr>
         </thead>
         <tbody>
@@ -700,47 +699,34 @@
             {% if order_item.item.discount_price %}
             <td>
               <span class=" mr-1">
-                <del>${{ order_item.item.price }}</del>
+                <del>¥{{ order_item.item.price }}</del>
               </span>
-              ${{ order_item.item.discount_price }}
+              ¥{{ order_item.item.discount_price }}
             </td>
             {% else %}
-            <td>${{ order_item.item.price }}</td>
+            <td>¥{{ order_item.item.price }}</td>
             {% endif %}
 
             <td>
-              <a href="{% url 'core:remove-single-item-from-cart' order_item.item.slug %}">
-                <i class="fas fa-minus mr-2"></i>
-              </a>
-              {{ order_item.quantity }}
-              <a href="{% url 'core:add-to-cart' order_item.item.slug %}">
-                <i class="fas fa-plus ml-2"></i>
-              </a>
-            </td>
-
-            <td>
-              ${{ order_item.get_total_item_price }}
+              ¥{{ order_item.get_total_item_price }}
             </td>
 
           </tr>
 
-          {% empty %}
-          <tr>
-            <td colspan='5'>Your cart is empty.</td>
-          </tr>
           {% endfor %}
+
           {% if order.get_total %}
           <tr>
-            <td colspan="4" class="text-right">Sub Total Price</td>
-            <td class="">${{ order.get_total }}</td>
+            <td colspan="3" class="text-right">小計</td>
+            <td class="">¥{{ order.get_total }}</td>
           </tr>
           <tr>
-            <td colspan="4" class="text-right">Shipping Fee</td>
-            <td class="">${{ order.get_postage }}</td>
+            <td colspan="3" class="text-right">送料</td>
+            <td class="">¥{{ order.get_postage }}</td>
           </tr>
           <tr>
-            <td colspan="4" class="bold text-right">Total Price</td>
-            <td class="total-price bold">${{ order.get_total_w_postage }}</td>
+            <td colspan="3" class="bold text-right">合計金額</td>
+            <td class="total-price bold">¥{{ order.get_total_w_postage }}</td>
           </tr>
           {% endif %}
         </tbody>
@@ -750,22 +736,22 @@
 
     <div id="order-info">
       <div>
-        <p class="label mb-0">Shipping Address</p>
+        <p class="label mb-0">送付先住所</p>
         <p>{{ order.shipping_address }}</p>
       </div>
 
       <div>
-        <p class="label mb-0">Billing Address</p>
+        <p class="label mb-0">請求先住所</p>
         <p>{{ order.billing_address }}</p>
       </div>
 
       <div>
-        <p class="label mb-0">Delivery Time</p>
+        <p class="label mb-0">配送時間帯</p>
         <p>{{ order.get_delivery_time_display }}</p>
       </div>
 
       <div>
-        <p class="label mb-0">Payment Method</p>
+        <p class="label mb-0">お支払い方法</p>
         <p>{{ order.get_payment_option_display }}</p>
       </div>
 

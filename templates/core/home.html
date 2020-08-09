@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% block head_title %}a Store{% endblock %}
+{% load humanize %}
+{% block head_title %}a Store ホーム{% endblock %}
 {% block content %}
 
 <!--Main layout-->
@@ -85,16 +86,16 @@
               <h2>{{ featured_item.title }}</h2>
             </a>
             <p class="lead">
-              {% if featured_item.discount_price %}
+              {% if featured_item.discount_price  %}
               <span class="mr-1">
-                <small><del>¥{{ featured_item.price }}</del></small>
+                <small><del>¥{{ featured_item.price | intcomma }}</del></small>
               </span>
-              <span>¥{{ featured_item.discount_price }}</span>
+              <span>¥{{ featured_item.discount_price | intcomma }}</span>
               {% else %}
-              <span>¥{{ featured_item.price }}</span>
+              <span>¥{{ featured_item.price | intcomma }}</span>
               {% endif %}
             </p>
-            <p class="mt-3 mb-3">{{ featured_item.description }} </p>
+            <p class="mt-3 mb-3">{{ featured_item.description | safe | linebreaks }} </p>
 
           </div>
 
@@ -119,12 +120,12 @@
               <a href="{{ item.get_absolute_url }}">
                 <h3>{{ item.title }}</h3>
               </a>
-              <h4>¥{{ item.price }}</h4>
+              <h4>¥{{ item.price | intcomma }}</h4>
               {% if item.image %}
               <div>
                 {% if item.image %}
                 <a href="{{ item.get_absolute_url }}">
-                  <img src="{{ item.image_small.url }}" class="" alt="" />
+                  <img src="{{ item.image_medium.url }}" class="" alt="" />
                 </a>
                 {% endif %}
               </div>

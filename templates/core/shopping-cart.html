@@ -1,6 +1,7 @@
 {% extends "base.html" %}
+{% load humanize %}
 
-{% block head_title %}Shopping Cart{% endblock %}
+{% block head_title %}ショッピングカート{% endblock %}
 
 {% block content %}
 
@@ -13,7 +14,7 @@
 
       <h2>ショッピングカート</h2>
 
-      <table class="table">
+      <table class="table item-list">
         <thead>
           <tr>
             <th scope="col"></th>
@@ -44,12 +45,12 @@
             {% if order_item.item.discount_price %}
             <td>
               <span class=" mr-1">
-                <del>¥{{ order_item.item.price }}</del>
+                <del>¥{{ order_item.item.price | intcomma }}</del>
               </span>
-              ¥{{ order_item.item.discount_price }}
+              ¥{{ order_item.item.discount_price | intcomma }}
             </td>
             {% else %}
-            <td>¥{{ order_item.item.price }}</td>
+            <td>¥{{ order_item.item.price | intcomma }}</td>
             {% endif %}
 
             <td>
@@ -69,13 +70,12 @@
             </td>
 
             <td>
-              <!-- {% if order_item.item.discount_price %}
-              ¥{{ order_item.get_total_discount_item_price }}
-              <span class="badge badge-saving ml-1">Saving ¥{{ order_item.get_amount_saved }}</span>
+              {% if order_item.item.discount_price %}
+              ¥{{ order_item.get_total_discount_item_price | intcomma }}
+              <span class="badge badge-saving ml-1">Saving ¥{{ order_item.get_amount_saved | intcomma }}</span>
               {% else %}
               ¥{{ order_item.get_total_item_price }}
-              {% endif %} -->
-              {{ order_item.get_final_price }}
+              {% endif %}
             </td>
 
             <td>
@@ -99,15 +99,17 @@
           {% if order.get_total %}
           <tr>
             <td colspan="4" class="text-right">小計(税込)</td>
-            <td class="">¥{{ order.get_total }}</td>
+            <td class="">¥{{ order.get_total | intcomma }}</td>
           </tr>
           <tr>
             <td colspan="4" class="text-right">送料</td>
-            <td class="">¥{{ order.get_postage }}</td>
+            <td class="">
+              ¥{{ order.get_postage | intcomma }}<small class="text-danger">
+                (あと{{ order.to_free_postage }}円のお買い上げで送料無料になります。)</small></td>
           </tr>
           <tr>
             <td colspan="4" class="bold text-right">合計金額</td>
-            <td class="total-price bold">¥{{ order.get_total_w_postage }}</td>
+            <td class="total-price bold">¥{{ order.get_total_w_postage | intcomma}}</td>
           </tr>
           {% endif %}
         </tbody>
@@ -115,12 +117,12 @@
 
     </div>
 
-    <div class="clearfix">
+    <div class="clearfix flex-buttons">
       {% if order.get_total %}
-      <a class='btn btn-main float-right ml-2' href="{% url 'core:checkout' %}">ご注文手続きに進む</a>
-      <a class='btn btn-second float-right' href="/">買い物を続ける</a>
+      <a class='btn btn-second' href="/">買い物を続ける</a>
+      <a class='btn btn-main' href="{% url 'core:checkout' %}">ご注文手続きに進む</a>
       {% else %}
-      <a class='btn btn-second float-right' href="/">買い物を続ける</a>
+      <a class='btn btn-second' href="/">買い物を続ける</a>
       {% endif %}
     </div>
 

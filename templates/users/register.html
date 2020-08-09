@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
-{% block head_title %}Signup{% endblock %}
+{% block head_title %}会員登録{% endblock %}
 
 {% block content %}
 
@@ -9,7 +9,7 @@
     <form method="POST">
       {% csrf_token %}
       <fieldset class="form-group">
-        <legend class="border-bottm">メンバー登録</legend>
+        <legend class="border-bottm">会員登録</legend>
         <!-- {{ form.as_p }} -->
         {{ form|crispy }}
       </fieldset>

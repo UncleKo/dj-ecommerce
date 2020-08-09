@@ -375,6 +375,9 @@ footer {
   color: white;
   padding-bottom: 4px; }
 
+.badge-dispatched {
+  background-color: #33A6B8; }
+
 .badge-momo {
   background-color: #F596AA;
   color: white;
@@ -465,5 +468,32 @@ header {
 
 #order-list .total-price {
   text-decoration: underline; }
+
+.flex-buttons {
+  width: 50%;
+  float: right;
+  display: flex;
+  flex-wrap: wrap; }
+  .flex-buttons button,
+  .flex-buttons a {
+    flex: 1; }
+    .flex-buttons button:first-child,
+    .flex-buttons a:first-child {
+      margin-left: 0; }
+    .flex-buttons button:last-child,
+    .flex-buttons a:last-child {
+      margin-right: 0; }
+  @media (max-width: 768px) {
+    .flex-buttons {
+      width: 100%; }
+      .flex-buttons a {
+        flex-basis: 100%;
+        margin-left: 0;
+        margin-right: 0; } }
+
+#btn-add-item {
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0; }
 
 /*# sourceMappingURL=style.css.map */

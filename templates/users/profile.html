@@ -46,9 +46,9 @@
         </p>
         {% if shipping_address.primary and user.shipping_addresses.count > 1 %}
         <div>
-          <span class="badge badge-danger ml-2">Primary Address</span>
-          <a href="{% url 'user:primary-shipping-address' %}?next={{ request.path }}" class=""><small>Primary
-              Addressを変更する</small></a>
+          <span class="badge badge-danger ml-2">優先住所</span>
+          <a href="{% url 'user:primary-shipping-address' %}?next={{ request.path }}"
+            class=""><small>優先住所を変更する</small></a>
 
         </div>
         {% endif %}

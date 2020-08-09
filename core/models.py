@@ -155,10 +155,13 @@ class Order(models.Model):
 
     def get_postage(self):
         total = self.get_total()
-        if total > 50:
+        if total > 5000:
             return 0
         else:
-            return 5
+            return 500
+
+    def to_free_postage(self):
+        return 5000 - self.get_total()
 
     def get_total_w_postage(self):
         return self.get_total() + self.get_postage()

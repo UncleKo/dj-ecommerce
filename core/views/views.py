@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from django.utils import timezone
 from django.contrib.auth.models import User
-# from django.db.models import F
+from django.db.models import F
 # from django.urls import reverse_lazy
 
 from ..models import Item, OrderItem, Order, Payment
@@ -168,7 +168,7 @@ def order_dispatched(request, pk):
     else:
         order.dispatched = True
         send_mail(
-            f'Order no. {order.id} 商品が発送されました。',
+            f'商品が発送されました。',
             msg_plain,
             'uncleko496@gmail.com',
             [request.user.email, 'uncleko496@gmail.com'],
@@ -251,9 +251,9 @@ def add_to_cart(request, slug):
                 # stockが設定されてる場合
                 if order_item.item.stock:
                     if order_item.quantity < order_item.item.stock:
-                        order_item.quantity += 1
+                        # order_item.quantity += 1
                         # # To avoid a race condition:  2 people click "Add to cart" at the same time or a user clicks very fast that the first request isn't finished.
-                        # order_item.quantity = F('quantity') + 1
+                        order_item.quantity = F('quantity') + 1
                         order_item.save()
                         messages.info(request, "商品がカートに入りました。")
                     else:
@@ -261,7 +261,8 @@ def add_to_cart(request, slug):
                             request, "在庫が不足しています。")
                 # stockが設定されてれない場合
                 else:
-                    order_item.quantity += 1
+                    # order_item.quantity += 1
+                    order_item.quantity = F('quantity') + 1
                     order_item.save()
                     messages.info(request, "This item quantity was updated.")
 

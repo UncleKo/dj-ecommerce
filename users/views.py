@@ -264,8 +264,8 @@ def register(request):
                                     )
             login(request, new_user)
             send_mail(
-                'Thank you for registering',
-                f'You were registered as {request.user.username}',
+                'ご登録ありがとうございます',
+                f'ユーザー名:{request.user.username}として会員登録が完了致しました。',
                 'uncleko496@gmail.com',
                 [request.user.email, 'uncleko496@gmail.com'],
                 fail_silently=False,

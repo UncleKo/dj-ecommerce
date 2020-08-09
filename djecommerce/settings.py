@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 
     'django.contrib.sites',
     # 'allauth',
@@ -143,4 +144,5 @@ if ENVIRONMENT == 'production':
 
 
 # 数字を千単位で区切る
-USE_THOUSAND_SEPARATOR = True
+NUMBER_GROUPING = 3
+# USE_THOUSAND_SEPARATOR = True

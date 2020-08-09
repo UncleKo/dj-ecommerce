@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 
-{% block head_title %}Delete Item{% endblock %}
+{% block head_title %}商品の削除{% endblock %}
 
 {% block content %}
 <div id="item-delete" class="container">
@@ -9,7 +9,9 @@
     {% csrf_token %}
     <fieldset class="form-group">
       <h5 class="text-alert">この商品を削除してもよろしいですか？</h5>
+      {% if item.image %}
       <img src="{{ item.image_small.url }}" alt="">
+      {% endif %}
       {{ object.title }}
     </fieldset>
     <div class="form-group">

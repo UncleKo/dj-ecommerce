@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% block head_title %}Order List{% endblock %}
+{% load humanize %}
+{% block head_title %}注文履歴{% endblock %}
 
 {% block content %}
 
@@ -16,20 +17,27 @@
       <p class="bold">{{ order.ordered_date }}</p>
       <p>
         <span class="label">Status:</span>
-        <span class="status">{% if order.dispatched %}Dispatched{% else %}Preparing for Shippment{% endif %}</span>
+        {% if order.dispatched %}
+        <span class="status badge badge-dispatched">発送済み</span>
+        {% else %}
+        <span class="status badge badge-danger">発送準備中</span>
+        {% endif %}
+        </span>
         {% if list_for_staff %}
         <!-- <a href="{% url 'core:order-dispatched' order.id %}" class=" btn btn-outline-primary btn-sm"> -->
+        {% if order.dispatched %}
         <a href="{{ order.get_order_dispatched }}" class=" btn btn-outline-main btn-sm">
-          {% if order.dispatched %}
-          Undo Dispatched
-          {% else %}
-          Dispatched
-          {% endif %}
+          発送済み取り消し
         </a>
+        {% else %}
+        <a href="{{ order.get_order_dispatched }}" class=" btn btn-outline-danger btn-sm">
+          発送済みにする
+        </a>
+        {% endif %}
       </p>
       {% endif %}
-      <p class="">Shipping Fee: ${{ order.get_postage }}</p>
-      <p class="bold total-price">Total Price: ${{ order.get_total_w_postage }}</p>
+      <p class="">送料: ¥{{ order.get_postage | intcomma }}</p>
+      <p class="bold total-price">合計金額: ¥{{ order.get_total_w_postage | intcomma }}</p>
 
 
     </div>
@@ -54,10 +62,10 @@
 
           {% if order_item.item.discount_price %}
           <td>
-            ${{ order_item.item.discount_price }}
+            ¥{{ order_item.item.discount_price | intcomma }}
           </td>
           {% else %}
-          <td>${{ order_item.item.price }}</td>
+          <td>¥{{ order_item.item.price | intcomma}}</td>
           {% endif %}
 
           <td>
@@ -65,7 +73,7 @@
           </td>
 
           <td>
-            ${{ order_item.get_final_price }}
+            ¥{{ order_item.get_final_price | intcomma }}
           </td>
 
 
@@ -79,10 +87,10 @@
         {% endfor %}
 
         <tr>
-          <td colspan="4" class="text-right">Sub Total Price</td>
+          <td colspan="4" class="text-right">小計</td>
           <td>
             {% if order.get_total %}
-            <p class="bold total-price">${{ order.get_total }}</p>
+            <p class="bold total-price">¥{{ order.get_total | intcomma }}</p>
             {% endif %}
           </td>
         </tr>

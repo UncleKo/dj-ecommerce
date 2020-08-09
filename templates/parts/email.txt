@@ -1,49 +1,49 @@
 
 {% if dispatched %}
-Your Order: No. {order.id} has been dispatched!
+商品が発送されました。
 {% else %}
-Your Order Detail.
+ご注文内容
 {% endif %}
 
 {{ order.user.first_name }} {{ order.user.last_name }}
       
-Order no. {{ order.id}}
+注文番号: {{ order.id}}
 
-Order date: {{ order.ordered_date }}
+注文日時: {{ order.ordered_date }}
 
 {% for order_item in order.items.all %}
 No. {{ forloop.counter }}
 Item: {{ order_item.item.title }}
 {% if order_item.item.discount_price %}
-  Price: ${{ order_item.item.discount_price }}
-  Quantity: {{ order_item.quantity }}
+  価格: ¥{{ order_item.item.discount_price }}
+  数量: {{ order_item.quantity }}
 -----------------------------------------
-  Total: ${{ order_item.get_total_discount_item_price }}
+  合計: ¥{{ order_item.get_total_discount_item_price }}
 {% else %}
-  Price:  ${{ order_item.item.price }}
-  Quantity: {{ order_item.quantity }}
+  価格:  ¥{{ order_item.item.price }}
+  数量: {{ order_item.quantity }}
 -----------------------------------------
-  Total: ${{ order_item.get_total_item_price }}
+  合計: ¥{{ order_item.get_total_item_price }}
 {% endif %}
 {% endfor %}
 
-Sub Total Price: {{ order.get_total }}
+小計: {{ order.get_total }}
 -----------------------------------------
-Shipping Fee: {{ order.get_postage }}
+送料: {{ order.get_postage }}
 
-Total Price: {{ order.get_total_w_postage }}
+合計金額: {{ order.get_total_w_postage }}
 
 
-Payment Option: {{ order.get_payment_option_display }}
+お支払い方法: {{ order.get_payment_option_display }}
 
-Billing Address:
-  {{ order.billing_address.street_address }}, {{ order.billing_address.city }}
-  {{ order.billing_address.state }} {{ order.billing_address.zip }} 
-  {{ order.billing_address.country }}
-  
-Shipping Address:
+送付先住所:
   {{ order.shipping_address.street_address }}, {{ order.shipping_address.city }}
   {{ order.shipping_address.state }} {{ order.shipping_address.zip }} 
   {{ order.shipping_address.country }}
   
-Delivery Time: {{ order.get_delivery_time_display }}
+請求先住所:
+  {{ order.billing_address.street_address }}, {{ order.billing_address.city }}
+  {{ order.billing_address.state }} {{ order.billing_address.zip }} 
+  {{ order.billing_address.country }}
+  
+配送時間帯: {{ order.get_delivery_time_display }}
