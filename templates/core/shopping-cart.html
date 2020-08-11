@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load humanize %}
 
-{% block head_title %}ショッピングカート{% endblock %}
+{% block head_title %}ショッピングカート - {{ request.site.siteinfo.title }}{% endblock %}
 
 {% block content %}
 
@@ -104,8 +104,15 @@
           <tr>
             <td colspan="4" class="text-right">送料</td>
             <td class="">
-              ¥{{ order.get_postage | intcomma }}<small class="text-danger">
-                (あと{{ order.to_free_postage }}円のお買い上げで送料無料になります。)</small></td>
+              ¥{{ order.get_postage | intcomma }}
+              {% if order.get_postage %}
+              <small class="text-danger">
+                {% if request.site.siteinfo.free_shippment_line %}
+                (あと{{ order.to_free_postage }}円のお買い上げで送料無料になります。)
+                {% endif %}
+              </small>
+              {% endif %}
+            </td>
           </tr>
           <tr>
             <td colspan="4" class="bold text-right">合計金額</td>

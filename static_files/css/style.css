@@ -337,7 +337,8 @@ footer {
 
 #messages {
   font-size: 1.2rem;
-  padding: 5px; }
+  padding: 5px;
+  margin-bottom: 1rem; }
 
 .alert {
   padding-left: 0;
@@ -347,11 +348,6 @@ footer {
   color: #155724;
   background-color: #d4edda;
   border-color: #c3e6cb; }
-
-.alert-warning {
-  color: #CB1B45;
-  background-color: #FEDFE1;
-  border-color: #CB1B45; }
 
 .btn-main {
   background-color: #33A6B8;
@@ -364,6 +360,10 @@ footer {
 .btn-second {
   background-color: #B4A582;
   color: white; }
+
+.btn-outline-second {
+  border: 2px solid #B4A582 !important;
+  color: #B4A582 !important; }
 
 .pagination .btn {
   padding: 5px 10px;
@@ -485,15 +485,24 @@ header {
       margin-right: 0; }
   @media (max-width: 768px) {
     .flex-buttons {
-      width: 100%; }
-      .flex-buttons a {
-        flex-basis: 100%;
-        margin-left: 0;
-        margin-right: 0; } }
+      width: 100%; } }
 
 #btn-add-item {
   width: 100%;
   margin-left: 0;
   margin-right: 0; }
+
+.fa-heart {
+  color: #33A6B8;
+  font-size: 1.6rem;
+  margin-left: .3rem; }
+
+@media (max-width: 768px) {
+  .mobile-off {
+    display: none; } }
+
+@media (min-width: 768px) {
+  .only-mobile {
+    display: none; } }
 
 /*# sourceMappingURL=style.css.map */

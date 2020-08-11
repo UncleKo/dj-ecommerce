@@ -1,3 +1,4 @@
+from django.contrib.sites.models import Site
 from django.conf import settings
 from django.db import models
 from django.shortcuts import reverse
@@ -48,6 +49,8 @@ class Item(models.Model):
     stock = models.IntegerField(blank=True, null=True)
     featured = models.BooleanField(default=False)
     draft = models.BooleanField(default=False)
+    fav_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name="fav_items", blank=True)
     image = models.ImageField(blank=True)
     image_large = ImageSpecField(source="image",
                                  processors=[ResizeToFit(1280, 1280)],
@@ -94,6 +97,16 @@ class Item(models.Model):
 
     def get_remove_from_cart_url(self):
         return reverse("core:remove-from-cart", kwargs={
+            'slug': self.slug
+        })
+
+    def get_add_to_fav_items_url(self):
+        return reverse("core:add-to-fav-items", kwargs={
+            'slug': self.slug
+        })
+
+    def get_remove_from_fav_items_url(self):
+        return reverse("core:remove-from-fav-items", kwargs={
             'slug': self.slug
         })
 
@@ -155,13 +168,19 @@ class Order(models.Model):
 
     def get_postage(self):
         total = self.get_total()
-        if total > 5000:
-            return 0
+        site_info = Site.objects.get_current().siteinfo
+        if site_info.free_shippment_line:
+            if total > site_info.free_shippment_line:
+                return 0
+            else:
+                return site_info.shipping_fee
         else:
-            return 500
+            return site_info.shipping_fee
 
     def to_free_postage(self):
-        return 5000 - self.get_total()
+        site_info = Site.objects.get_current().siteinfo
+        if site_info.free_shippment_line:
+            return Site.objects.get_current().siteinfo.free_shippment_line - self.get_total()
 
     def get_total_w_postage(self):
         return self.get_total() + self.get_postage()
@@ -181,3 +200,22 @@ class Payment(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class SiteInfo(models.Model):
+    site = models.OneToOneField(
+        Site, verbose_name='Site', on_delete=models.PROTECT)
+    title = models.CharField('ショップ名', max_length=255, default='Store Title')
+    free_shippment_line = models.IntegerField(
+        verbose_name='送料無料最低価格', null=True, blank=True)
+    shipping_fee = models.IntegerField(
+        verbose_name='送料', default=0)
+
+    # def get_absolute_url(self):
+    #     return reverse("core:siteinfo", kwargs={
+    #         'site_id': self.site.site_id
+    #     })
+
+# def create_default_site_info(sender, **kwargs):
+#     site = Site.objects.get(pk=settings.SITE_ID)
+#     SiteInfo.objects.get_or_create(site=site)

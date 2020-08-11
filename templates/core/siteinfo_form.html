@@ -7,18 +7,10 @@
     <form method="POST" enctype="multipart/form-data">
       {% csrf_token %}
       <fieldset class="form-group">
-        {% if edit %}
-        <legend class="border-bottm mt-5 mb-4">商品を編集する</legend>
-        {% else %}
-        <legend class="border-bottm mt-5 mb-4">商品を追加する</legend>
-        {% endif %}
+        <legend class="border-bottm mt-5 mb-4">サイト情報を編集する</legend>
         {{ form|crispy }}
         <button class="btn btn-main mt-5" type="submit">
-          {% if edit %}
           更新する
-          {% else %}
-          追加する
-          {% endif %}
         </button>
       </fieldset>
     </form>

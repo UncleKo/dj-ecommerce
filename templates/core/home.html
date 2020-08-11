@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 {% load humanize %}
-{% block head_title %}a Store ホーム{% endblock %}
+{% block head_title %}{{ request.site.siteinfo.title }}{% endblock %}
 {% block content %}
-
 <!--Main layout-->
 <main>
 

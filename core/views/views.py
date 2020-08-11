@@ -1,4 +1,5 @@
-from django.conf import settings
+from django.urls import reverse_lazy
+# from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required, permission_required
@@ -10,7 +11,7 @@ from django.contrib.auth.models import User
 from django.db.models import F
 # from django.urls import reverse_lazy
 
-from ..models import Item, OrderItem, Order, Payment
+from ..models import Item, OrderItem, Order, Payment, SiteInfo
 from ..models import CATEGORY_CHOICES
 from users.models import ShippingAddress, BillingAddress
 # from .boost import DynamicRedirectMixin
@@ -21,6 +22,22 @@ from django.template.loader import render_to_string
 # from django.core.mail import EmailMultiAlternatives
 # from django.template.loader import get_template
 # from django.template import Context
+
+
+class SiteInfoUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = SiteInfo
+    fields = ['title', 'free_shippment_line', 'shipping_fee']
+    # success_url = reverse_lazy('core:siteinfo')
+    success_url = reverse_lazy('core:home')
+
+    def form_valid(self, form):
+        form.instance.site_id = 1
+        return super().form_valid(form)
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
 
 
 class HomeView(ListView):
@@ -55,6 +72,8 @@ class ItemDetailView(DetailView):
         context["other_items"] = Item.objects.exclude(
             slug=self.kwargs['slug']).order_by('?')[:3]
         context["category_choices"] = CATEGORY_CHOICES
+        if self.object.fav_users.filter(id=self.request.user.id):
+            context["already_favorite"] = True
         return context
 
 
@@ -341,3 +360,52 @@ def remove_single_item_from_cart(request, slug):
     else:
         messages.info(request, "カートに何も入ってません。")
     return redirect("core:item", slug=slug)
+
+
+@login_required
+def add_to_fav_items(request, slug):
+    item = get_object_or_404(Item, slug=slug)
+    if request.user.fav_items.filter(slug=slug):
+        messages.warning(request, "既にお気に入りに追加されてます")
+    else:
+        request.user.fav_items.add(item)
+        messages.success(request, "商品がお気に入りに追加されました")
+        # return redirect("core:fav-items")
+    # return redirect(request.META['HTTP_REFERER'])
+    # ↑だとログイン強制後ログインページに戻る不都合が生じる
+    return redirect("core:item", slug=slug)
+
+
+@login_required
+def remove_from_fav_items(request, slug):
+    item = get_object_or_404(Item, slug=slug)
+    if request.user.fav_items.filter(slug=slug):
+        request.user.fav_items.remove(item)
+        messages.success(request, "商品がお気に入りから外されました")
+    else:
+        messages.warning(request, "この商品はお気に入りに入ってません。")
+    return redirect("core:item", slug=slug)
+
+
+class FavItemsListView(LoginRequiredMixin, ListView):
+    model = Item
+    template_name = "core/fav_items.html"
+    context_object_name = 'fav_items'
+    # paginate_by = 3
+    ordering = ['-id']
+    # ordering = ['?']
+
+    def get_queryset(self):
+        return Item.objects.filter(fav_users=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category_choices"] = CATEGORY_CHOICES
+
+        return context
+
+    # def test_func(self):
+    #     user = self.get_object().fav_user
+    #     if self.request.user == user:
+    #         return True
+    #     return False

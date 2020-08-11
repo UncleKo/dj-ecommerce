@@ -1,6 +1,6 @@
 from django.contrib import admin
-
-from .models import Item, OrderItem, Order, Payment, ShippingAddress, BillingAddress
+from django.contrib.sites.models import Site
+from .models import Item, OrderItem, Order, Payment, ShippingAddress, BillingAddress, SiteInfo
 
 
 class ItemAdmin(admin.ModelAdmin):
@@ -25,9 +25,21 @@ class BillingAddressAdmin(admin.ModelAdmin):
                     'street_address', 'city', 'state', 'zip', 'id']
 
 
+class SiteInfoInline(admin.StackedInline):
+    model = SiteInfo
+
+
+class SiteAdmin(admin.ModelAdmin):
+    inlines = [SiteInfoInline]
+
+
 admin.site.register(Item, ItemAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Payment)
 admin.site.register(ShippingAddress, ShippingAddressAdmin)
 admin.site.register(BillingAddress, BillingAddressAdmin)
+
+admin.site.register(SiteInfo)
+admin.site.unregister(Site)
+admin.site.register(Site, SiteAdmin)

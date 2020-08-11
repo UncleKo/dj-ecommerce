@@ -78,6 +78,7 @@ footer {
 #messages {
   font-size: 1.2rem;
   padding: 5px;
+  margin-bottom: 1rem;
 }
 
 .alert {
@@ -94,11 +95,11 @@ footer {
     // border-color: $aotake;
 }
 
-.alert-warning {
-  color: $kurenai;
-  background-color: $sakura;
-  border-color: $kurenai;
-}
+// .alert-warning {
+//   color: $kurenai;
+//   background-color: $sakura;
+//   border-color: $kurenai;
+// }
 
 
 .btn-main {
@@ -112,6 +113,10 @@ footer {
 .btn-second {
   background-color: $rikyushiracha;
   color: white;
+}
+.btn-outline-second {
+  border: 2px solid $rikyushiracha !important;
+  color: $rikyushiracha !important;
 }
 .pagination .btn {
   padding: 5px 10px;
@@ -264,11 +269,11 @@ header {
    } //a
    @media (max-width: 768px) {
      width: 100%;
-     a {
-       flex-basis: 100%;
-       margin-left: 0;
-       margin-right: 0;
-     } //a
+    //  a {
+    //    flex-basis: 100%;
+    //    margin-left: 0;
+    //    margin-right: 0;
+    //  } //a
     } //@media
  } //.flex-buttons
 
@@ -283,3 +288,21 @@ header {
 //        display: none;
 //      }
 //  }
+
+.fa-heart {
+  color: $asagi;
+  font-size: 1.6rem;
+  margin-left: .3rem;
+}
+
+.mobile-off {
+  @media(max-width: 768px) {
+    display: none;
+  }
+}
+
+.only-mobile {
+  @media(min-width: 768px) {
+    display: none;
+  }
+}

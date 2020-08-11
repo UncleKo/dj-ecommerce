@@ -1,12 +1,11 @@
 {% extends "base.html" %}
 {% load humanize %}
-{% block head_title %}{{ item.title }}{% endblock %}
+{% block head_title %}{{ item.title }} - {{ request.site.siteinfo.title }}{% endblock %}
 
 {% block content %}
 
 <!--Main layout-->
 <main>
-
   <div id="item" class="container dark-grey-text">
 
     <nav id="category-menu" class="navbar navbar-expand-lg navbar-dark">
@@ -76,9 +75,19 @@
               <span class="badge {{ item.get_category_display }}-color mr-1">{{ item.get_category_display }}</span>
             </a>
 
-            <a href="{{ item.get_absolute_url }}">
-              <h2>{{ item.title }}</h2>
-            </a>
+            <h2>
+              {{ item.title }}
+              {% if already_favorite %}
+              <a href="{{ item.get_remove_from_fav_items_url }}">
+                <i class="fas fa-heart only-mobile"></i>
+              </a>
+              {% else %}
+              <a href="{{ item.get_add_to_fav_items_url }}">
+                <i class="far fa-heart only-mobile"></i>
+              </a>
+              {% endif %}
+            </h2>
+
             <p class="lead">
               {% if item.discount_price %}
               <span class="mr-1">
@@ -97,12 +106,22 @@
             <p class="stock">在庫数: {{ item.stock }}</p>
             {% endif %}
 
-            <a href="{{ item.get_add_to_cart_url }}" class=" btn btn-main btn-md" id="add-to-cart">カートに入れる
+            <a href="{{ item.get_add_to_cart_url }}" class="btn btn-main btn-md" id="add-to-cart">カートに入れる
               <!-- <a href="{% url 'core:add-to-cart' item.slug %}" class=" btn btn-primary btn-md my-0 p">Add to cart -->
               <i class="fas fa-shopping-cart ml-1"></i>
             </a>
             <!-- <a href="{{ item.get_remove_from_cart_url }}" class=" btn btn-danger btn-md my-0 p">Remove from cart
           </a> -->
+
+            <div class="mt-2 mobile-off">
+              {% if already_favorite %}
+              <a href="{{ item.get_remove_from_fav_items_url }}" class="btn btn-outline-second btn-sm"
+                id="add-to-cart">お気に入りから外す</a>
+              {% else %}
+              <a href="{{ item.get_add_to_fav_items_url }}" class="btn btn-outline-main btn-sm"
+                id="add-to-cart">お気に入りに追加</a>
+              {% endif %}
+            </div>
 
             <!-- <form class="d-flex justify-content-left">
           <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">

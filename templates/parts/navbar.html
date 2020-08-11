@@ -5,7 +5,7 @@
 
     <!-- Brand -->
     <a class="navbar-brand waves-effect" href="{% url 'core:home' %}">
-      <h1>a Store</h1>
+      <h1>{{ request.site.siteinfo.title }}</h1>
     </a>
 
     <!-- Collapse -->
@@ -42,7 +42,7 @@
             <a class="nav-link waves-effect" href="{% url 'user:order-history' %}"> 注文履歴 </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link waves-effect" href="#"> お気に入り </a>
+            <a class="nav-link waves-effect" href="{% url 'core:fav-items' %}"> お気に入り </a>
           </li>
         </div>
         <div>

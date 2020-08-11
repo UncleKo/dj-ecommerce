@@ -41,14 +41,13 @@ class ProfileUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = User
     form_class = ProfileUpdateForm
     template_name = 'users/profile-edit.html'
-    # success_url = reverse_lazy('user:profile')
+    success_url = reverse_lazy('user:profile')
 
-    def get_success_url(self):
-        # return reverse("user:profile", kwargs={
-        #     'pk': self.kwargs['pk']
-        # })
-        # return resolve_url('user:profile', pk=self.kwargs['pk'])
-        return resolve_url('user:profile')
+    # def get_success_url(self):
+    # return reverse("user:profile", kwargs={
+    #     'pk': self.kwargs['pk']
+    # })
+    # return resolve_url('user:profile', pk=self.kwargs['pk'])
 
     def test_func(self):
         user = self.get_object()
