@@ -44,21 +44,22 @@
           {{ shipping_address.city }}
           {{ shipping_address.street_address }}
         </p>
-        {% if shipping_address.primary and user.shipping_addresses.count > 1 %}
-        <div>
+        <div class="mb-4">
+          {% if shipping_address.primary and user.shipping_addresses.count > 1 %}
           <span class="badge badge-danger ml-2">優先住所</span>
           <a href="{% url 'user:primary-shipping-address' %}?next={{ request.path }}"
             class=""><small>優先住所を変更する</small></a>
-
         </div>
         {% endif %}
         <a href="{% url 'user:update-shipping-address' pk=shipping_address.id %}"
           class="btn btn-outline-main btn-sm">編集する</a>
-        {% if not shipping_address.primary %}
+        {% if not shipping_address.primary or user.shipping_addresses.count == 1 %}
         <a href="{% url 'user:delete-shipping-address' pk=shipping_address.id %}"
           class="btn btn-outline-danger btn-sm">削除する</a>
         {% else %}
+        {% if user.shipping_addresses.count > 1 %}
         <small class="text-danger">削除するには他の住所を優先住所に指定して下さい。</small>
+        {% endif %}
         {% endif %}
       </div>
       {% endfor %}
@@ -78,10 +79,19 @@
           {{ billing_address.city }}
           {{ billing_address.street_address }}
         </p>
+        <div class="mb-4">
+          {% if billing_address.primary and user.billing_addresses.count > 1 %}
+          <span class="badge badge-danger ml-2">優先住所</span>
+          <a href="{% url 'user:primary-billing-address' %}?next={{ request.path }}"
+            class=""><small>優先住所を変更する</small></a>
+        </div>
+        {% endif %}
         <a href="{% url 'user:update-billing-address' pk=billing_address.id %}?next={{ request.path }}"
           class="btn btn-outline-main btn-sm">編集する</a>
+        {% if not billing_address.primary or user.billing_addresses.count == 1 %}
         <a href="{% url 'user:delete-billing-address' pk=billing_address.id %}?next={{ request.path }}"
           class="btn btn-outline-danger btn-sm">削除する</a>
+        {% endif %}
       </div>
       {% endfor %}
       <a href="{% url 'user:create-billing-address' %}" class="btn btn-main btn-sm">請求先住所を追加</a>

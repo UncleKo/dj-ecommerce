@@ -40,7 +40,7 @@ class ProfileUpdateForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'last_name', 'first_name']
+        fields = ['last_name', 'first_name', 'username', 'email']
 
 
 class ShippingAddressForm(forms.ModelForm):
@@ -48,32 +48,36 @@ class ShippingAddressForm(forms.ModelForm):
     street_address = forms.CharField(
         widget=forms.TextInput(attrs={
             'placeholder': '1234 Main St #101',
-            'class': 'form-control address'
+            'class': 'form-control address p-street-address p-extended-address'
         }),
-        required=True
+        required=True,
+        label="番地(アパート名/部屋番号等)"
     )
 
     city = forms.CharField(
         widget=forms.TextInput(attrs={
             'placeholder': 'Los Angeles',
-            'class': 'form-control address'
+            'class': 'form-control address p-locality'
         }),
-        required=True
+        required=True,
+        label="市区町村"
     )
 
     state = forms.CharField(
         widget=forms.TextInput(attrs={
             'placeholder': 'CA',
-            'class': 'form-control address'
+            'class': 'form-control address p-region'
         }),
-        required=True
+        required=True,
+        label="都道府県"
     )
 
     zip = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'form-control address'
+            'class': 'form-control address p-postal-code'
         }),
-        required=True
+        required=True,
+        label="郵便番号(ハイフン抜きで記入下さい)"
     )
 
     # country = CountryField(
@@ -113,32 +117,36 @@ class BillingAddressForm(forms.ModelForm):
     street_address = forms.CharField(
         widget=forms.TextInput(attrs={
             'placeholder': '1234 Main St #101',
-            'class': 'form-control address'
+            'class': 'form-control address p-street-address p-extended-address'
         }),
-        required=True
+        required=True,
+        label="番地(アパート名/部屋番号等)"
     )
 
     city = forms.CharField(
         widget=forms.TextInput(attrs={
             'placeholder': 'Los Angeles',
-            'class': 'form-control address'
+            'class': 'form-control address p-locality'
         }),
-        required=True
+        required=True,
+        label="市区町村"
     )
 
     state = forms.CharField(
         widget=forms.TextInput(attrs={
             'placeholder': 'CA',
-            'class': 'form-control address'
+            'class': 'form-control address p-region'
         }),
-        required=True
+        required=True,
+        label="都道府県"
     )
 
     zip = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'form-control address'
+            'class': 'form-control address p-postal-code'
         }),
-        required=True
+        required=True,
+        label="郵便番号(ハイフン抜きで記入下さい)"
     )
 
     # country = CountryField(
@@ -155,3 +163,18 @@ class BillingAddressForm(forms.ModelForm):
         model = BillingAddress
         fields = ['street_address', 'city',
                   'state', 'zip']
+
+
+class PrimaryBillingAddressForm(forms.Form):
+
+    list_stored_address = forms.ModelChoiceField(
+        widget=forms.RadioSelect,
+        queryset=None,
+        required=False,
+        empty_label=None
+    )
+
+    def __init__(self, user, *args, **kwargs):
+        super(PrimaryBillingAddressForm, self).__init__(*args, **kwargs)
+        self.fields['list_stored_address'].queryset = BillingAddress.objects.filter(
+            user=user)

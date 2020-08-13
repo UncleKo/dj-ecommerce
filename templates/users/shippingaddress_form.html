@@ -1,39 +1,37 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 
-{% block head_title %}送付先住所の追加/変更{% endblock %}
+{% block head_title %}配送先住所の追加/変更 - {{ request.site.siteinfo.title }}{% endblock %}
 
 {% block content %}
 <main>
   <div class="container">
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" class="h-adr">
       {% csrf_token %}
       <fieldset class="form-group">
         <h2>
           {% if edit %}
           住所を更新する
           {% else %}
-          住所を追加する
+          配送先住所を追加する
           {% endif %}
         </h2>
         <div id="shipping-address" class="mt-5">
+          <span class="p-country-name" style="display:none;">Japan</span>　
           <!--address-->
-          <div class="md-form">
-            <!-- <input type="text" id="address" class="form-control" placeholder="1234 Main St"> -->
-
-            {{ form.street_address }}
-            <label for="id_street_address" class="active">番地/部屋番号</label>
-          </div>
-
-          <!--address-2-->
-          <div class="md-form">
-            <!-- <input type="text" id="apartment_address" class="form-control" placeholder="Apartment or suite"> -->
-            {{ form.city }}
-            <label for="id_apartment_address" class="active">市町村</label>
-          </div>
-
           <!--Grid row-->
           <div class="row">
+
+            <!--Grid column-->
+            <div class="col-lg-4 col-md-6 mb-4">
+              <label for="id_zip" class="label">郵便番号(ハイフン抜きでご記入下さい。)</label>
+              <!-- <input type="text" class="form-control" id="zip" placeholder="" required> -->
+              {{ form.zip }}
+              <div class="invalid-feedback">
+                Zip code required.
+              </div>
+            </div>
+            <!--Grid column-->
 
             <!--Grid column-->
             <div class="col-lg-4 col-md-6 mb-4">
@@ -46,18 +44,9 @@
             <!--Grid column-->
 
             <!--Grid column-->
-            <div class="col-lg-4 col-md-6 mb-4">
-              <label for="id_zip" class="label">郵便番号</label>
-              <!-- <input type="text" class="form-control" id="zip" placeholder="" required> -->
-              {{ form.zip }}
-              <div class="invalid-feedback">
-                Zip code required.
-              </div>
-            </div>
-            <!--Grid column-->
-
-            <!--Grid column-->
             <div class="col-lg-4 col-md-12 mb-4">
+              <label for="id_apartment_address" class="active">市区町村</label>
+              {{ form.city }}
               <!-- <label for="id_country" class="label">Country</label>
               {{ form.country }}
               <div class="invalid-feedback">
@@ -67,7 +56,22 @@
             <!--Grid column-->
 
           </div>
+
+          <!--address-2-->
+          <div class="md-form">
+            <!-- <input type="text" id="apartment_address" class="form-control" placeholder="Apartment or suite"> -->
+            <!-- {{ form.city }}
+            <label for="id_apartment_address" class="active">市町村</label> -->
+          </div>
+
           <!--Grid row-->
+          <div class="md-form">
+            <!-- <input type="text" id="address" class="form-control" placeholder="1234 Main St"> -->
+
+            {{ form.street_address }}
+            <label for="id_street_address" class="active">番地(アパート名/部屋番号など)</label>
+          </div>
+
 
           <!-- {{ form.primary }}
           <label class="" for="primary">Primary Address</label> -->

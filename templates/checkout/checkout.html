@@ -25,16 +25,20 @@
           <!--Card content-->
           <form method="POST" class="card-body">
             {% csrf_token %}
+            <label for="id_billing_address_option" class="label">
+              配送先住所の指定
+            </label>
 
             {% if user.shipping_addresses.count %}
 
             <div class="mb-4">
               <p class="mb-0">この住所に送る</p>
-              <div class="ml-2">
-                <p class="address">{{ primary_shipping_address}}</p>
+              <div class="ml-3">
+                <p class="address mb-0">〒{{ primary_shipping_address.zip}}</p>
+                <p class="address mb-0">{{ primary_shipping_address}}</p>
                 {% if user.shipping_addresses.count > 1 %}
                 <a href="{% url 'user:primary-shipping-address' %}?next={{ request.path }}"
-                  class="btn btn-outline-main btn-sm">他の登録済み住所を選択する</a>
+                  class="btn btn-outline-main btn-sm">他の住所を選択する</a>
                 {% endif %}
                 <a href="{% url 'user:create-shipping-address' %}?next={{ request.path }}"
                   class="btn btn-main btn-sm">配送先住所を追加</a>

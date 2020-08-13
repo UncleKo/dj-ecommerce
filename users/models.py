@@ -8,15 +8,15 @@ from django_countries.fields import CountryField
 class ShippingAddress(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE, related_name="shipping_addresses")
-    street_address = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
-    zip = models.CharField(max_length=100)
-    country = CountryField(multiple=False)
+    street_address = models.CharField(max_length=100, verbose_name="番地/部屋番号")
+    city = models.CharField(max_length=100, verbose_name='市区町村')
+    state = models.CharField(max_length=100, verbose_name='都道府県')
+    zip = models.CharField(max_length=100, verbose_name='郵便番号')
+    # country = CountryField(multiple=False)
     primary = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"〒{self.zip} {self.state} {self.city} {self.street_address}"
+        return f"{self.state} {self.city} {self.street_address}"
         # return f"{self.street_address}, {self.city}, {self.state} {self.zip} {self.country}"
 
     # def get_absolute_url(self):
@@ -33,18 +33,18 @@ class ShippingAddress(models.Model):
 class BillingAddress(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE, related_name="billing_addresses")
-    street_address = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100, default="CA")
-    zip = models.CharField(max_length=100)
-    country = CountryField(multiple=False)
+    street_address = models.CharField(max_length=100, verbose_name="番地/部屋番号")
+    city = models.CharField(max_length=100, verbose_name='市区町村')
+    state = models.CharField(max_length=100, verbose_name='都道府県')
+    zip = models.CharField(max_length=100, verbose_name='郵便番号')
+    # country = CountryField(multiple=False)
     primary = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"〒{self.zip} {self.state} {self.city} {self.street_address}"
+        return f"{self.state} {self.city} {self.street_address}"
         # return f"{self.street_address}, {self.city}, {self.state} {self.zip} {self.country}"
 
-    def get_absolute_url(self):
-        return reverse("user:profile", kwargs={
-            'pk': self.user.pk
-        })
+    # def get_absolute_url(self):
+    #     return reverse("user:profile", kwargs={
+    #         'pk': self.user.pk
+    #     })

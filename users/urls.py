@@ -26,6 +26,8 @@ urlpatterns = [
          BillingAddressUpdateView.as_view(), name='update-billing-address'),
     path('billing-address/<int:pk>/delete',
          BillingAddressDeleteView.as_view(), name='delete-billing-address'),
+    path('primary-billing-address/', PrimaryBillingAddress.as_view(),
+         name='primary-billing-address'),
 
 
 ]

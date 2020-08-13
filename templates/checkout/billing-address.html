@@ -5,36 +5,37 @@
 
 {% block content %}
 
-<!--Main layout-->
+<!--main layout-->
 <main>
 
-  <div id="billing-address" class="container wow fadeIn">
+  <div id="billing-address" class="container wow fadein">
 
-    <!-- Heading -->
+    <!-- heading -->
     <h2>請求先住所</h2>
 
-    <!--Grid row-->
+    <!--grid row-->
     <div class="row">
 
-      <!--Grid column-->
+      <!--grid column-->
       <div class="col-md-8 mb-4">
 
-        <!--Card-->
+        <!--card-->
         <div class="card">
 
-          <!--Card content-->
-          <form method="POST" class="card-body">
+          <!--card content-->
+          <form method="post" class="card-body">
             {% csrf_token %}
 
-            <div>
-              <p class="label mb-0">配送先住所</p>
-              <p class="address">{{ order.shipping_address }}</p>
-            </div>
+            <label for="id_billing_address_option" class="label">
+              請求先住所の指定
+            </label>
+
+            {% if user.billing_addresses.count %}
+
+
+            {% endif %}
 
             <div id="div_id_billing_address_option" class="form-group">
-              <label for="id_billing_address_option" class="label">
-                請求先住所の選択
-              </label>
               <div id="id_billing_address_option" class="d-block">
                 {% for value, name in form.fields.billing_address_option.choices %}
                 <div class="custom-control custom-radio {% if not forloop.counter == 1 %}mt-4{% endif %}">
@@ -43,84 +44,44 @@
                   <label class="custom-control-label"
                     for="billing_address_option_{{ forloop.counter }}">{{ name }}</label>
                 </div>
-                {% if forloop.counter == 2 and user.billing_addresses.count %}
-                {% if user.billing_addresses.count == 1 %}
-                <p class="address mb-0 ml-4">{{ first_billing_address }}</p>
-                {% else %}
-                <div id="div_id_stored_billing_address" class="ml-4" form-group">
-                  <label for="id_stored_billinig_address" class="label mb-0">ご選択ください</label>
-                  <div id="id_stored_billing_address" class="d-block">
-                    {% for value, name in form.fields.stored_billing_address.choices %}
-                    <div class="custom-control custom-radio">
-                      <input id="stored_billing_address_{{ forloop.counter }}" name="stored_billing_address"
-                        value="{{ value }}" type="radio" class="custom-control-input">
-                      <label class="custom-control-label address" for="stored_billing_address_{{ forloop.counter }}">
-                        {{ name }}
-                      </label>
-                    </div>
-                    {% endfor %}
+                {% if forloop.counter == 1 %}
+
+                {% if user.billing_addresses.count %}
+                <div class="mb-4">
+                  <div class="ml-3">
+                    <p class="address mb-0">〒{{ primary_billing_address.zip}}</p>
+                    <p class="address mb-0">{{ primary_billing_address}}</p>
+                    {% if user.billing_addresses.count > 1 %}
+                    <a href="{% url 'user:primary-billing-address' %}?next={{ request.path }}"
+                      class="btn btn-outline-main btn-sm">他の住所を選択する</a>
+                    {% endif %}
+                    <a href="{% url 'user:create-billing-address' %}?next={{ request.path }}"
+                      class="btn btn-main btn-sm">請求先住所を追加</a>
                   </div>
                 </div>
+                {% else %}
+                <div class="ml-3 mb-4">
+                  <p class="mb-0">
+                    <small class="text-danger">請求先住所が登録されてません</small>
+                  </p>
+                  <a href="{% url 'user:create-billing-address' %}?next={{ request.path }}"
+                    class="btn btn-outline-main btn-sm">請求先住所を登録</a>
+                </div>
                 {% endif %}
+
+                {% else %}
+
+                <div class="ml-4">
+                  <p class="label mb-0">配送先住所</p>
+                  <p class="address mb-0">〒{{ order.shipping_address.zip}}</p>
+                  <p class="address">{{ order.shipping_address }}</p>
+                </div>
+
                 {% endif %}
+
                 {% endfor %}
               </div>
             </div>
-
-            <div id="billing-address">
-
-              <div class="md-form">
-                {{ form.street_address }}
-                <label for="id_street_address" class="active">番地/部屋番号(Street Address & Apartment No.)</label>
-              </div>
-
-              <div class="md-form">
-                {{ form.city }}
-                <label for="id_apartment_address" class="active">市町村(City)</label>
-              </div>
-
-              <!--Grid row-->
-              <div class="row">
-
-                <!--Grid column-->
-                <div class="col-lg-4 col-md-6 mb-4">
-
-                  <label for="id_state" class="label">都道府県(State)</label>
-                  {{ form.state }}
-                  <div class="invalid-feedback">
-                    State required.
-                  </div>
-
-                </div>
-                <!--Grid column-->
-
-                <!--Grid column-->
-                <div class="col-lg-4 col-md-6 mb-4">
-
-                  <label for="id_zip" class="label">郵便番号(Zip)</label>
-                  {{ form.zip }}
-                  <div class="invalid-feedback">
-                    Zip code required.
-                  </div>
-
-                </div>
-                <!--Grid column-->
-
-                <!--Grid column-->
-                <div class="col-lg-4 col-md-12 mb-4">
-
-                  <label for="id_country" class="label">Country(option)</label>
-                  {{ form.country }}
-                  <div class="invalid-feedback">
-                    Please select a valid country.
-                  </div>
-
-                </div>
-                <!--Grid column-->
-
-              </div>
-
-            </div> <!-- billing-address -->
 
             <hr class="mb-4">
 
@@ -135,24 +96,24 @@
           <!-- <form autocomplete="off">
               {% csrf_token %}
               {{ form|crispy}}
-              <button class="btn btn-primary" type='submit'>Checkout</button>
+              <button class="btn btn-primary" type='submit'>checkout</button>
             </form> -->
 
         </div>
-        <!--/.Card-->
+        <!--/.card-->
 
       </div>
-      <!--Grid column-->
+      <!--grid column-->
 
-      <!--Grid column-->
+      <!--grid column-->
       <div class="cart-sidebar col-md-4 mb-4">
 
         <h4 class="d-flex justify-content-between align-items-center mb-3">
-          <span class="text-muted">Your cart</span>
+          <span class="text-muted">your cart</span>
           <span class="badge badge-quantity badge-pill">{{ order.items.count }}</span>
         </h4>
 
-        <!-- Cart -->
+        <!-- cart -->
         <ul class="list-group mb-3 z-depth-1">
           {% for order_item in order.items.all %}
           <li class="list-group-item d-flex justify-content-between lh-condensed">
@@ -165,17 +126,17 @@
           {% endfor %}
           <li class="promo-code list-group-item d-flex justify-content-between">
             <div>
-              <h6 class="my-0">Promo code</h6>
-              <small>EXAMPLECODE</small>
+              <h6 class="my-0">promo code</h6>
+              <small>examplecode</small>
             </div>
             <span>-$5</span>
           </li>
           <li class="list-group-item d-flex justify-content-between">
-            <span>Total (USD)</span>
+            <span>total (usd)</span>
             <strong>${{ order.get_total }}</strong>
           </li>
         </ul>
-        <!-- Cart -->
+        <!-- cart -->
 
         <!-- Promo code -->
         <form class="card p-2">

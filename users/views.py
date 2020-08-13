@@ -7,13 +7,14 @@ from django.contrib.auth.views import SuccessURLAllowedHostsMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth import authenticate, login
 from django.core.mail import send_mail
+from django.core.exceptions import ObjectDoesNotExist
 
 from django.contrib.auth.models import User
 from django.views.generic import View, ListView, DetailView, CreateView, UpdateView, DeleteView
 from core.boost import DynamicRedirectMixin
 from .models import ShippingAddress, BillingAddress
 from core.models import Order
-from .forms import ProfileUpdateForm, ShippingAddressForm, PrimaryShippingAddressForm, UserRegisterForm, BillingAddressForm
+from .forms import ProfileUpdateForm, ShippingAddressForm, PrimaryShippingAddressForm, UserRegisterForm, BillingAddressForm, PrimaryBillingAddressForm
 
 
 class ProfileView(LoginRequiredMixin, DynamicRedirectMixin, View):
@@ -117,14 +118,14 @@ class ShippingAddressDeleteView(LoginRequiredMixin, UserPassesTestMixin, Dynamic
         # primary = self.get_object().primary
         # if self.request.user == user and not primary:
         if self.request.user == user:
-            # Just for insurance
-            if self.get_object().primary:
-                messages.warning(
-                    self.request, "削除するには優先住所から外して下さい(他の住所を優先住所に指定して下さい)。")
-                # it didn't work. I don't know why.
-                return redirect("user:primary-shipping-address")
-            else:
-                return True
+            # # Just for insurance
+            # if self.get_object().primary:
+            #     messages.warning(
+            #         self.request, "削除するには優先住所から外して下さい(他の住所を優先住所に指定して下さい)。")
+            #     # it didn't work. I don't know why.
+            #     return redirect("user:primary-shipping-address")
+            # else:
+            return True
         return False
 
 
@@ -186,12 +187,12 @@ class PrimaryShippingAddress(LoginRequiredMixin, SuccessURLAllowedHostsMixin, Vi
 
             else:
                 messages.warning(
-                    self.request, "Please choose one of the stored address as shipping address.")
-                return redirect("core:primary-shipping-address")
+                    self.request, "優先住所をひとつ選択ください。")
+                return redirect("user:primary-shipping-address")
 
         except ObjectDoesNotExist:
             messages.error(
-                self.request, "You do not have stored shipping addresses")
+                self.request, "配送先住所の登録がありません。")
             return redirect("core:checkout")
 
 
@@ -202,6 +203,12 @@ class BillingAddressCreateView(LoginRequiredMixin, DynamicRedirectMixin, CreateV
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        billing_addresses = self.request.user.billing_addresses.all()
+        for billing_address in billing_addresses:
+            billing_address.primary = False
+            billing_address.save()
+        form.instance.primary = True
+
         return super().form_valid(form)
 
 
@@ -231,6 +238,70 @@ class BillingAddressDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteVi
         if self.request.user == user:
             return True
         return False
+
+
+class PrimaryBillingAddress(LoginRequiredMixin, SuccessURLAllowedHostsMixin, View):
+
+    def get(self, *args, **kwargs):
+        form = PrimaryBillingAddressForm(self.request.user or None)
+        primary_address = BillingAddress.objects.filter(
+            user=self.request.user, primary=True).first()
+        if(primary_address):
+            primary_id = primary_address.id
+        else:
+            primary_id = None
+        context = {
+            'form': form,
+            'primary_id': primary_id
+        }
+        return render(self.request, "users/primary-billing-address.html", context)
+
+    def post(self, *args, **kwargs):
+        form = PrimaryBillingAddressForm(self.request.user or None,
+                                         self.request.POST or None)
+        try:
+            billing_addresses = BillingAddress.objects.filter(
+                user=self.request.user)
+            if form.is_valid():
+                list_stored_address = form.cleaned_data.get(
+                    'list_stored_address')
+
+            # for address in stored_adress:
+            #     address.primary = False
+
+            if list_stored_address:
+                for billing_address in billing_addresses:
+                    billing_address.primary = False
+                    billing_address.save()
+                primary_billing_address = billing_addresses.get(
+                    pk=list_stored_address.id)
+                primary_billing_address.primary = True
+                primary_billing_address.save()
+                # return redirect("core:checkout")
+
+                redirect_field_name = 'next'
+                redirect_to = self.request.POST.get(
+                    self.redirect_field_name,
+                    self.request.GET.get(self.redirect_field_name, '')
+                )
+                url_is_safe = is_safe_url(
+                    url=redirect_to,
+                    allowed_hosts=self.get_success_url_allowed_hosts(),
+                    require_https=self.request.is_secure(),
+                )
+                return redirect(redirect_to) if url_is_safe else ''
+                # redirect_to_next(self)
+
+            else:
+                messages.warning(
+                    self.request, "優先住所をひとつ選択ください")
+                return redirect("user:primary-billing-address")
+
+        except ObjectDoesNotExist:
+            messages.error(
+                self.request, "請求先住所が登録されてません。")
+            return redirect("user:primary-billing-address")
+
 
 # @login_required
 # def edit_profile(request):
