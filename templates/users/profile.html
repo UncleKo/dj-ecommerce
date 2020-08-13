@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block head_title %}Your Profile{% endblock %}
+{% block head_title %}プロフィール - {{ request.site.siteinfo.title }}{% endblock %}
 
 {% block content %}
 
@@ -57,6 +57,8 @@
         {% if not shipping_address.primary %}
         <a href="{% url 'user:delete-shipping-address' pk=shipping_address.id %}"
           class="btn btn-outline-danger btn-sm">削除する</a>
+        {% else %}
+        <small class="text-danger">削除するには他の住所を優先住所に指定して下さい。</small>
         {% endif %}
       </div>
       {% endfor %}
@@ -76,9 +78,9 @@
           {{ billing_address.city }}
           {{ billing_address.street_address }}
         </p>
-        <a href="{% url 'user:update-billing-address' pk=billing_address.id %}"
+        <a href="{% url 'user:update-billing-address' pk=billing_address.id %}?next={{ request.path }}"
           class="btn btn-outline-main btn-sm">編集する</a>
-        <a href="{% url 'user:delete-billing-address' pk=billing_address.id %}"
+        <a href="{% url 'user:delete-billing-address' pk=billing_address.id %}?next={{ request.path }}"
           class="btn btn-outline-danger btn-sm">削除する</a>
       </div>
       {% endfor %}

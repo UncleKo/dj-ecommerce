@@ -667,7 +667,7 @@
       <h2>ご注文内容</h2>
       {% endif %}
 
-      <h3>{{ order.user.first_name }} {{ order.user.last_name }}</h3>
+      <h3>{{ order.user.last_name }} {{ order.user.first_name }}</h3>
 
       <h3>注文番号: {{ order.id}} </h3>
       <h3>注文日時: {{ order.ordered_date }}</h3>

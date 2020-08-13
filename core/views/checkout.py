@@ -59,40 +59,40 @@ class CheckoutView(LoginRequiredMixin, View):
                 # shipping_addresses = ShippingAddress.objects.filter(user=self.request.user)
                 shipping_addresses = self.request.user.shipping_addresses.all()
 
-                if shipping_address_option == 'A':
-                    # order.shipping_address = ShippingAddress.objects.filter(
-                    #     user=self.request.user, primary=True).first()
-                    order.shipping_address = shipping_addresses.filter(
-                        primary=True).first()
+                # if shipping_address_option == 'A':
+                #     # order.shipping_address = ShippingAddress.objects.filter(
+                #     #     user=self.request.user, primary=True).first()
+                order.shipping_address = shipping_addresses.filter(
+                    primary=True).first()
 
-                elif shipping_address_option == 'B' or not shipping_addresses.count():
-                    if street_address and city and state and zip:
-                        shipping_address = ShippingAddress(
-                            user=self.request.user,
-                            street_address=street_address,
-                            city=city,
-                            state=state,
-                            zip=zip,
-                            country=country
-                        )
-                        shipping_address.save()
+                # elif shipping_address_option == 'B' or not shipping_addresses.count():
+                #     if street_address and city and state and zip:
+                #         shipping_address = ShippingAddress(
+                #             user=self.request.user,
+                #             street_address=street_address,
+                #             city=city,
+                #             state=state,
+                #             zip=zip,
+                #             country=country
+                #         )
+                #         shipping_address.save()
 
-                        for stored_shipping_address in shipping_addresses:
-                            stored_shipping_address.primary = False
-                            stored_shipping_address.save()
-                        shipping_address.primary = True
-                        shipping_address.save()
+                #         for stored_shipping_address in shipping_addresses:
+                #             stored_shipping_address.primary = False
+                #             stored_shipping_address.save()
+                #         shipping_address.primary = True
+                #         shipping_address.save()
 
-                        order.shipping_address = shipping_address
-                    else:
-                        messages.warning(
-                            self.request, "please fill in all fields in shipping address.")
-                        return redirect('core:checkout')
+                #         order.shipping_address = shipping_address
+                #     else:
+                #         messages.warning(
+                #             self.request, "please fill in all fields in shipping address.")
+                #         return redirect('core:checkout')
 
-                else:
-                    messages.warning(
-                        self.request, "please choose one of the radio box regarding shipping address.")
-                    return redirect('core:checkout')
+                # else:
+                #     messages.warning(
+                #         self.request, "please choose one of the radio box regarding shipping address.")
+                #     return redirect('core:checkout')
 
                 order.delivery_time = delivery_time
                 order.payment_option = payment_option

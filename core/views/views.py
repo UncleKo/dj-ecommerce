@@ -72,6 +72,7 @@ class ItemDetailView(DetailView):
         context["other_items"] = Item.objects.exclude(
             slug=self.kwargs['slug']).order_by('?')[:3]
         context["category_choices"] = CATEGORY_CHOICES
+        # if self.get_object().fav_users.filter(id=self.request.user.id):
         if self.object.fav_users.filter(id=self.request.user.id):
             context["already_favorite"] = True
         return context
@@ -232,7 +233,7 @@ def confirm_order(request):
             'order': order
         })
         send_mail(
-            f'{request.user.first_name}様, お買い上げありがとうございます。',
+            f'{request.user.last_name}様, お買い上げありがとうございます。',
             # f'{order.id} at {order.ordered_date}',
             msg_plain,
             'uncleko496@gmail.com',
@@ -366,10 +367,10 @@ def remove_single_item_from_cart(request, slug):
 def add_to_fav_items(request, slug):
     item = get_object_or_404(Item, slug=slug)
     if request.user.fav_items.filter(slug=slug):
-        messages.warning(request, "既にお気に入りに追加されてます")
+        messages.warning(request, "既にお気に入りに追加されてます。")
     else:
         request.user.fav_items.add(item)
-        messages.success(request, "商品がお気に入りに追加されました")
+        messages.success(request, "商品がお気に入りに追加されました。")
         # return redirect("core:fav-items")
     # return redirect(request.META['HTTP_REFERER'])
     # ↑だとログイン強制後ログインページに戻る不都合が生じる
@@ -381,7 +382,7 @@ def remove_from_fav_items(request, slug):
     item = get_object_or_404(Item, slug=slug)
     if request.user.fav_items.filter(slug=slug):
         request.user.fav_items.remove(item)
-        messages.success(request, "商品がお気に入りから外されました")
+        messages.success(request, "商品がお気に入りから外されました。")
     else:
         messages.warning(request, "この商品はお気に入りに入ってません。")
     return redirect("core:item", slug=slug)

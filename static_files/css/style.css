@@ -117,14 +117,10 @@ h5.username {
 .address,
 .payment-option,
 .bold {
-  font-weight: 500; }
+  font-weight: 600; }
 
 .radio-label {
   font-weight: 300; }
-
-#pickup-address {
-  margin-left: 3rem;
-  font-size: .7rem; }
 
 #div_id_use_stored_shipping_address .pickup-address {
   font-style: italic;

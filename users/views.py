@@ -108,7 +108,7 @@ class ShippingAddressUpdateView(LoginRequiredMixin, UserPassesTestMixin, Dynamic
         return context
 
 
-class ShippingAddressDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class ShippingAddressDeleteView(LoginRequiredMixin, UserPassesTestMixin, DynamicRedirectMixin, DeleteView):
     model = ShippingAddress
     success_url = reverse_lazy('user:profile')
 
@@ -117,7 +117,14 @@ class ShippingAddressDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteV
         # primary = self.get_object().primary
         # if self.request.user == user and not primary:
         if self.request.user == user:
-            return True
+            # Just for insurance
+            if self.get_object().primary:
+                messages.warning(
+                    self.request, "削除するには優先住所から外して下さい(他の住所を優先住所に指定して下さい)。")
+                # it didn't work. I don't know why.
+                return redirect("user:primary-shipping-address")
+            else:
+                return True
         return False
 
 

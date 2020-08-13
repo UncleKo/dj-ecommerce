@@ -50,7 +50,7 @@ class ShippingAddressForm(forms.ModelForm):
             'placeholder': '1234 Main St #101',
             'class': 'form-control address'
         }),
-        required=False
+        required=True
     )
 
     city = forms.CharField(
@@ -58,7 +58,7 @@ class ShippingAddressForm(forms.ModelForm):
             'placeholder': 'Los Angeles',
             'class': 'form-control address'
         }),
-        required=False
+        required=True
     )
 
     state = forms.CharField(
@@ -66,14 +66,14 @@ class ShippingAddressForm(forms.ModelForm):
             'placeholder': 'CA',
             'class': 'form-control address'
         }),
-        required=False
+        required=True
     )
 
     zip = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'form-control address'
         }),
-        required=False
+        required=True
     )
 
     # country = CountryField(
@@ -115,7 +115,7 @@ class BillingAddressForm(forms.ModelForm):
             'placeholder': '1234 Main St #101',
             'class': 'form-control address'
         }),
-        required=False
+        required=True
     )
 
     city = forms.CharField(
@@ -123,7 +123,7 @@ class BillingAddressForm(forms.ModelForm):
             'placeholder': 'Los Angeles',
             'class': 'form-control address'
         }),
-        required=False
+        required=True
     )
 
     state = forms.CharField(
@@ -131,14 +131,14 @@ class BillingAddressForm(forms.ModelForm):
             'placeholder': 'CA',
             'class': 'form-control address'
         }),
-        required=False
+        required=True
     )
 
     zip = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'form-control address'
         }),
-        required=False
+        required=True
     )
 
     # country = CountryField(

@@ -27,8 +27,8 @@
             {% csrf_token %}
 
             {% if user.shipping_addresses.count %}
-            <div id="div_id_list_stored_address" class="mb-5 form-group">
-              <label for="id_list_stored_address" class="label">ひとつ選択下さい</label>
+            <div id="div_id_list_stored_address" class="mb-4 form-group">
+              <!-- <label for="id_list_stored_address" class="label">ひとつ選択下さい</label> -->
               <div id="id_list_stored_address" class="d-block">
                 <!-- {% for field in form.fields.list_stored_address.choices %}
                 {{ field }}
@@ -41,15 +41,19 @@
                   <label class="custom-control-label address" for="list_stored_address_{{ forloop.counter }}">
                     {{ name }}
                   </label>
-                  <a href="{% url 'user:update-shipping-address' pk=value %}">edit</a>
-                  <a href="{% url 'user:delete-shipping-address' pk=value %}">delete</a>
+                  <a href="{% url 'user:update-shipping-address' pk=value %}?next={{ request.path }}">edit</a>
+                  {% if value == primary_id %}
+                  <small class="text-danger">削除するには他の住所を優先住所に指定して下さい。</small>
+                  {% else %}
+                  <a href="{% url 'user:delete-shipping-address' pk=value %}?next={{ request.path }}">delete</a>
+                  {% endif %}
                 </div>
                 {% endfor %}
               </div>
             </div>
             {% endif %}
 
-            <button class="btn btn-main btn-lg btn-block" type="submit">この住所に送る</button>
+            <button class="btn btn-main btn-sm" type="submit">この住所を選択する</button>
           </form>
 
         </div>
