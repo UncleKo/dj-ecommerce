@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 # from django.urls import reverse_lazy
 
+from django.contrib.sites.models import Site
 from ..models import Item, Order, SiteInfo
 from ..models import CATEGORY_CHOICES
 from ..forms import CheckoutForm, BillingAddressForm
@@ -22,7 +23,8 @@ from users.models import ShippingAddress, BillingAddress
 
 class SiteInfoUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = SiteInfo
-    fields = ['title', 'free_shippment_line', 'shipping_fee']
+    fields = ['title', 'free_shippment_line', 'shipping_fee',
+              'order_history_paginate_by', 'order_list_paginate_by']
     # success_url = reverse_lazy('core:siteinfo')
     success_url = reverse_lazy('core:home')
 
@@ -40,8 +42,6 @@ class HomeView(ListView):
     model = Item
     template_name = "core/home.html"
     context_object_name = 'items'
-    # paginate_by = 3
-    # ordering = ['-id']
     ordering = ['?']
 
     def get_context_data(self, **kwargs):
@@ -108,30 +108,6 @@ class ItemDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user.is_staff:
             return True
         return False
-
-
-class FavItemsListView(LoginRequiredMixin, ListView):
-    model = Item
-    template_name = "core/fav_items.html"
-    context_object_name = 'fav_items'
-    # paginate_by = 3
-    ordering = ['-id']
-    # ordering = ['?']
-
-    def get_queryset(self):
-        return Item.objects.filter(fav_users=self.request.user)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["category_choices"] = CATEGORY_CHOICES
-
-        return context
-
-    # def test_func(self):
-    #     user = self.get_object().fav_user
-    #     if self.request.user == user:
-    #         return True
-    #     return False
 
 
 class CartView(LoginRequiredMixin, View):
@@ -308,7 +284,7 @@ class OrderListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Order
     template_name = 'core/order-list.html'
     context_object_name = 'orders'
-    paginate_by = 2
+    paginate_by = Site.objects.get_current().siteinfo.order_list_paginate_by
 
     def get_queryset(self):
         return Order.objects.filter(ordered=True).order_by('-ordered_date')

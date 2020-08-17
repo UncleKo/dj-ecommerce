@@ -83,7 +83,7 @@ def confirm_order(request):
         return render(request, 'core/shopping-cart.html')
 
     except ObjectDoesNotExist:
-        messages.error(request, "カートに何も入ってません。")
+        messages.error(request, "カートは空です。")
         return render(request, 'core/shopping-cart.html')
 
 
@@ -166,7 +166,7 @@ def remove_from_cart(request, slug):
         else:
             messages.info(request, "この商品はカートに入ってません。")
     else:
-        messages.info(request, "カートに何も入ってません。")
+        messages.info(request, "カートは空です。")
     return redirect("core:item", slug=slug)
 
 
@@ -197,7 +197,7 @@ def remove_single_item_from_cart(request, slug):
         else:
             messages.info(request, "この商品はカートに入ってません。")
     else:
-        messages.info(request, "カートに何も入ってません。")
+        messages.info(request, "カートは空です。")
     return redirect("core:item", slug=slug)
 
 
@@ -209,7 +209,7 @@ def add_to_fav_items(request, slug):
     else:
         request.user.fav_items.add(item)
         messages.success(request, "商品がお気に入りに追加されました。")
-        # return redirect("core:fav-items")
+        return redirect("user:fav-items")
     # return redirect(request.META['HTTP_REFERER'])
     # ↑だとログイン強制後ログインページに戻る不都合が生じる
     return redirect("core:item", slug=slug)
@@ -223,4 +223,5 @@ def remove_from_fav_items(request, slug):
         messages.success(request, "商品がお気に入りから外されました。")
     else:
         messages.warning(request, "この商品はお気に入りに入ってません。")
-    return redirect("core:item", slug=slug)
+    # itemページ、お気に入りリスト、２箇所あることと、削除できる時点で既にログインしてるので。
+    return redirect(request.META['HTTP_REFERER'])

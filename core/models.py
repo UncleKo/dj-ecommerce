@@ -210,6 +210,8 @@ class SiteInfo(models.Model):
         verbose_name='送料無料最低価格', null=True, blank=True)
     shipping_fee = models.IntegerField(
         verbose_name='送料', default=0)
+    order_history_paginate_by = models.IntegerField(default=5)
+    order_list_paginate_by = models.IntegerField(default=5)
 
     # def get_absolute_url(self):
     #     return reverse("core:siteinfo", kwargs={

@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block head_title %}お気に入り{% endblock %}
+{% block content %}
+
+<main>
+
+  <div id="order-list" class="container clearfix">
+
+    <h2>お気に入り</h2>
+
+    <div class="fav-items">
+
+      {% for item in fav_items %}
+
+      <div>
+
+        <div>
+          {% if item.image %}
+          <a href="{% url 'core:item' item.slug %}">
+            <img src="{{ item.image_thumbnail.url }}" class="thumb">
+          </a>
+          {% endif %}
+        </div>
+
+        <div>
+          <a href="{{ item.get_absolute_url}}">
+            {{ item.title }}
+          </a>
+        </div>
+
+        <div>
+          {% if item.discount_price %}
+          ¥{{ item.discount_price | intcomma }}
+          {% else %}
+          ¥{{ item.price | intcomma}}
+          {% endif %}
+        </div>
+
+        <div>
+          <a href="{% url 'core:remove-from-fav-items' item.slug %}">
+            <i class="fas fa-trash mobile-only"></i>
+            <span class="mobile-off">削除する</span>
+          </a>
+        </div>
+
+      </div>
+
+      {% empty %}
+
+      <div class="empty">商品はまだ追加されてません。</div>
+
+      {% endfor %}
+
+    </div>
+
+    <table class="table fav-items">
+      <tbody>
+
+        {% for item in fav_items %}
+        <tr>
+          <th scope="row">
+            {% if item.image %}
+            <a href="{% url 'core:item' item.slug %}">
+              <img src="{{ item.image_thumbnail.url }}" class="thumb">
+            </a>
+            {% endif %}
+          </th>
+          <td>
+            <a href="{{ item.get_absolute_url}}">
+              {{ item.title }}
+            </a>
+          </td>
+
+          {% if item.discount_price %}
+          <td>
+            ¥{{ item.discount_price | intcomma }}
+          </td>
+          {% else %}
+          <td>¥{{ item.price | intcomma}}</td>
+          {% endif %}
+
+          <td>
+            <a href="{% url 'core:remove-from-fav-items' item.slug %}">
+              <i class="fas fa-trash float-right"></i>
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td>
+            お気に入りにはまだ商品はありません。
+          </td>
+        </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+
+    <div class="clearfix flex-buttons mt-5 mb-2">
+      <!-- <a class="btn btn-second" href="{{request.META.HTTP_REFERER}}">買い物を続ける</a> -->
+      <a class="btn btn-second" href="/">買い物を続ける</a>
+    </div>
+
+  </div>
+</main>
+{% endblock content %}

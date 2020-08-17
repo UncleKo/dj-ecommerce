@@ -6,130 +6,23 @@
 {% block content %}
 
 <!--Main layout-->
-<main>
+<main class="clearfix">
 
   <div id="shopping-cart" class="container">
 
-    <div class="table-responsive text-nowrap">
+    <h2>ショッピングカート</h2>
 
-      <h2>ショッピングカート</h2>
-
-      <table class="table item-list">
-        <thead>
-          <tr>
-            <th scope="col"></th>
-            <th scope="col">Item Name</th>
-            <th scope="col">Price</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Item Total Price</th>
-          </tr>
-        </thead>
-        <tbody>
-
-          {% for order_item in order.items.all %}
-          <tr>
-            <td>
-              {% if order_item.item.image %}
-              <a href="{% url 'core:item' order_item.item.slug %}">
-                <img src="{{ order_item.item.image_thumbnail.url }}" class="thumb">
-              </a>
-              {% endif %}
-            </td>
-            <td>
-              <!-- <a href="{{order_item.item.get_absolute_url}}"> -->
-              <a href="{% url 'core:item' order_item.item.slug %}">
-                {{ order_item.item.title }}
-              </a>
-            </td>
-
-            {% if order_item.item.discount_price %}
-            <td>
-              <span class=" mr-1">
-                <del>¥{{ order_item.item.price | intcomma }}</del>
-              </span>
-              ¥{{ order_item.item.discount_price | intcomma }}
-            </td>
-            {% else %}
-            <td>¥{{ order_item.item.price | intcomma }}</td>
-            {% endif %}
-
-            <td>
-              {% if order_item.quantity == 1 %}
-              <a href="{% url 'core:remove-from-cart' order_item.item.slug %}">
-                <i class="fas fa-trash mr-2"></i>
-              </a>
-              {% else %}
-              <a href="{% url 'core:remove-single-item-from-cart' order_item.item.slug %}">
-                <i class="fas fa-minus mr-2"></i>
-              </a>
-              {% endif %}
-              {{ order_item.quantity }}
-              <a href="{% url 'core:add-to-cart' order_item.item.slug %}">
-                <i class="fas fa-plus ml-2"></i>
-              </a>
-            </td>
-
-            <td>
-              {% if order_item.item.discount_price %}
-              ¥{{ order_item.get_total_discount_item_price | intcomma }}
-              <span class="badge badge-saving ml-1">Saving ¥{{ order_item.get_amount_saved | intcomma }}</span>
-              {% else %}
-              ¥{{ order_item.get_total_item_price }}
-              {% endif %}
-            </td>
-
-            <td>
-              <a href="{% url 'core:remove-from-cart' order_item.item.slug %}">
-                <i class="fas fa-trash float-right"></i>
-              </a>
-            </td>
-
-            <!-- <td>
-              <a href="{{ order_item.item.get_remove_from_cart_url }}" class=" btn btn-danger btn-md my-0 p">
-              <i class="fas fa-trash"></i>
-              </a>
-            </td> -->
-          </tr>
-
-          {% empty %}
-          <tr>
-            <td colspan='5'>カートは空です。</td>
-          </tr>
-          {% endfor %}
-          {% if order.get_total %}
-          <tr>
-            <td colspan="4" class="text-right">小計(税込)</td>
-            <td class="">¥{{ order.get_total | intcomma }}</td>
-          </tr>
-          <tr>
-            <td colspan="4" class="text-right">送料</td>
-            <td class="">
-              ¥{{ order.get_postage | intcomma }}
-              {% if order.get_postage %}
-              <small class="text-danger">
-                {% if request.site.siteinfo.free_shippment_line %}
-                (あと{{ order.to_free_postage }}円のお買い上げで送料無料になります。)
-                {% endif %}
-              </small>
-              {% endif %}
-            </td>
-          </tr>
-          <tr>
-            <td colspan="4" class="bold text-right">合計金額</td>
-            <td class="total-price bold">¥{{ order.get_total_w_postage | intcomma}}</td>
-          </tr>
-          {% endif %}
-        </tbody>
-      </table>
-
-    </div>
+    {% include "parts/cart-list.html" %}
 
     <div class="clearfix flex-buttons">
       {% if order.get_total %}
-      <a class='btn btn-second' href="/">買い物を続ける</a>
       <a class='btn btn-main' href="{% url 'core:checkout' %}">ご注文手続きに進む</a>
+      <!-- <a class="btn btn-second" href="{{request.META.HTTP_REFERER}}">買い物を続ける</a> -->
+      <a class="btn btn-second" href="/">買い物を続ける</a>
+
       {% else %}
-      <a class='btn btn-second' href="/">買い物を続ける</a>
+      <!-- <a class="btn btn-second" href="{{request.META.HTTP_REFERER}}">買い物を続ける</a> -->
+      <a class="btn btn-second" href="/">買い物を続ける</a>
       {% endif %}
     </div>
 

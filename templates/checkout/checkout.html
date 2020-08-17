@@ -11,7 +11,7 @@
   <div id="checkout" class="container wow fadeIn">
 
     <!-- Heading -->
-    <h2>配送先住所とお支払い方法</h2>
+    <h2>配送先住所<br />お支払い方法</h2>
 
     <!--Grid row-->
     <div class="row">
@@ -38,10 +38,10 @@
                 <p class="address mb-0">{{ primary_shipping_address}}</p>
                 {% if user.shipping_addresses.count > 1 %}
                 <a href="{% url 'user:primary-shipping-address' %}?next={{ request.path }}"
-                  class="btn btn-outline-main btn-sm">他の住所を選択する</a>
+                  class="btn btn-outline-second btn-sm">他の住所を選択する</a>
                 {% endif %}
                 <a href="{% url 'user:create-shipping-address' %}?next={{ request.path }}"
-                  class="btn btn-main btn-sm">配送先住所を追加</a>
+                  class="btn btn-second btn-sm">配送先住所を追加</a>
               </div>
             </div>
 

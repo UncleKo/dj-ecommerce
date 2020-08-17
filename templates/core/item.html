@@ -79,11 +79,11 @@
               {{ item.title }}
               {% if already_favorite %}
               <a href="{{ item.get_remove_from_fav_items_url }}">
-                <i class="fas fa-heart only-mobile"></i>
+                <i class="fas fa-heart mobile-only"></i>
               </a>
               {% else %}
               <a href="{{ item.get_add_to_fav_items_url }}">
-                <i class="far fa-heart only-mobile"></i>
+                <i class="far fa-heart mobile-only"></i>
               </a>
               {% endif %}
             </h2>

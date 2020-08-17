@@ -1,12 +1,12 @@
 {% extends "base.html" %}
-{% block head_title %}ログアウト{% endblock %}
+{% block head_title %}ログアウト - {{ request.site.siteinfo.title }}{% endblock %}
 {% block content %}
 
 <main>
   <div id="order-list" class="container">
-    <h2>You have been logged out</h2>
+    <h2>ログアウトしました。</h2>
     <small class="text-muted">
-      <a href="{% url 'login' %}">Login Again</a>
+      <a href="{% url 'login' %}">再度ログイン</a>
     </small>
   </div>
 </main>

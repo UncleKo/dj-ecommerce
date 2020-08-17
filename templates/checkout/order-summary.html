@@ -7,126 +7,25 @@
 
 
 <!--Main layout-->
-<main>
+<main class="clearfix">
 
   <div id="order-summary" class="container">
 
-    <div class="table-responsive text-nowrap">
+    <h2>ご注文内容のご確認</h2>
 
-      <h2>ご注文内容のご確認</h2>
+    {% if user.first_name and user.last_name %}
+    <p class="bold">{{ user.last_name }}{{ user.first_name }}様</p>
+    {% else %}
+    <h5 class="mt-4 mb-5 text-danger">
+      <i>ここでお名前をご登録ください
+        <a href="{% url 'user:edit-profile' user.id %}?next={{ request.path }}">Click Here</a>
+      </i>
+    </h5>
+    {% endif %}
+    <p>Order no. {{ order.id}} </p>
+    <p>Order date: {{ order.ordered_date }}</p>
 
-      {% if user.first_name and user.last_name %}
-      <h5 class="">{{ user.last_name }}{{ user.first_name }}様</h5>
-      {% else %}
-      <h5 class="mt-4 mb-5 text-danger">
-        <i>ここでお名前をご登録ください
-          <a href="{% url 'user:edit-profile' user.id %}?next={{ request.path }}">Click Here</a>
-        </i>
-      </h5>
-      {% endif %}
-      <h3>Order no. {{ order.id}} </h3>
-      <h3>Order date: {{ order.ordered_date }}</h3>
-
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col"></th>
-            <th scope="col">Item Name</th>
-            <th scope="col">Price</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Item Total Price</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-
-          {% for order_item in order.items.all %}
-          <tr>
-            <td>
-              {% if order_item.item.image %}
-              <a href="{% url 'core:item' order_item.item.slug %}">
-                <img src="{{ order_item.item.image_thumbnail.url }}" class="thumb">
-              </a>
-              {% endif %}
-            </td>
-            <td>
-              <!-- <a href="{{order_item.item.get_absolute_url}}"> -->
-              <a href="{% url 'core:item' order_item.item.slug %}">
-                {{ order_item.item.title }}
-              </a>
-            </td>
-
-            {% if order_item.item.discount_price %}
-            <td>
-              <span class=" mr-1">
-                <del>¥{{ order_item.item.price | intcomma }}</del>
-              </span>
-              ¥{{ order_item.item.discount_price | intcomma }}
-            </td>
-            {% else %}
-            <td>¥{{ order_item.item.price | intcomma }}</td>
-            {% endif %}
-
-            <td>
-              {% if order_item.quantity == 1 %}
-              <a href="{% url 'core:remove-from-cart' order_item.item.slug %}">
-                <i class="fas fa-trash mr-2"></i>
-              </a>
-              {% else %}
-              <a href="{% url 'core:remove-single-item-from-cart' order_item.item.slug %}">
-                <i class="fas fa-minus mr-2"></i>
-              </a>
-              {% endif %}
-              {{ order_item.quantity }}
-              <a href="{% url 'core:add-to-cart' order_item.item.slug %}">
-                <i class="fas fa-plus ml-2"></i>
-              </a>
-            </td>
-
-            <td>
-              {% if order_item.item.discount_price %}
-              ¥{{ order_item.get_total_discount_item_price | intcomma }}
-              <span class="badge badge-saving ml-1">Saving ¥{{ order_item.get_amount_saved | intcomma }}</span>
-              {% else %}
-              ¥{{ order_item.get_total_item_price | intcomma }}
-              {% endif %}
-            </td>
-
-            <td>
-              <a href="{% url 'core:remove-from-cart' order_item.item.slug %}">
-                <i class="fas fa-trash float-right"></i>
-              </a>
-            </td>
-            <!-- <td>
-              <a href="{{ order_item.item.get_remove_from_cart_url }}" class=" btn btn-danger btn-md my-0 p">
-              <i class="fas fa-trash"></i>
-              </a>
-            </td> -->
-          </tr>
-
-          {% empty %}
-          <tr>
-            <td colspan='5'>カートに何も入っていません</td>
-          </tr>
-          {% endfor %}
-          {% if order.get_total %}
-          <tr>
-            <td colspan="4" class="text-right">小計(税込)</td>
-            <td class="">¥{{ order.get_total | intcomma }}</td>
-          </tr>
-          <tr>
-            <td colspan="4" class="text-right">送料</td>
-            <td class="">¥{{ order.get_postage | intcomma }}</td>
-          </tr>
-          <tr>
-            <td colspan="4" class="bold text-right">ご注文合計金額</td>
-            <td class="total-price bold">¥{{ order.get_total_w_postage | intcomma }}</td>
-          </tr>
-          {% endif %}
-        </tbody>
-      </table>
-
-    </div>
+    {% include "parts/cart-list.html" %}
 
     <div id="order-info">
       <div>
@@ -153,13 +52,13 @@
 
     </div>
 
-    <div class="clearfix">
+    <div class="clearfix flex-buttons">
       {% if order.get_total and order.shipping_address and order.payment_option %}
-      <a class='btn btn-main float-right ml-2' href="{% url 'core:confirm-order' %}">ご注文を確定する </a>
+      <a class='btn btn-main' href="{% url 'core:confirm-order' %}">注文を確定する </a>
       {% else %}
-      <a class='btn btn-main float-right ml-2' href="/">買い物を続ける</a>
+      <a class='btn btn-main' href="/">買い物を続ける</a>
       {% endif %}
-      <a class='btn btn-second float-right' href="{% url 'core:checkout' %}">ご注文内容を変更する</a>
+      <a class='btn btn-second' href="{% url 'core:checkout' %}">注文内容を変更する</a>
     </div>
 
   </div> <!-- container -->

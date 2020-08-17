@@ -12,7 +12,6 @@ urlpatterns = [
     path('item/<slug>/edit', ItemUpdateView.as_view(), name='item-update'),
     path('item/<slug>/delete', ItemDeleteView.as_view(), name='item-delete'),
     path('shopping-cart/', CartView.as_view(), name='shopping-cart'),
-    path('fav-items/', FavItemsListView.as_view(), name='fav-items'),
 
     path('checkout/', CheckoutView.as_view(), name='checkout'),
     path('billing-address/', BillingAddressView.as_view(), name='billing-address'),

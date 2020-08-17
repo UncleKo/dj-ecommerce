@@ -1,0 +1,190 @@
+{% load humanize %}
+
+<div class="cart-list">
+  <!-- <div class="mobile-off"></div>
+  <div class="label mobile-off">Item Name</div>
+  <div class="label mobile-off">Price</div>
+  <div class="label mobile-off">Quantity</div>
+  <div class="mobile-off"></div> -->
+
+  {% for order_item in order.items.all %}
+  <div>
+    {% if order_item.item.image %}
+    <a href="{% url 'core:item' order_item.item.slug %}">
+      <img src="{{ order_item.item.image_thumbnail.url }}" class="thumb">
+    </a>
+    {% endif %}
+  </div>
+  <div>
+    <a href="{% url 'core:item' order_item.item.slug %}">
+      {{ order_item.item.title }}
+    </a>
+  </div>
+
+  {% if order_item.item.discount_price %}
+  <div>
+    <span class=" mr-1">
+      <del>¥{{ order_item.item.price | intcomma }}</del>
+    </span>
+    ¥{{ order_item.item.discount_price | intcomma }}
+  </div>
+  {% else %}
+  <div>¥{{ order_item.item.price | intcomma }}</div>
+  {% endif %}
+
+  <div>
+    {% if order_item.quantity == 1 %}
+    <a href="{% url 'core:remove-from-cart' order_item.item.slug %}">
+      <i class="fas fa-trash mr-2"></i>
+    </a>
+    {% else %}
+    <a href="{% url 'core:remove-single-item-from-cart' order_item.item.slug %}">
+      <i class="fas fa-minus mr-2"></i>
+    </a>
+    {% endif %}
+    {{ order_item.quantity }}
+    <a href="{% url 'core:add-to-cart' order_item.item.slug %}">
+      <i class="fas fa-plus ml-2"></i>
+    </a>
+  </div>
+
+  <!-- <div>
+          {% if order_item.item.discount_price %}
+          ¥{{ order_item.get_total_discount_item_price | intcomma }}
+          <span class="badge badge-saving ml-1">Saving ¥{{ order_item.get_amount_saved | intcomma }}</span>
+          {% else %}
+          ¥{{ order_item.get_total_item_price | intcomma }}
+          {% endif %}
+        </div> -->
+
+  <div>
+    <a href="{% url 'core:remove-from-cart' order_item.item.slug %}">
+      削除する
+    </a>
+  </div>
+
+  {% empty %}
+  <div class="empty">
+    カートは空です。
+  </div>
+  {% endfor %}
+
+</div> <!-- cart-list -->
+
+
+<div class="cart-total">
+  {% if order.get_total %}
+  <div class="span2 label text-right">小計(税込):</div>
+  <div class="span3">¥{{ order.get_total | intcomma }}</div>
+  <div class="span2 label text-right">送料:</div>
+  <div class="span3">¥{{ order.get_postage | intcomma }}</div>
+  <div class="span2 label text-right bold">合計金額:</div>
+  <div class="total-price bold"> ¥{{ order.get_total_w_postage | intcomma }} </div>
+  <!-- <div class="span5">小計(税込): ¥{{ order.get_total | intcomma }}</div>
+        <div class="span5">送料: ¥{{ order.get_postage | intcomma }}</div>
+        <div class="span5">合計金額: ¥{{ order.get_total_w_postage | intcomma }}</div> -->
+  {% endif %}
+</div>
+
+
+<div class="table-responsive text-nowrap">
+  <table class="table cart">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Item Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Item Total Price</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+
+      {% for order_item in order.items.all %}
+      <tr>
+        <td>
+          {% if order_item.item.image %}
+          <a href="{% url 'core:item' order_item.item.slug %}">
+            <img src="{{ order_item.item.image_thumbnail.url }}" class="thumb">
+          </a>
+          {% endif %}
+        </td>
+        <td>
+          <!-- <a href="{{order_item.item.get_absolute_url}}"> -->
+          <a href="{% url 'core:item' order_item.item.slug %}">
+            {{ order_item.item.title }}
+          </a>
+        </td>
+
+        {% if order_item.item.discount_price %}
+        <td>
+          <span class=" mr-1">
+            <del>¥{{ order_item.item.price | intcomma }}</del>
+          </span>
+          ¥{{ order_item.item.discount_price | intcomma }}
+        </td>
+        {% else %}
+        <td>¥{{ order_item.item.price | intcomma }}</td>
+        {% endif %}
+
+        <td>
+          {% if order_item.quantity == 1 %}
+          <a href="{% url 'core:remove-from-cart' order_item.item.slug %}">
+            <i class="fas fa-trash mr-2"></i>
+          </a>
+          {% else %}
+          <a href="{% url 'core:remove-single-item-from-cart' order_item.item.slug %}">
+            <i class="fas fa-minus mr-2"></i>
+          </a>
+          {% endif %}
+          {{ order_item.quantity }}
+          <a href="{% url 'core:add-to-cart' order_item.item.slug %}">
+            <i class="fas fa-plus ml-2"></i>
+          </a>
+        </td>
+
+        <td>
+          {% if order_item.item.discount_price %}
+          ¥{{ order_item.get_total_discount_item_price | intcomma }}
+          <span class="badge badge-saving ml-1">Saving ¥{{ order_item.get_amount_saved | intcomma }}</span>
+          {% else %}
+          ¥{{ order_item.get_total_item_price | intcomma }}
+          {% endif %}
+        </td>
+
+        <td>
+          <a href="{% url 'core:remove-from-cart' order_item.item.slug %}">
+            <i class="fas fa-trash float-right"></i>
+          </a>
+        </td>
+        <!-- <td>
+              <a href="{{ order_item.item.get_remove_from_cart_url }}" class=" btn btn-danger btn-md my-0 p">
+              <i class="fas fa-trash"></i>
+              </a>
+            </td> -->
+      </tr>
+
+      {% empty %}
+      <tr>
+        <td colspan='5'>カートは空です。</td>
+      </tr>
+      {% endfor %}
+      {% if order.get_total %}
+      <tr>
+        <td colspan="4" class="text-right">小計(税込)</td>
+        <td class="">¥{{ order.get_total | intcomma }}</td>
+      </tr>
+      <tr>
+        <td colspan="4" class="text-right">送料</td>
+        <td class="">¥{{ order.get_postage | intcomma }}</td>
+      </tr>
+      <tr>
+        <td colspan="4" class="bold text-right">合計金額</td>
+        <td class="total-price bold">¥{{ order.get_total_w_postage | intcomma }}</td>
+      </tr>
+      {% endif %}
+    </tbody>
+  </table>
+
+</div>

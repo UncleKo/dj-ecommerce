@@ -9,11 +9,12 @@ from django.contrib.auth import authenticate, login
 from django.core.mail import send_mail
 from django.core.exceptions import ObjectDoesNotExist
 
-from django.contrib.auth.models import User
 from django.views.generic import View, ListView, DetailView, CreateView, UpdateView, DeleteView
 from core.boost import DynamicRedirectMixin
+from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
 from .models import ShippingAddress, BillingAddress
-from core.models import Order
+from core.models import Order, Item, CATEGORY_CHOICES, SiteInfo
 from .forms import ProfileUpdateForm, ShippingAddressForm, PrimaryShippingAddressForm, UserRegisterForm, BillingAddressForm, PrimaryBillingAddressForm
 
 
@@ -57,12 +58,36 @@ class ProfileUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return False
 
 
+class FavItemsListView(LoginRequiredMixin, ListView):
+    model = Item
+    template_name = "users/fav_items.html"
+    context_object_name = 'fav_items'
+    # paginate_by = 3
+    ordering = ['-id']
+    # ordering = ['?']
+
+    def get_queryset(self):
+        return Item.objects.filter(fav_users=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category_choices"] = CATEGORY_CHOICES
+
+        return context
+
+    # def test_func(self):
+    #     user = self.get_object().fav_user
+    #     if self.request.user == user:
+    #         return True
+    #     return False
+
+
 class OrderHistoryView(LoginRequiredMixin, ListView):
 
     model = Order
     template_name = 'core/order-list.html'
     context_object_name = 'orders'
-    paginate_by = 2
+    paginate_by = Site.objects.get_current().siteinfo.order_history_paginate_by
 
     def get_queryset(self):
         # user = get_object_or_404(User, pk=self.kwargs.get('pk'))

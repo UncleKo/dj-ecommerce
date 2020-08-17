@@ -1,47 +1,108 @@
 {% extends "base.html" %}
 {% load humanize %}
-{% block head_title %}注文履歴{% endblock %}
+{% block head_title %}注文履歴 - {{ request.site.siteinfo.title }}{% endblock %}
 
 {% block content %}
 
 <!--Main layout-->
 <main>
 
-  <div id="order-list" class="container">
+  <div class="container">
 
     <h2>注文履歴</h2>
 
     {% for order in orders %}
-    <div class="order-status">
-      <p class="label mb-0">Order No: {{ order.id }}</p>
-      <p class="bold">{{ order.ordered_date }}</p>
-      <p>
-        <span class="label">Status:</span>
-        {% if order.dispatched %}
-        <span class="status badge badge-dispatched">発送済み</span>
-        {% else %}
-        <span class="status badge badge-danger">発送準備中</span>
+    <div id="order-list">
+
+      <div class="order-status">
+        <p class="label mb-0">Order No: {{ order.id }}</p>
+        <p class="bold">{{ order.ordered_date }}</p>
+        <p>
+          <span class="label">Status:</span>
+          {% if order.dispatched %}
+          <span class="status badge badge-dispatched">発送済み</span>
+          {% else %}
+          <span class="status badge badge-danger">発送準備中</span>
+          {% endif %}
+          </span>
+          {% if list_for_staff %}
+          <!-- <a href="{% url 'core:order-dispatched' order.id %}" class=" btn btn-outline-primary btn-sm"> -->
+          {% if order.dispatched %}
+          <a href="{{ order.get_order_dispatched }}" class=" btn btn-outline-main btn-sm">
+            発送済み取り消し
+          </a>
+          {% else %}
+          <a href="{{ order.get_order_dispatched }}" class=" btn btn-outline-danger btn-sm">
+            発送済みにする
+          </a>
+          {% endif %}
+        </p>
         {% endif %}
-        </span>
-        {% if list_for_staff %}
-        <!-- <a href="{% url 'core:order-dispatched' order.id %}" class=" btn btn-outline-primary btn-sm"> -->
-        {% if order.dispatched %}
-        <a href="{{ order.get_order_dispatched }}" class=" btn btn-outline-main btn-sm">
-          発送済み取り消し
-        </a>
-        {% else %}
-        <a href="{{ order.get_order_dispatched }}" class=" btn btn-outline-danger btn-sm">
-          発送済みにする
-        </a>
-        {% endif %}
-      </p>
-      {% endif %}
-      <p class="">送料: ¥{{ order.get_postage | intcomma }}</p>
-      <p class="bold total-price">合計金額: ¥{{ order.get_total_w_postage | intcomma }}</p>
+        <!-- <p class="">送料: ¥{{ order.get_postage | intcomma }}</p>
+      <p class="bold total-price">合計金額: ¥{{ order.get_total_w_postage | intcomma }}</p> -->
+
+      </div>
 
 
-    </div>
-    <table class="table">
+      <div class="order-list">
+        <!-- <div class="mobile-off"></div>
+      <div class="label mobile-off">Item Name</div>
+      <div class="label mobile-off">Price</div> -->
+
+        {% for order_item in order.items.all %}
+        <div>
+          {% if order_item.item.image %}
+          <a href="{% url 'core:item' order_item.item.slug %}">
+            <img src="{{ order_item.item.image_thumbnail.url }}" class="thumb">
+          </a>
+          {% endif %}
+        </div>
+        <div>
+          <a href="{% url 'core:item' order_item.item.slug %}">
+            {{ order_item.item.title }}
+          </a>
+        </div>
+
+        {% if order_item.item.discount_price %}
+        <div>
+          <span class=" mr-1">
+            <del>¥{{ order_item.item.price | intcomma }}</del>
+          </span>
+          ¥{{ order_item.item.discount_price | intcomma }}
+        </div>
+        {% else %}
+        <div>¥{{ order_item.item.price | intcomma }}</div>
+        {% endif %}
+
+
+        {% empty %}
+        <div>
+          カートに何も入っていません
+        </div>
+        {% endfor %}
+
+      </div>
+      <!-- cart-list -->
+
+
+      <div class="cart-total">
+        {% if order.get_total %}
+        <div class="span2 label text-right">小計(税込):</div>
+        <div class="span3">¥{{ order.get_total | intcomma }}</div>
+        <div class="span2 label text-right">送料:</div>
+        <div class="span3">¥{{ order.get_postage | intcomma }}</div>
+        <div class="span2 label text-right bold">合計金額:</div>
+        <div class="total-price bold"> ¥{{ order.get_total_w_postage | intcomma }} </div>
+        <!-- <div class="span5">小計(税込): ¥{{ order.get_total | intcomma }}</div>
+        <div class="span5">送料: ¥{{ order.get_postage | intcomma }}</div>
+        <div class="span5">合計金額: ¥{{ order.get_total_w_postage | intcomma }}</div> -->
+        {% endif %}
+      </div>
+
+
+    </div> <!-- order-list -->
+
+    <table class="table order-list">
       <tbody>
 
         {% for order_item in order.items.all %}
@@ -86,14 +147,20 @@
 
         {% endfor %}
 
+        {% if order.get_total %}
         <tr>
-          <td colspan="4" class="text-right">小計</td>
-          <td>
-            {% if order.get_total %}
-            <p class="bold total-price">¥{{ order.get_total | intcomma }}</p>
-            {% endif %}
-          </td>
+          <td colspan="4" class="text-right">小計(税込)</td>
+          <td class="">¥{{ order.get_total | intcomma }}</td>
         </tr>
+        <tr>
+          <td colspan="4" class="text-right">送料</td>
+          <td class="">¥{{ order.get_postage | intcomma }}</td>
+        </tr>
+        <tr>
+          <td colspan="4" class="bold text-right">合計金額</td>
+          <td class="total-price bold">¥{{ order.get_total_w_postage | intcomma }}</td>
+        </tr>
+        {% endif %}
 
       </tbody>
     </table>

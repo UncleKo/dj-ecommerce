@@ -53,10 +53,10 @@
                     <p class="address mb-0">{{ primary_billing_address}}</p>
                     {% if user.billing_addresses.count > 1 %}
                     <a href="{% url 'user:primary-billing-address' %}?next={{ request.path }}"
-                      class="btn btn-outline-main btn-sm">他の住所を選択する</a>
+                      class="btn btn-outline-second btn-sm">他の住所を選択する</a>
                     {% endif %}
                     <a href="{% url 'user:create-billing-address' %}?next={{ request.path }}"
-                      class="btn btn-main btn-sm">請求先住所を追加</a>
+                      class="btn btn-second btn-sm">請求先住所を追加</a>
                   </div>
                 </div>
                 {% else %}

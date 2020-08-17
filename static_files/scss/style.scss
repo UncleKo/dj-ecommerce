@@ -111,12 +111,12 @@ footer {
   color: $asagi !important;
 }
 .btn-second {
-  background-color: $rikyushiracha;
+  background-color: $tamamorokoshi;
   color: white;
 }
 .btn-outline-second {
-  border: 2px solid $rikyushiracha !important;
-  color: $rikyushiracha !important;
+  border: 2px solid $tamamorokoshi !important;
+  color: $tamamorokoshi !important;
 }
 .pagination .btn {
   padding: 5px 10px;
@@ -233,61 +233,40 @@ header {
 }
 
 
-.order-status {
-  p {
-    margin-bottom: .1rem;
-    font-weight: 400;
-    &.bold {
-      font-weight: 600;
+// #order-list .total-price {
+//   text-decoration: underline;
+// }
+
+.flex-buttons {
+  width: 50%;
+  float: right;
+  display: flex;
+  flex-wrap: wrap;
+  button,
+  a {
+    flex: 1;
+    &:first-child {
+      margin-left: 0;
     }
-  }
-  .status {
-    color: $asagi;
-
-  }
-}
-
-
-#order-list .total-price {
-  text-decoration: underline;
-}
-
- .flex-buttons {
-   width: 50%;
-   float: right;
-   display: flex;
-   flex-wrap: wrap;
-   button,
+    &:last-child {
+      margin-right: 0;
+    }
+  } //a
+  @media (max-width: 768px) {
+    width: 100%;
    a {
-     flex: 1;
-     &:first-child {
-       margin-left: 0;
-     }
-     &:last-child {
-       margin-right: 0;
-     }
+     flex-basis: 100%;
+     margin-left: 0;
+     margin-right: 0;
    } //a
-   @media (max-width: 768px) {
-     width: 100%;
-    //  a {
-    //    flex-basis: 100%;
-    //    margin-left: 0;
-    //    margin-right: 0;
-    //  } //a
-    } //@media
- } //.flex-buttons
+  } //@media
+} //.flex-buttons
 
  #btn-add-item {
    width: 100%;
    margin-left: 0;
    margin-right: 0;
  }
-
-//  .table.item-list {
-//      @media (max-width: 768px) {
-//        display: none;
-//      }
-//  }
 
 .fa-heart {
   color: $asagi;
@@ -301,8 +280,29 @@ header {
   }
 }
 
-.only-mobile {
+.mobile-only {
   @media(min-width: 768px) {
     display: none;
   }
 }
+
+
+ 
+// .span1 {
+//   grid-column: span 1;
+// }
+// .span2 {
+//   grid-column: span 2;
+// }
+// .span3 {
+//   grid-column: span 3;
+// }
+// .span4 {
+//   grid-column: span 4;
+// }
+// .span5 {
+//   grid-column: span 5;
+// }
+// .span6 {
+//   grid-column: span 6;
+// }

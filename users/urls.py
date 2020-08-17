@@ -8,6 +8,7 @@ urlpatterns = [
     path('profile/', ProfileView.as_view(), name='profile'),
     path('<int:pk>/edit-profile/',
          ProfileUpdateView.as_view(), name='edit-profile'),
+    path('fav-items/', FavItemsListView.as_view(), name='fav-items'),
     path('order-history', OrderHistoryView.as_view(),
          name='order-history'),
 
