@@ -6,11 +6,11 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
+from core.boost import DynamicRedirectMixin
 # from django.urls import reverse_lazy
 
 from django.contrib.sites.models import Site
-from ..models import Item, Order, SiteInfo
-from ..models import CATEGORY_CHOICES
+from ..models import Item, Order, SiteInfo, Category
 from ..forms import CheckoutForm, BillingAddressForm
 from users.models import ShippingAddress, BillingAddress
 # from .boost import DynamicRedirectMixin
@@ -42,12 +42,15 @@ class HomeView(ListView):
     model = Item
     template_name = "core/home.html"
     context_object_name = 'items'
-    ordering = ['?']
+    # ordering = ['?']
+
+    def get_queryset(self):
+        return Item.objects.filter(draft=False).order_by('?')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["featured_item"] = Item.objects.filter(featured=True).first()
-        context["category_choices"] = CATEGORY_CHOICES
+        context["categories"] = Category.objects.all().order_by('order')
 
         return context
 
@@ -56,6 +59,24 @@ class HomeView(ListView):
 #         'items': Item.objects.all()
 #     }
 #     return render(request, "core/home.html", context)
+
+
+class CategoryItemListView(ListView):
+    model = Item
+#   template_name = 'core/item_list.html'
+    context_object_name = 'items'
+    paginate_by = 5
+
+    def get_queryset(self):
+        category = get_object_or_404(
+            Category, name=self.kwargs.get('category_name'))
+        return category.items.filter(draft=False).order_by('?')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["categories"] = Category.objects.all().order_by('order')
+
+        return context
 
 
 class ItemDetailView(DetailView):
@@ -67,10 +88,76 @@ class ItemDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context["other_items"] = Item.objects.exclude(
             slug=self.kwargs['slug']).order_by('?')[:3]
-        context["category_choices"] = CATEGORY_CHOICES
+        context["categories"] = Category.objects.all().order_by('order')
         # if self.get_object().fav_users.filter(id=self.request.user.id):
         if self.object.fav_users.filter(id=self.request.user.id):
             context["already_favorite"] = True
+        return context
+
+
+class CategoryListView(LoginRequiredMixin, UserPassesTestMixin, DynamicRedirectMixin, ListView):
+    model = Category
+    success_url = reverse_lazy('core:category-list')
+    context_object_name = 'categories'
+
+    def get_queryset(self):
+        return Category.objects.all().order_by('order')
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
+
+
+class CategoryCreateView(LoginRequiredMixin, UserPassesTestMixin, DynamicRedirectMixin, CreateView):
+    model = Category
+    fields = ['name', 'order']
+    success_url = reverse_lazy('core:category-list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # context_processors.pyでサイトすべてに渡す手も
+        context["categories"] = Category.objects.all()
+        return context
+
+    # ユーザーがスタッフの時にのみ許可
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
+
+
+class CategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, DynamicRedirectMixin, UpdateView):
+    model = Category
+    fields = ['name', 'order']
+    success_url = reverse_lazy('core:category-list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # context_processors.pyでサイトすべてに渡す手も
+        context["categories"] = Category.objects.all()
+        context["edit"] = 1
+        return context
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
+
+
+class CategoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DynamicRedirectMixin, DeleteView):
+    model = Category
+    context_object_name = 'category'
+    success_url = reverse_lazy('core:category-list')
+
+    def test_func(self):
+        if self.request.user.is_staff:
+            return True
+        return False
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["items"] = self.object.items.all()
         return context
 
 
@@ -299,3 +386,11 @@ class OrderListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context = super().get_context_data(**kwargs)
         context["list_for_staff"] = 1
         return context
+
+
+def email_test(request):
+    order = Order.objects.get(pk=3)
+    context = {
+        'order': order
+    }
+    return render(request, 'parts/email.html', context)

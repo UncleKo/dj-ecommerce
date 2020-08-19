@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block head_title %}Category: {{ view.kwargs.category_name }}{% endblock %}
+{% block content %}
+
+<main>
+
+  <div id="item-list" class="container clearfix">
+
+    {% include "parts/category-menu.html" %}
+
+    <h2 class="mt-5">Category: {{ view.kwargs.category_name }}</h2>
+
+    <div class="item-list">
+
+      {% for item in items %}
+
+      <div>
+
+        <div>
+          {% if item.image %}
+          <a href="{% url 'core:item' item.slug %}">
+            <img src="{{ item.image_thumbnail.url }}" class="thumb">
+          </a>
+          {% endif %}
+        </div>
+
+        <div>
+          <a href="{{ item.get_absolute_url}}">
+            {{ item.title }}
+          </a>
+        </div>
+
+        <div>
+          {% if item.discount_price %}
+          ¥{{ item.discount_price | intcomma }}
+          {% else %}
+          ¥{{ item.price | intcomma}}
+          {% endif %}
+        </div>
+
+      </div>
+
+      {% empty %}
+
+      <div class="empty">このカテゴリーの商品は現在ありません。</div>
+
+      {% endfor %}
+
+    </div>
+
+
+  </div>
+</main>
+{% endblock content %}

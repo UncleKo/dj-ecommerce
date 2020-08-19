@@ -1,0 +1,312 @@
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>ご注文内容</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&display=swap"
+    rel="stylesheet">
+  <style>
+    body {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 16px;
+      padding-bottom: 5rem;
+    }
+
+    .container {
+      width: 100%;
+      padding-right: 15px;
+      padding-left: 15px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    @media (min-width:576px) {
+      .container {
+        max-width: 540px
+      }
+    }
+
+    @media (min-width:768px) {
+      .container {
+        max-width: 720px
+      }
+    }
+
+    @media (min-width:992px) {
+      .container {
+        max-width: 960px
+      }
+    }
+
+    @media (min-width:1200px) {
+      .container {
+        max-width: 1140px
+      }
+    }
+
+    h2 {
+      font-family: "Noto Sans JP", sans-serif;
+      font-weight: 100;
+      font-size: 2rem;
+      margin-bottom: 3rem;
+      margin-left: .5rem;
+    }
+
+    .order-status,
+    .order-info {
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    @media (max-width: 768px) {
+
+      .order-status,
+      .order-info {
+        width: 60%;
+        margin: 0 auto;
+      }
+    }
+
+    .order-status p {
+      margin-top: 0;
+      margin-bottom: .1rem;
+      font-weight: 400;
+    }
+
+    .order-status p.bold {
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    .label {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: .7rem;
+      font-weight: 300;
+    }
+
+    .mb-0 {
+      margin-bottom: 0;
+    }
+
+    .badge {
+      -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+      -webkit-border-radius: .125rem;
+      border-radius: .125rem;
+    }
+
+    .badge {
+      color: #fff;
+      display: inline-block;
+      padding: .25em .4em;
+      font-size: 75%;
+      font-weight: 700;
+      line-height: 1;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: baseline;
+      border-radius: .25rem;
+      transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+
+    .badge-dispatched {
+      background-color: #33A6B8;
+    }
+
+    div.order-list {
+      width: 100%;
+      padding: 10px;
+      white-space: nowrap;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      display: grid;
+      align-items: center;
+    }
+
+    div.order-list div {
+      padding: 20px;
+    }
+
+    div.order-list a {
+      color: #878a8d;
+      font-size: .8rem;
+    }
+
+    @media (max-width: 768px) {
+
+      div.order-list {
+        justify-items: center;
+        box-shadow: none;
+      }
+
+      div.order-list div {
+        width: 60%;
+        padding: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      }
+
+      div.order-list div.empty {
+        padding: 10px;
+        width: auto;
+      }
+    }
+
+    div.order-list {
+      margin-top: 1rem;
+      grid-template-columns: auto repeat(2, 1fr);
+    }
+
+    @media (max-width: 768px) {
+      div.order-list {
+        grid-template-columns: 1fr;
+      }
+
+      div.order-list div:nth-child(3n) {
+        margin-bottom: 2rem;
+      }
+    }
+
+    div.cart-total {
+      width: 50%;
+      margin: 1rem 0 5rem auto;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 768px) {
+      div.cart-total {
+        width: 60%;
+        margin: 0 auto 5rem;
+      }
+    }
+
+    div.cart-total div {
+      padding: 15px;
+    }
+
+    /* @media all and (-ms-high-contrast: none),
+    (-ms-high-contrast: active) {
+      div.cart-total {
+        display: none;
+      }
+    } */
+
+
+    /* .order-status .status {
+      color: #33A6B8;
+    } */
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>ご注文内容</h2>
+
+    <div id="order-list">
+
+      <div class="order-status">
+        <p class="bold">{{ order.user.last_name }} {{ order.user.first_name }} 様</p>
+        <p class="label mb-0">Order No: {{ order.id }}</p>
+        <p class="bold">{{ order.ordered_date }}</p>
+        <p>
+          <span class="label">Status:</span>
+          {% if order.dispatched %}
+          <span class="status badge badge-dispatched">発送済み</span>
+          {% else %}
+          <span class="status badge badge-danger">発送準備中</span>
+          {% endif %}
+          </span>
+
+      </div>
+
+
+      <div class="order-list">
+        <!-- <div class="mobile-off"></div>
+      <div class="label mobile-off">Item Name</div>
+      <div class="label mobile-off">Price</div> -->
+
+        {% for order_item in order.items.all %}
+        <div>
+          {% if order_item.item.image %}
+          <a href="{% url 'core:item' order_item.item.slug %}">
+            <img src="{{ order_item.item.image_thumbnail.url }}" class="thumb">
+          </a>
+          {% endif %}
+        </div>
+        <div>
+          <a href="{% url 'core:item' order_item.item.slug %}">
+            {{ order_item.item.title }}
+          </a>
+        </div>
+
+        {% if order_item.item.discount_price %}
+        <div>
+          <span class=" mr-1">
+            <del>¥{{ order_item.item.price | intcomma }}</del>
+          </span>
+          ¥{{ order_item.item.discount_price | intcomma }}
+        </div>
+        {% else %}
+        <div>¥{{ order_item.item.price | intcomma }}</div>
+        {% endif %}
+
+
+        {% empty %}
+        <div>
+          カートに何も入っていません
+        </div>
+        {% endfor %}
+
+      </div>
+      <!-- cart-list -->
+
+
+      <div class="cart-total">
+        {% if order.get_total %}
+        <div class="span2 label text-right">小計(税込):</div>
+        <div class="span3">¥{{ order.get_total | intcomma }}</div>
+        <div class="span2 label text-right">送料:</div>
+        <div class="span3">¥{{ order.get_postage | intcomma }}</div>
+        <div class="span2 label text-right bold">合計金額:</div>
+        <div class="total-price bold"> ¥{{ order.get_total_w_postage | intcomma }} </div>
+        <!-- <div class="span5">小計(税込): ¥{{ order.get_total | intcomma }}</div>
+        <div class="span5">送料: ¥{{ order.get_postage | intcomma }}</div>
+        <div class="span5">合計金額: ¥{{ order.get_total_w_postage | intcomma }}</div> -->
+        {% endif %}
+      </div>
+
+      <div class="order-info">
+        <div>
+          <p class="label mb-0">配送先住所</p>
+          <p class="address">{{ order.shipping_address }}</p>
+        </div>
+
+        {% if order.billing_address %}
+        <div>
+          <p class="label mb-0">請求先住所</p>
+          <p class="address">{{ order.billing_address }}</p>
+        </div>
+        {% endif %}
+
+        <div>
+          <p class="label mb-0">配達時間ご指定</p>
+          <p class="address">{{ order.get_delivery_time_display }}</p>
+        </div>
+
+        <div>
+          <p class="label mb-0">お支払い方法</p>
+          <p class="address">{{ order.get_payment_option_display }}</p>
+        </div>
+
+      </div>
+
+    </div> <!-- container -->
+</body>
+<!--Main layout-->

@@ -15,6 +15,9 @@ class ShippingAddress(models.Model):
     # country = CountryField(multiple=False)
     primary = models.BooleanField(default=False)
 
+    class Meta:
+        verbose_name_plural = '配送先住所'
+
     def __str__(self):
         return f"{self.state} {self.city} {self.street_address}"
         # return f"{self.street_address}, {self.city}, {self.state} {self.zip} {self.country}"
@@ -39,6 +42,9 @@ class BillingAddress(models.Model):
     zip = models.CharField(max_length=100, verbose_name='郵便番号')
     # country = CountryField(multiple=False)
     primary = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name_plural = '請求先住所'
 
     def __str__(self):
         return f"{self.state} {self.city} {self.street_address}"

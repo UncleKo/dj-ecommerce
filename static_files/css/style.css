@@ -1,13 +1,3 @@
-.Parts-color,
-.PC-color {
-  background-color: #6C6024; }
-
-.Furniture-color {
-  background-color: #E2943B; }
-
-.Green-color {
-  background-color: #86C166; }
-
 body {
   font-family: "Noto Sans JP", sans-serif;
   font-size: 16px; }
@@ -242,6 +232,9 @@ form {
     .other-items .item a {
       color: #666; }
 
+.category-color {
+  background-color: #86C166; }
+
 .shipping-address .address {
   display: flex;
   align-items: center; }
@@ -294,7 +287,8 @@ img.thumb {
 
 div.cart-list,
 div.order-list,
-div.fav-items {
+div.fav-items,
+div.item-list {
   width: 100%;
   padding: 10px;
   white-space: nowrap;
@@ -303,34 +297,40 @@ div.fav-items {
   align-items: center; }
   div.cart-list div,
   div.order-list div,
-  div.fav-items div {
+  div.fav-items div,
+  div.item-list div {
     padding: 20px; }
   div.cart-list a,
   div.order-list a,
-  div.fav-items a {
+  div.fav-items a,
+  div.item-list a {
     color: #878a8d;
     font-size: .8rem; }
   @media (max-width: 768px) {
     div.cart-list,
     div.order-list,
-    div.fav-items {
+    div.fav-items,
+    div.item-list {
       justify-items: center;
       box-shadow: none; }
       div.cart-list div,
       div.order-list div,
-      div.fav-items div {
+      div.fav-items div,
+      div.item-list div {
         width: 60%;
         padding: 5px;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); }
       div.cart-list div.empty,
       div.order-list div.empty,
-      div.fav-items div.empty {
+      div.fav-items div.empty,
+      div.item-list div.empty {
         padding: 10px;
         width: auto; } }
   @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
     div.cart-list,
     div.order-list,
-    div.fav-items {
+    div.fav-items,
+    div.item-list {
       display: none; } }
 
 div.cart-list {
@@ -399,21 +399,21 @@ div.cart-total {
       margin-top: .5rem;
       margin-bottom: 3rem; } }
 
-div.fav-items {
+div.fav-items, div.item-list {
   grid-template-columns: repeat(4, 1fr); }
-  div.fav-items div {
+  div.fav-items div, div.item-list div {
     padding: 10px; }
   @media (max-width: 768px) {
-    div.fav-items {
+    div.fav-items, div.item-list {
       grid-template-columns: 1fr;
       box-shadow: none; }
-      div.fav-items > div {
+      div.fav-items > div, div.item-list > div {
         width: 60%;
         padding: 5px;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         margin-bottom: 3rem;
         text-align: center; }
-        div.fav-items > div div {
+        div.fav-items > div div, div.item-list > div div {
           width: 100%; } }
 
 /* Required height of parents of the Half Page Carousel for proper displaying carousel itself */
@@ -457,7 +457,8 @@ main {
   padding-bottom: 10rem; }
 
 #home,
-#item {
+#item,
+#item-list {
   margin-top: -3rem; }
 
 footer {

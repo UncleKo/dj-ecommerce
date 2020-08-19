@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% load humanize %}
-{% block head_title %}注文履歴 - {{ request.site.siteinfo.title }}{% endblock %}
+{% block head_title %}
+{% if history %}
+購入履歴
+{% else %}
+注文管理
+{% endif %}
+- {{ request.site.siteinfo.title }}
+{% endblock %}
 
 {% block content %}
 
@@ -9,7 +16,11 @@
 
   <div class="container">
 
-    <h2>注文履歴</h2>
+    {% if history %}
+    <h2>購入履歴</h2>
+    {% else %}
+    <h2>注文管理</h2>
+    {% endif %}
 
     {% for order in orders %}
     <div id="order-list">
@@ -64,16 +75,10 @@
         </div>
 
         {% if order_item.item.discount_price %}
-        <div>
-          <span class=" mr-1">
-            <del>¥{{ order_item.item.price | intcomma }}</del>
-          </span>
-          ¥{{ order_item.item.discount_price | intcomma }}
-        </div>
+        <div>¥{{ order_item.item.discount_price | intcomma }}</div>
         {% else %}
         <div>¥{{ order_item.item.price | intcomma }}</div>
         {% endif %}
-
 
         {% empty %}
         <div>
@@ -82,7 +87,7 @@
         {% endfor %}
 
       </div>
-      <!-- cart-list -->
+      <!-- order-list -->
 
 
       <div class="cart-total">

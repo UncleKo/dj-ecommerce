@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}カテゴリーの削除 - {{ request.site.siteinfo.title }} {% endblock %}
+
+{% block content %}
+<div class="container">
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <fieldset class="form-group">
+      <h5 class="text-alert">このカテゴリーを削除してもよろしいですか？</h5>
+      <p>カテゴリに属している商品からはカテゴリーが外されます。</p>
+      {{ category.name }}
+      <ul>
+        このカテゴリーに所属の商品
+        {% for item in items %}
+        <li>{{ item }} </li>
+        {% endfor %}
+      </ul>
+    </fieldset>
+    <div class="form-group">
+      <button class="btn btn-outline-danger" type="submit">削除する</button>
+    </div>
+    {% endblock content %}

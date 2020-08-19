@@ -6,36 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>Order Detail</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&display=swap">
   <style>
-    /*! CSS Used from: https://use.fontawesome.com/releases/v5.8.2/css/all.css */
-    .fas {
-      -moz-osx-font-smoothing: grayscale;
-      -webkit-font-smoothing: antialiased;
-      display: inline-block;
-      font-style: normal;
-      font-variant: normal;
-      text-rendering: auto;
-      line-height: 1;
-    }
-
-    .fa-minus:before {
-      content: "\f068";
-    }
-
-    .fa-plus:before {
-      content: "\f067";
-    }
-
-    .fa-trash:before {
-      content: "\f1f8";
-    }
-
-    .fas {
-      font-family: "Font Awesome 5 Free";
-    }
-
-    .fas {
-      font-weight: 900;
+    body {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 16px;
     }
 
     /*! CSS Used from: http://127.0.0.1:8001/static/css/bootstrap.min.css */
@@ -151,117 +126,6 @@
       -webkit-overflow-scrolling: touch;
     }
 
-    .btn {
-      display: inline-block;
-      font-weight: 400;
-      color: #212529;
-      text-align: center;
-      vertical-align: middle;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      background-color: transparent;
-      border: 1px solid transparent;
-      padding: .375rem .75rem;
-      font-size: 1rem;
-      line-height: 1.5;
-      border-radius: .25rem;
-      transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    }
-
-    @media (prefers-reduced-motion:reduce) {
-      .btn {
-        transition: none;
-      }
-    }
-
-    .btn:hover {
-      color: #212529;
-      text-decoration: none;
-    }
-
-    .btn:focus {
-      outline: 0;
-      box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
-    }
-
-    .btn:disabled {
-      opacity: .65;
-    }
-
-    .btn-primary {
-      color: #fff;
-      background-color: #007bff;
-      border-color: #007bff;
-    }
-
-    .btn-primary:hover {
-      color: #fff;
-      background-color: #0069d9;
-      border-color: #0062cc;
-    }
-
-    .btn-primary:focus {
-      box-shadow: 0 0 0 .2rem rgba(38, 143, 255, .5);
-    }
-
-    .btn-primary:disabled {
-      color: #fff;
-      background-color: #007bff;
-      border-color: #007bff;
-    }
-
-    .btn-warning {
-      color: #212529;
-      background-color: #ffc107;
-      border-color: #ffc107;
-    }
-
-    .btn-warning:hover {
-      color: #212529;
-      background-color: #e0a800;
-      border-color: #d39e00;
-    }
-
-    .btn-warning:focus {
-      box-shadow: 0 0 0 .2rem rgba(222, 170, 12, .5);
-    }
-
-    .btn-warning:disabled {
-      color: #212529;
-      background-color: #ffc107;
-      border-color: #ffc107;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: .25em .4em;
-      font-size: 75%;
-      font-weight: 700;
-      line-height: 1;
-      text-align: center;
-      white-space: nowrap;
-      vertical-align: baseline;
-      border-radius: .25rem;
-      transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    }
-
-    @media (prefers-reduced-motion:reduce) {
-      .badge {
-        transition: none;
-      }
-    }
-
-    .badge:empty {
-      display: none;
-    }
-
-    .badge-info {
-      color: #fff;
-      background-color: #17a2b8;
-    }
-
     .clearfix::after {
       display: block;
       clear: both;
@@ -347,158 +211,12 @@
       }
     }
 
+    /* @media print */
+
     /*! CSS Used from: http://127.0.0.1:8001/static/css/mdb.min.css */
     h2,
     h3 {
       font-weight: 300;
-    }
-
-    .btn,
-    .btn:disabled:active,
-    .btn:disabled:focus,
-    .btn:disabled:hover {
-      -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
-    }
-
-    :disabled {
-      pointer-events: none !important;
-    }
-
-    a {
-      cursor: pointer;
-      text-decoration: none;
-      color: #007bff;
-      -webkit-transition: all .2s ease-in-out;
-      -o-transition: all .2s ease-in-out;
-      transition: all .2s ease-in-out;
-    }
-
-    a:hover {
-      text-decoration: none;
-      color: #0056b3;
-      -webkit-transition: all .2s ease-in-out;
-      -o-transition: all .2s ease-in-out;
-      transition: all .2s ease-in-out;
-    }
-
-    a:disabled:hover {
-      color: #007bff;
-    }
-
-    .btn {
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
-      padding: .84rem 2.14rem;
-      font-size: .81rem;
-      -webkit-transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
-      -o-transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-      transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-      transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
-      margin: .375rem;
-      border: 0;
-      -webkit-border-radius: .125rem;
-      border-radius: .125rem;
-      cursor: pointer;
-      text-transform: uppercase;
-      white-space: normal;
-      word-wrap: break-word;
-      color: inherit;
-    }
-
-    .btn:active,
-    .btn:focus,
-    .btn:hover {
-      -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
-      box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
-      outline: 0;
-    }
-
-    .btn:not([disabled]):not(.disabled):active {
-      -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
-      box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
-    }
-
-    .btn:disabled:active,
-    .btn:disabled:focus,
-    .btn:disabled:hover {
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
-    }
-
-    .btn-primary {
-      background-color: #4285f4 !important;
-      color: #fff;
-    }
-
-    .btn-primary:hover {
-      background-color: #5a95f5;
-      color: #fff;
-    }
-
-    .btn-primary:focus {
-      -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
-      box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
-    }
-
-    .btn-primary:active,
-    .btn-primary:focus {
-      background-color: #0b51c5;
-    }
-
-    .btn-primary:not([disabled]):not(.disabled):active {
-      -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
-      box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
-      background-color: #0b51c5 !important;
-    }
-
-    .btn-primary:not([disabled]):not(.disabled):active:focus {
-      -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
-      box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
-    }
-
-    .btn-warning {
-      background-color: #fb3 !important;
-      color: #fff;
-    }
-
-    .btn-warning:hover {
-      background-color: #ffc44d;
-      color: #fff;
-    }
-
-    .btn-warning:focus {
-      -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
-      box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
-    }
-
-    .btn-warning:active,
-    .btn-warning:focus {
-      background-color: #c80;
-    }
-
-    .btn-warning:not([disabled]):not(.disabled):active {
-      -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
-      box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
-      background-color: #c80 !important;
-    }
-
-    .btn-warning:not([disabled]):not(.disabled):active:focus {
-      -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
-      box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
-    }
-
-    .badge,
-    .badge-info {
-      color: #fff !important;
-    }
-
-    .badge {
-      -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
-      -webkit-border-radius: .125rem;
-      border-radius: .125rem;
-    }
-
-    .badge-info {
-      background-color: #33b5e5 !important;
     }
 
     table th {
@@ -537,7 +255,6 @@
     h3 {
       font-size: 1rem;
       font-weight: 400;
-      font-style: italic;
     }
 
     .label {
@@ -576,25 +293,6 @@
       font-weight: 400;
     }
 
-    /*! CSS Used fontfaces */
-    @font-face {
-      font-family: "Font Awesome 5 Free";
-      font-style: normal;
-      font-weight: 400;
-      font-display: auto;
-      src: url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-regular-400.eot);
-      src: url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-regular-400.eot#iefix) format("embedded-opentype"), url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-regular-400.woff2) format("woff2"), url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-regular-400.woff) format("woff"), url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-regular-400.ttf) format("truetype"), url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-regular-400.svg#fontawesome) format("svg");
-    }
-
-    @font-face {
-      font-family: "Font Awesome 5 Free";
-      font-style: normal;
-      font-weight: 900;
-      font-display: auto;
-      src: url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-solid-900.eot);
-      src: url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-solid-900.eot#iefix) format("embedded-opentype"), url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-solid-900.woff2) format("woff2"), url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-solid-900.woff) format("woff"), url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-solid-900.ttf) format("truetype"), url(https://use.fontawesome.com/releases/v5.8.2/webfonts/fa-solid-900.svg#fontawesome) format("svg");
-    }
-
     h1 {
       font-weight: 100;
       font-size: 2rem;
@@ -611,7 +309,6 @@
     h3 {
       font-size: 1rem;
       font-weight: 400;
-      font-style: italic;
     }
 
     .h2 {
@@ -665,9 +362,10 @@
       <h2>商品が発送されました。</h2>
       {% else %}
       <h2>ご注文内容</h2>
+      <p><small>念の為ご確認ください。</small></p>
       {% endif %}
 
-      <h3>{{ order.user.last_name }} {{ order.user.first_name }}</h3>
+      <h3>{{ order.user.last_name }} {{ order.user.first_name }} 様</h3>
 
       <h3>注文番号: {{ order.id}} </h3>
       <h3>注文日時: {{ order.ordered_date }}</h3>
@@ -675,7 +373,6 @@
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">#</th>
             <th scope="col">商品名</th>
             <th scope="col">価格</th>
             <th scope="col">数量</th>
@@ -686,9 +383,6 @@
 
           {% for order_item in order.items.all %}
           <tr>
-            <th scope="row">
-              {{ forloop.counter }}
-            </th>
             <td>
               <!-- <a href="{{order_item.item.get_absolute_url}}"> -->
               <a href="{% url 'core:item' order_item.item.slug %}">
@@ -696,16 +390,11 @@
               </a>
             </td>
 
-            {% if order_item.item.discount_price %}
-            <td>
-              <span class=" mr-1">
-                <del>¥{{ order_item.item.price }}</del>
-              </span>
-              ¥{{ order_item.item.discount_price }}
-            </td>
-            {% else %}
             <td>¥{{ order_item.item.price }}</td>
-            {% endif %}
+
+            <td>
+              {{ order_item.quantity }}
+            </td>
 
             <td>
               ¥{{ order_item.get_total_item_price }}

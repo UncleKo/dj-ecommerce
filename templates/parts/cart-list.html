@@ -77,7 +77,12 @@
   <div class="span2 label text-right">小計(税込):</div>
   <div class="span3">¥{{ order.get_total | intcomma }}</div>
   <div class="span2 label text-right">送料:</div>
-  <div class="span3">¥{{ order.get_postage | intcomma }}</div>
+  <div class="span3">
+    ¥{{ order.get_postage | intcomma }}
+    {% if order.get_postage %}
+    <small class="text-danger"> (あと{{ order.to_free_postage }}円のお買い上げで送料無料になります。)</small>
+    {% endif %}
+  </div>
   <div class="span2 label text-right bold">合計金額:</div>
   <div class="total-price bold"> ¥{{ order.get_total_w_postage | intcomma }} </div>
   <!-- <div class="span5">小計(税込): ¥{{ order.get_total | intcomma }}</div>
@@ -177,7 +182,11 @@
       </tr>
       <tr>
         <td colspan="4" class="text-right">送料</td>
-        <td class="">¥{{ order.get_postage | intcomma }}</td>
+        <td class="">¥{{ order.get_postage | intcomma }}
+          {% if order.get_postage %}
+          <small class="text-danger"> (あと{{ order.to_free_postage }}円のお買い上げで送料無料になります。)</small>
+          {% endif %}
+        </td>
       </tr>
       <tr>
         <td colspan="4" class="bold text-right">合計金額</td>

@@ -14,7 +14,7 @@ from core.boost import DynamicRedirectMixin
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from .models import ShippingAddress, BillingAddress
-from core.models import Order, Item, CATEGORY_CHOICES, SiteInfo
+from core.models import Order, Item, Category, SiteInfo
 from .forms import ProfileUpdateForm, ShippingAddressForm, PrimaryShippingAddressForm, UserRegisterForm, BillingAddressForm, PrimaryBillingAddressForm
 
 
@@ -71,7 +71,7 @@ class FavItemsListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["category_choices"] = CATEGORY_CHOICES
+        context["categories"] = Category.objects.all()
 
         return context
 
@@ -92,6 +92,12 @@ class OrderHistoryView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         # user = get_object_or_404(User, pk=self.kwargs.get('pk'))
         return Order.objects.filter(user=self.request.user, ordered=True).order_by('-ordered_date')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["history"] = 1
+
+        return context
 
     # def test_func(self):
     #     user = get_object_or_404(User, pk=self.kwargs.get('pk'))

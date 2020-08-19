@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}
+{% if edit %}
+カテゴリーを編集
+{% else %}
+カテゴリーを追加
+{% endif %}
+- {{ request.site.siteinfo.title }}
+{% endblock %}
+
+{% block content %}
+<main>
+  <div class="container">
+
+    <form method="POST" class="post-form">
+      {% csrf_token %}
+      <fieldset class="form-group">
+        {% if edit %}
+        <legend class="border-bottm mb-4">カテゴリーを編集</legend>
+        {% else %}
+        <legend class="border-bottm mb-4">カテゴリーを追加</legend>
+        {% endif %}
+        {{ form|crispy }}
+        <button class="btn btn-outline-info" type="submit">
+          {% if edit %}
+          カテゴリーを編集
+          {% else %}
+          カテゴリーを追加
+          {% endif %}
+        </button>
+      </fieldset>
+    </form>
+
+    <small>List</small>
+    <ul class="list-disc">
+      {% for category in categories%}
+      <li>{{ category.name }} <small>(order: {{ category.order }})</small></li>
+      {% endfor %}
+    </ul>
+
+  </div>
+</main>
+{% endblock %}

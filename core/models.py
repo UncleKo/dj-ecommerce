@@ -8,12 +8,12 @@ from imagekit.processors import ResizeToFill, ResizeToFit
 
 from users.models import ShippingAddress, BillingAddress
 
-CATEGORY_CHOICES = (
-    ('L', 'PC'),
-    ('P', 'Parts'),
-    ('G', 'Green'),
-    ('F', 'Furniture')
-)
+# CATEGORY_CHOICES = (
+#     ('L', 'PC'),
+#     ('P', 'Parts'),
+#     ('G', 'Green'),
+#     ('F', 'Furniture')
+# )
 
 
 LABEL_CHOICES = (
@@ -38,20 +38,37 @@ DELIVERY_TIME = (
 )
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=100, verbose_name="カテゴリー")
+    order = models.IntegerField(verbose_name="メニュー順番", default=1)
+
+    class Meta:
+        verbose_name_plural = 'カテゴリー'
+
+    def __str__(self):
+        return self.name
+
+    def published_items(self):
+        return self.items.filter(draft=False)
+
+
 class Item(models.Model):
-    title = models.CharField(max_length=100)
-    price = models.IntegerField()
-    discount_price = models.IntegerField(blank=True, null=True)
-    category = models.CharField(choices=CATEGORY_CHOICES, max_length=2)
-    label = models.CharField(choices=LABEL_CHOICES, max_length=2)
-    slug = models.SlugField(blank=True, null=True)
-    description = models.TextField()
-    stock = models.IntegerField(blank=True, null=True)
+    title = models.CharField(max_length=100, verbose_name="商品名")
+    price = models.IntegerField(verbose_name="価格")
+    discount_price = models.IntegerField(
+        blank=True, null=True, verbose_name="セール価格")
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL,
+                                 related_name="items", null=True, blank=True, verbose_name="カテゴリー(option)")
+    label = models.CharField(choices=LABEL_CHOICES,
+                             max_length=2, blank=True, null=True, verbose_name="レーベル")
+    slug = models.SlugField(blank=True, null=True, verbose_name="URL末尾")
+    description = models.TextField(blank=True, null=True, verbose_name="商品説明")
+    stock = models.IntegerField(blank=True, null=True, verbose_name="在庫数")
     featured = models.BooleanField(default=False)
-    draft = models.BooleanField(default=False)
+    draft = models.BooleanField(default=False, verbose_name="非公開")
     fav_users = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="fav_items", blank=True)
-    image = models.ImageField(blank=True)
+    image = models.ImageField(blank=True, verbose_name="メイン画像")
     image_large = ImageSpecField(source="image",
                                  processors=[ResizeToFit(1280, 1280)],
                                  format='JPEG'
@@ -74,6 +91,9 @@ class Item(models.Model):
                                      format="JPEG",
                                      options={'quality': 80}
                                      )
+
+    class Meta:
+        verbose_name_plural = '商品'
 
     def __str__(self):
         return self.title
@@ -119,6 +139,9 @@ class OrderItem(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
 
+    class Meta:
+        verbose_name_plural = 'カート内商品'
+
     def __str__(self):
         return f"{self.quantity} of {self.item.title}"
 
@@ -156,6 +179,9 @@ class Order(models.Model):
         choices=DELIVERY_TIME, max_length=2, blank=True, null=True)
     payment = models.ForeignKey(
         'Payment', on_delete=models.SET_NULL, blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = 'カート内商品/注文済注文'
 
     def __str__(self):
         return self.user.username
@@ -198,6 +224,9 @@ class Payment(models.Model):
     amount = models.FloatField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name_plural = 'Stripe'
+
     def __str__(self):
         return self.user.username
 
@@ -210,8 +239,17 @@ class SiteInfo(models.Model):
         verbose_name='送料無料最低価格', null=True, blank=True)
     shipping_fee = models.IntegerField(
         verbose_name='送料', default=0)
-    order_history_paginate_by = models.IntegerField(default=5)
-    order_list_paginate_by = models.IntegerField(default=5)
+    order_history_paginate_by = models.IntegerField(
+        default=5, verbose_name="購入履歴1ページ表示数")
+    order_list_paginate_by = models.IntegerField(
+        default=5, verbose_name="注文管理1ページ表示数")
+    # category_list_paginate_by = models.IntegerField(
+    #     default=10, verbose_name="カテゴリー別リスト1ページ表示数")
+    # fav_items_paginate_by = models.IntegerField(
+    #     default=10, verbose_name="お気に入りリスト1ページ表示数")
+
+    class Meta:
+        verbose_name_plural = 'サイト設定'
 
     # def get_absolute_url(self):
     #     return reverse("core:siteinfo", kwargs={

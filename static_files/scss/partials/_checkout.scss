@@ -71,7 +71,8 @@ img.thumb {
 
  div.cart-list,
  div.order-list,
- div.fav-items {
+ div.fav-items,
+ div.item-list {
    width: 100%;
    padding: 10px;
    white-space: nowrap;
@@ -195,7 +196,7 @@ img.thumb {
 } //#order-list
 
 
- div.fav-items {
+ div.fav-items, div.item-list {
    grid-template-columns: repeat(4, 1fr);
    div{
     padding: 10px;

@@ -7,47 +7,7 @@
 
   <div id="home" class="container">
 
-    <!--Navbar-->
-    <nav id="category-menu" class="navbar navbar-expand-lg navbar-dark">
-
-      <!-- Navbar brand -->
-      <!-- <span class="navbar-brand">Categories:</span> -->
-
-      <!-- Collapse button -->
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
-        aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <!-- Collapsible content -->
-      <div class="collapse navbar-collapse" id="basicExampleNav">
-
-        <!-- Links -->
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">All
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          {% for value, category in category_choices %}
-          <li class="nav-item">
-            <a class="nav-link" href="#">{{ category }}</a>
-          </li>
-          {% endfor %}
-
-        </ul>
-        <!-- Links -->
-
-        <form class="form-inline">
-          <div class="md-form my-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-          </div>
-        </form>
-      </div>
-      <!-- Collapsible content -->
-
-    </nav>
-    <!--/.Navbar-->
+    {% include "parts/category-menu.html" %}
 
     <div class="feature">
       <div>
@@ -76,9 +36,11 @@
 
           <div>
 
-            <a href="#">
-              <span
-                class="badge {{ featured_item.get_category_display }}-color mr-1">{{ featured_item.get_category_display }}</span>
+            <a href="{% url 'core:category-pages' featured_item.category %}">
+              <!-- <span
+                class="badge {{ featured_item.get_category_display }}-color mr-1">{{ featured_item.get_category_display }}</span> -->
+              <!-- <span class="badge {{ featured_item.category }}-color mr-1">{{ featured_item.category }}</span> -->
+              <span class="badge category-color mr-1">{{ featured_item.category }}</span>
             </a>
 
             <a href="{{ featured_item.get_absolute_url }}">
@@ -119,16 +81,26 @@
               <a href="{{ item.get_absolute_url }}">
                 <h3>{{ item.title }}</h3>
               </a>
-              <h4>¥{{ item.price | intcomma }}</h4>
-              {% if item.image %}
-              <div>
-                {% if item.image %}
-                <a href="{{ item.get_absolute_url }}">
-                  <img src="{{ item.image_medium.url }}" class="" alt="" />
-                </a>
+              <h4>
+                {% if item.discount_price %}
+                <h4>
+                  <!-- <span class=" mr-1">
+                    <del>¥{{ item.price | intcomma }}</del>
+                  </span> -->
+                  ¥{{ item.discount_price | intcomma }}
+                </h4>
+                {% else %}
+                <h4>¥{{ item.price | intcomma }}</h4>
                 {% endif %}
-              </div>
-              {% endif %}
+                {% if item.image %}
+                <div>
+                  {% if item.image %}
+                  <a href="{{ item.get_absolute_url }}">
+                    <img src="{{ item.image_medium.url }}" class="" alt="" />
+                  </a>
+                  {% endif %}
+                </div>
+                {% endif %}
             </div>
           </li>
           {% endfor %}

@@ -8,47 +8,7 @@
 <main>
   <div id="item" class="container dark-grey-text">
 
-    <nav id="category-menu" class="navbar navbar-expand-lg navbar-dark">
-
-      <!-- Navbar brand -->
-      <!-- <span class="navbar-brand">Categories:</span> -->
-
-      <!-- Collapse button -->
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
-        aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <!-- Collapsible content -->
-      <div class="collapse navbar-collapse" id="basicExampleNav">
-
-        <!-- Links -->
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">All
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          {% for value, category in category_choices %}
-          <li class="nav-item">
-            <a class="nav-link" href="#">{{ category }}</a>
-          </li>
-          {% endfor %}
-
-        </ul>
-        <!-- Links -->
-
-        <form class="form-inline">
-          <div class="md-form my-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-          </div>
-        </form>
-      </div>
-      <!-- Collapsible content -->
-
-    </nav>
-    <!--/.Navbar-->
-
+    {% include "parts/category-menu.html" %}
 
     <!--Grid row-->
     <div class="feature">
@@ -71,14 +31,16 @@
 
           <div>
 
-            <a href="#">
-              <span class="badge {{ item.get_category_display }}-color mr-1">{{ item.get_category_display }}</span>
+            <a href="{% url 'core:category-pages' item.category %}">
+              <!-- <span class="badge {{ item.get_category_display }}-color mr-1">{{ item.get_category_display }}</span> -->
+              <!-- <span class="badge {{ item.category }}-color mr-1">{{ item.category }}</span> -->
+              <span class="badge category-color mr-1">{{ item.category }}</span>
             </a>
 
             <h2>
               {{ item.title }}
               {% if already_favorite %}
-              <a href="{{ item.get_remove_from_fav_items_url }}">
+              <a href=" {{ item.get_remove_from_fav_items_url }}">
                 <i class="fas fa-heart mobile-only"></i>
               </a>
               {% else %}
