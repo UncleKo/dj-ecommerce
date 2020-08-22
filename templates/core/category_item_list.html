@@ -9,9 +9,9 @@
 
     {% include "parts/category-menu.html" %}
 
-    <h2 class="mt-5">Category: {{ view.kwargs.category_name }}</h2>
+    <h2 class="mt-5">カテゴリー: {{ view.kwargs.category_name }}</h2>
 
-    <div class="item-list">
+    <div class="category-item-list">
 
       {% for item in items %}
 

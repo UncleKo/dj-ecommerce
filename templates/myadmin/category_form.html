@@ -23,20 +23,20 @@
         <legend class="border-bottm mb-4">カテゴリーを追加</legend>
         {% endif %}
         {{ form|crispy }}
-        <button class="btn btn-outline-info" type="submit">
+        <button class="btn btn-outline-info mt-5 mb-5" type="submit">
           {% if edit %}
-          カテゴリーを編集
+          更新する
           {% else %}
-          カテゴリーを追加
+          追加する
           {% endif %}
         </button>
       </fieldset>
     </form>
 
-    <small>List</small>
+    <p class="mt-4 mb-4"><small>List</small> </p>
     <ul class="list-disc">
       {% for category in categories%}
-      <li>{{ category.name }} <small>(order: {{ category.order }})</small></li>
+      <li class="mb-2">{{ category.name }} <small>(order: {{ category.order }})</small></li>
       {% endfor %}
     </ul>
 

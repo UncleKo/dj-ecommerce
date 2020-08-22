@@ -288,7 +288,8 @@ img.thumb {
 div.cart-list,
 div.order-list,
 div.fav-items,
-div.item-list {
+div.item-list,
+div.category-item-list {
   width: 100%;
   padding: 10px;
   white-space: nowrap;
@@ -298,39 +299,45 @@ div.item-list {
   div.cart-list div,
   div.order-list div,
   div.fav-items div,
-  div.item-list div {
+  div.item-list div,
+  div.category-item-list div {
     padding: 20px; }
   div.cart-list a,
   div.order-list a,
   div.fav-items a,
-  div.item-list a {
+  div.item-list a,
+  div.category-item-list a {
     color: #878a8d;
     font-size: .8rem; }
   @media (max-width: 768px) {
     div.cart-list,
     div.order-list,
     div.fav-items,
-    div.item-list {
+    div.item-list,
+    div.category-item-list {
       justify-items: center;
       box-shadow: none; }
       div.cart-list div,
       div.order-list div,
       div.fav-items div,
-      div.item-list div {
+      div.item-list div,
+      div.category-item-list div {
         width: 60%;
         padding: 5px;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); }
       div.cart-list div.empty,
       div.order-list div.empty,
       div.fav-items div.empty,
-      div.item-list div.empty {
+      div.item-list div.empty,
+      div.category-item-list div.empty {
         padding: 10px;
         width: auto; } }
   @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
     div.cart-list,
     div.order-list,
     div.fav-items,
-    div.item-list {
+    div.item-list,
+    div.category-item-list {
       display: none; } }
 
 div.cart-list {
@@ -399,22 +406,32 @@ div.cart-total {
       margin-top: .5rem;
       margin-bottom: 3rem; } }
 
-div.fav-items, div.item-list {
+div.fav-items, div.category-item-list {
   grid-template-columns: repeat(4, 1fr); }
-  div.fav-items div, div.item-list div {
+  div.fav-items div, div.category-item-list div {
     padding: 10px; }
   @media (max-width: 768px) {
-    div.fav-items, div.item-list {
+    div.fav-items, div.category-item-list {
       grid-template-columns: 1fr;
       box-shadow: none; }
-      div.fav-items > div, div.item-list > div {
+      div.fav-items > div, div.category-item-list > div {
         width: 60%;
         padding: 5px;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         margin-bottom: 3rem;
         text-align: center; }
-        div.fav-items > div div, div.item-list > div div {
+        div.fav-items > div div, div.category-item-list > div div {
           width: 100%; } }
+
+div.item-list {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  grid-template-columns: repeat(8, auto); }
+  @media (max-width: 768px) {
+    div.item-list {
+      grid-template-columns: 1fr; }
+      div.item-list div:nth-child(n) {
+        margin-bottom: 2rem; } }
 
 /* Required height of parents of the Half Page Carousel for proper displaying carousel itself */
 html,

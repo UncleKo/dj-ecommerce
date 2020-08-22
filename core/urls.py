@@ -6,32 +6,12 @@ app_name = 'core'
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
-    path('siteinfo/<pk>/edit', SiteInfoUpdateView.as_view(), name='siteinfo'),
-    path('inquiry', InquiryCreateView.as_view(), name='inquiry'),
-
-    path('category-list/', CategoryListView.as_view(), name='category-list'),
-    path('category/create/', CategoryCreateView.as_view(), name='category-create'),
-    path('category/<int:pk>/edit',
-         CategoryUpdateView.as_view(), name='category-update'),
-    path('category/<int:pk>/delete',
-         CategoryDeleteView.as_view(), name='category-delete'),
-
-    path('category/<str:category_name>/',
-         CategoryItemListView.as_view(), name='category-pages'),
-
-    path('item/create/', ItemCreateView.as_view(), name='item-create'),
-    path('item/<slug>/', ItemDetailView.as_view(), name='item'),
-    path('item/<slug>/edit', ItemUpdateView.as_view(), name='item-update'),
-    path('item/<slug>/delete', ItemDeleteView.as_view(), name='item-delete'),
-
 
     path('shopping-cart/', CartView.as_view(), name='shopping-cart'),
     path('checkout/', CheckoutView.as_view(), name='checkout'),
     path('billing-address/', BillingAddressView.as_view(), name='billing-address'),
     path('order-summary/', OrderSummaryView.as_view(), name='order-summary'),
     path('payment/<payment_option>/', PaymentView.as_view(), name='payment'),
-
-    path('order-list', OrderListView.as_view(), name='order-list'),
 
     path('add-to-cart/<slug>/', add_to_cart, name='add-to-cart'),
     path('remove-from-cart/<slug>/', remove_from_cart, name='remove-from-cart'),
@@ -44,5 +24,26 @@ urlpatterns = [
     path('confirm-order/', confirm_order, name='confirm-order'),
     path('order-dispatched/<int:pk>', order_dispatched, name='order-dispatched'),
 
-    path('email', email_test, name='email-view'),
+    #     path('email', email_test, name='email-view'),
+    path('inquiry', InquiryCreateView.as_view(), name='inquiry'),
+
+    path('myadmin', MyAdminView.as_view(), name='myadmin'),
+    path('order-list', OrderListView.as_view(), name='order-list'),
+    path('siteinfo/<pk>/edit', SiteInfoUpdateView.as_view(), name='siteinfo'),
+
+    path('item-list/', ItemListView.as_view(), name='item-list'),
+    path('item/create/', ItemCreateView.as_view(), name='item-create'),
+    path('item/<slug>/', ItemDetailView.as_view(), name='item'),
+    path('item/<slug>/edit', ItemUpdateView.as_view(), name='item-update'),
+    path('item/<slug>/delete', ItemDeleteView.as_view(), name='item-delete'),
+
+    path('category-list/', CategoryListView.as_view(), name='category-list'),
+    path('category/create/', CategoryCreateView.as_view(), name='category-create'),
+    path('category/<int:pk>/edit',
+         CategoryUpdateView.as_view(), name='category-update'),
+    path('category/<int:pk>/delete',
+         CategoryDeleteView.as_view(), name='category-delete'),
+
+    path('category/<str:category_name>/',
+         CategoryItemListView.as_view(), name='category-pages'),
 ]

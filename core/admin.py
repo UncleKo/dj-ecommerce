@@ -4,7 +4,8 @@ from .models import Item, OrderItem, Order, Payment, ShippingAddress, BillingAdd
 
 
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ['title', 'price', 'category', 'stock', 'featured', 'id']
+    list_display = ['title', 'price', 'stock',
+                    'category', 'featured', 'draft', 'id']
 
 
 class CategoryAdmin(admin.ModelAdmin):

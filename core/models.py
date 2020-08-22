@@ -60,6 +60,9 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse("core:category-list")
+
     def published_items(self):
         return self.items.filter(draft=False)
 
@@ -255,6 +258,8 @@ class SiteInfo(models.Model):
         default=5, verbose_name="購入履歴1ページ表示数")
     order_list_paginate_by = models.IntegerField(
         default=5, verbose_name="注文管理1ページ表示数")
+    # item_list_paginate_by = models.IntegerField(
+    #     default=10, verbose_name="商品管理1ページ表示数")
     # category_list_paginate_by = models.IntegerField(
     #     default=10, verbose_name="カテゴリー別リスト1ページ表示数")
     # fav_items_paginate_by = models.IntegerField(

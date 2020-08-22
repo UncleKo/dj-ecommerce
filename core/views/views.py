@@ -1,5 +1,4 @@
 from django.urls import reverse_lazy
-# from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail
@@ -8,68 +7,17 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
-from core.boost import DynamicRedirectMixin
-# from django.urls import reverse_lazy
+# from django.conf import settings
 
-from django.contrib.sites.models import Site
-from ..models import Item, Order, SiteInfo, Category, Inquiry
+from ..models import Item, Order, Category, Inquiry
 from ..forms import CheckoutForm, BillingAddressForm, InquiryForm
+from ..boost import DynamicRedirectMixin
 from users.models import ShippingAddress, BillingAddress
-# from .boost import DynamicRedirectMixin
 
 # Email
 # from django.core.mail import EmailMultiAlternatives
 # from django.template.loader import get_template
 # from django.template import Context
-
-
-class InquiryCreateView(CreateView):
-    model = Inquiry
-    form_class = InquiryForm
-
-    def post(self, *args, **kwargs):
-        form = InquiryForm(self.request.POST or None)
-        if form.is_valid():
-            email = form.cleaned_data.get('email')
-            subject = form.cleaned_data.get('subject')
-            name = form.cleaned_data.get('name')
-            content = form.cleaned_data.get('content')
-            form.save()
-            msg_plain = render_to_string('parts/email-inquiry.txt', {
-                'content': content,
-                'name': name,
-                'subject': subject
-            })
-            # msg_html = render_to_string('parts/inquiry-email.html', {
-            #     'inquiry': form
-            # })
-            send_mail(
-                f'お問い合わせありがとうございます。',
-                msg_plain,
-                'uncleko496@gmail.com',
-                ['uncleko496@gmail.com', email],
-                # html_message=msg_html,
-                # fail_silentl,
-            )
-            messages.success(self.request, "お問い合わせありがとうございます。")
-            return redirect(self.request.META['HTTP_REFERER'])
-
-
-class SiteInfoUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = SiteInfo
-    fields = ['title', 'free_shippment_line', 'shipping_fee',
-              'order_history_paginate_by', 'order_list_paginate_by']
-    # success_url = reverse_lazy('core:siteinfo')
-    success_url = reverse_lazy('core:home')
-
-    def form_valid(self, form):
-        form.instance.site_id = 1
-        return super().form_valid(form)
-
-    def test_func(self):
-        if self.request.user.is_staff:
-            return True
-        return False
 
 
 class HomeView(ListView):
@@ -97,7 +45,7 @@ class HomeView(ListView):
 
 class CategoryItemListView(ListView):
     model = Item
-#   template_name = 'core/item_list.html'
+    template_name = 'core/category_item_list.html'
     context_object_name = 'items'
     paginate_by = 5
 
@@ -115,7 +63,7 @@ class CategoryItemListView(ListView):
 
 class ItemDetailView(DetailView):
     model = Item
-    template_name = "core/item.html"
+    # template_name = "core/item_detail.html"
     context_object_name = 'item'
 
     def get_context_data(self, **kwargs):
@@ -127,108 +75,6 @@ class ItemDetailView(DetailView):
         if self.object.fav_users.filter(id=self.request.user.id):
             context["already_favorite"] = True
         return context
-
-
-class CategoryListView(LoginRequiredMixin, UserPassesTestMixin, DynamicRedirectMixin, ListView):
-    model = Category
-    success_url = reverse_lazy('core:category-list')
-    context_object_name = 'categories'
-
-    def get_queryset(self):
-        return Category.objects.all().order_by('order')
-
-    def test_func(self):
-        if self.request.user.is_staff:
-            return True
-        return False
-
-
-class CategoryCreateView(LoginRequiredMixin, UserPassesTestMixin, DynamicRedirectMixin, CreateView):
-    model = Category
-    fields = ['name', 'order']
-    success_url = reverse_lazy('core:category-list')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # context_processors.pyでサイトすべてに渡す手も
-        context["categories"] = Category.objects.all()
-        return context
-
-    # ユーザーがスタッフの時にのみ許可
-    def test_func(self):
-        if self.request.user.is_staff:
-            return True
-        return False
-
-
-class CategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, DynamicRedirectMixin, UpdateView):
-    model = Category
-    fields = ['name', 'order']
-    success_url = reverse_lazy('core:category-list')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # context_processors.pyでサイトすべてに渡す手も
-        context["categories"] = Category.objects.all()
-        context["edit"] = 1
-        return context
-
-    def test_func(self):
-        if self.request.user.is_staff:
-            return True
-        return False
-
-
-class CategoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DynamicRedirectMixin, DeleteView):
-    model = Category
-    context_object_name = 'category'
-    success_url = reverse_lazy('core:category-list')
-
-    def test_func(self):
-        if self.request.user.is_staff:
-            return True
-        return False
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["items"] = self.object.items.all()
-        return context
-
-
-class ItemCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
-    model = Item
-    fields = ['title', 'price', 'discount_price', 'category',
-              'description', 'stock', 'featured', 'image', 'draft']
-
-    def test_func(self):
-        if self.request.user.is_staff:
-            return True
-        return False
-
-
-class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Item
-    fields = ['title', 'price', 'discount_price', 'category',
-              'description', 'stock', 'featured', 'image', 'draft', 'slug']
-
-    def test_func(self):
-        if self.request.user.is_staff:
-            return True
-        return False
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["edit"] = 1
-        return context
-
-
-class ItemDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = Item
-
-    def test_func(self):
-        if self.request.user.is_staff:
-            return True
-        return False
 
 
 class CartView(LoginRequiredMixin, View):
@@ -400,31 +246,33 @@ class OrderSummaryView(LoginRequiredMixin, View):
             return render(self.request, 'checkout/order-summary.html')
 
 
-class OrderListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class InquiryCreateView(CreateView):
+    model = Inquiry
+    form_class = InquiryForm
 
-    model = Order
-    template_name = 'core/order-list.html'
-    context_object_name = 'orders'
-    paginate_by = Site.objects.get_current().siteinfo.order_list_paginate_by
-
-    def get_queryset(self):
-        return Order.objects.filter(ordered=True).order_by('-ordered_date')
-
-    # ユーザーがスタッフの時にのみ許可
-    def test_func(self):
-        if self.request.user.is_staff:
-            return True
-        return False
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["list_for_staff"] = 1
-        return context
-
-
-def email_test(request):
-    order = Order.objects.get(pk=3)
-    context = {
-        'order': order
-    }
-    return render(request, 'parts/email.html', context)
+    def post(self, *args, **kwargs):
+        form = InquiryForm(self.request.POST or None)
+        if form.is_valid():
+            email = form.cleaned_data.get('email')
+            subject = form.cleaned_data.get('subject')
+            name = form.cleaned_data.get('name')
+            content = form.cleaned_data.get('content')
+            form.save()
+            msg_plain = render_to_string('parts/email-inquiry.txt', {
+                'content': content,
+                'name': name,
+                'subject': subject
+            })
+            # msg_html = render_to_string('parts/inquiry-email.html', {
+            #     'inquiry': form
+            # })
+            send_mail(
+                f'お問い合わせありがとうございます。',
+                msg_plain,
+                'uncleko496@gmail.com',
+                ['uncleko496@gmail.com', email],
+                # html_message=msg_html,
+                # fail_silentl,
+            )
+            messages.success(self.request, "お問い合わせありがとうございます。")
+            return redirect(self.request.META['HTTP_REFERER'])
