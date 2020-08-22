@@ -2,6 +2,8 @@ from django.urls import reverse_lazy
 # from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -10,8 +12,8 @@ from core.boost import DynamicRedirectMixin
 # from django.urls import reverse_lazy
 
 from django.contrib.sites.models import Site
-from ..models import Item, Order, SiteInfo, Category
-from ..forms import CheckoutForm, BillingAddressForm
+from ..models import Item, Order, SiteInfo, Category, Inquiry
+from ..forms import CheckoutForm, BillingAddressForm, InquiryForm
 from users.models import ShippingAddress, BillingAddress
 # from .boost import DynamicRedirectMixin
 
@@ -19,6 +21,38 @@ from users.models import ShippingAddress, BillingAddress
 # from django.core.mail import EmailMultiAlternatives
 # from django.template.loader import get_template
 # from django.template import Context
+
+
+class InquiryCreateView(CreateView):
+    model = Inquiry
+    form_class = InquiryForm
+
+    def post(self, *args, **kwargs):
+        form = InquiryForm(self.request.POST or None)
+        if form.is_valid():
+            email = form.cleaned_data.get('email')
+            subject = form.cleaned_data.get('subject')
+            name = form.cleaned_data.get('name')
+            content = form.cleaned_data.get('content')
+            form.save()
+            msg_plain = render_to_string('parts/email-inquiry.txt', {
+                'content': content,
+                'name': name,
+                'subject': subject
+            })
+            # msg_html = render_to_string('parts/inquiry-email.html', {
+            #     'inquiry': form
+            # })
+            send_mail(
+                f'お問い合わせありがとうございます。',
+                msg_plain,
+                'uncleko496@gmail.com',
+                ['uncleko496@gmail.com', email],
+                # html_message=msg_html,
+                # fail_silentl,
+            )
+            messages.success(self.request, "お問い合わせありがとうございます。")
+            return redirect(self.request.META['HTTP_REFERER'])
 
 
 class SiteInfoUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):

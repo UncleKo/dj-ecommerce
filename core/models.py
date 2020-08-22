@@ -38,6 +38,18 @@ DELIVERY_TIME = (
 )
 
 
+class Inquiry(models.Model):
+    subject = models.CharField(
+        max_length=100, verbose_name="件名(任意)", null=True, blank=True)
+    name = models.CharField(
+        max_length=100, verbose_name="お名前(任意)", null=True, blank=True)
+    email = models.EmailField(verbose_name="メールアドレス")
+    content = models.TextField(verbose_name="お問い合わせ内容")
+
+    class Meta:
+        verbose_name_plural = 'お問い合わせ'
+
+
 class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name="カテゴリー")
     order = models.IntegerField(verbose_name="メニュー順番", default=1)

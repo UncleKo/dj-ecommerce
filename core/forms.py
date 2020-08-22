@@ -1,7 +1,7 @@
 from django import forms
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
-from .models import PAYMENT_CHOICES, DELIVERY_TIME
+from .models import PAYMENT_CHOICES, DELIVERY_TIME, Inquiry
 from users.models import ShippingAddress, BillingAddress
 
 
@@ -29,3 +29,10 @@ class BillingAddressForm(forms.Form):
     billing_address_option = forms.ChoiceField(
         widget=forms.RadioSelect, choices=BILLING_ADDRESS_OPTION
     )
+
+
+class InquiryForm(forms.ModelForm):
+
+    class Meta:
+        model = Inquiry
+        fields = ['subject', 'name', 'email', 'content']

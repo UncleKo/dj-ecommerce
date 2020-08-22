@@ -7,6 +7,7 @@ app_name = 'core'
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('siteinfo/<pk>/edit', SiteInfoUpdateView.as_view(), name='siteinfo'),
+    path('inquiry', InquiryCreateView.as_view(), name='inquiry'),
 
     path('category-list/', CategoryListView.as_view(), name='category-list'),
     path('category/create/', CategoryCreateView.as_view(), name='category-create'),

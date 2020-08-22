@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}
+{% if edit %}
+カテゴリーを編集
+{% else %}
+カテゴリーを追加
+{% endif %}
+- {{ request.site.siteinfo.title }}
+{% endblock %}
+
+{% block content %}
+<main>
+  <div class="container">
+
+    <form method="POST" class="post-form">
+      {% csrf_token %}
+      <fieldset class="form-group">
+        <legend class="border-bottm mb-4">お問い合わせ</legend>
+        {{ form|crispy }}
+        <button class="btn btn-main" type="submit">送信</button>
+      </fieldset>
+    </form>
+
+  </div>
+</main>
+{% endblock %}
