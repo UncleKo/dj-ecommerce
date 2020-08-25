@@ -38,7 +38,58 @@
         </div>
 
         <div>
-          <a href="{% url 'core:remove-from-fav-items' item.slug %}">
+
+          {% if not item.stock == 0 %}
+          <form method="POST" action="{% url 'core:add-to-cart' item.id %}" class="post-form">
+            {% csrf_token %}
+            <fieldset class="form-group">
+              <!-- <legend class="border-bottm mb-4">Option</legend> -->
+
+              {% if item.color_option.count %}
+              <div id="div_id_color_option" class="form-group">
+                <label for="id_color_option" class=" requiredField">カラー<span class="asteriskField">*</span> </label>
+                <div class="">
+                  {{ form.color_option }}
+                </div>
+              </div>
+              {% endif %}
+              {% if item.size_option.count %}
+              <div id="div_id_size_option" class="form-group">
+                <label for="id_size_option" class=" requiredField">サイズ<span class="asteriskField">*</span> </label>
+                <div class="">
+                  {{ form.size_option }}
+                </div>
+              </div>
+              {% endif %}
+              <div id="div_id_quantity" class="form-group">
+                <label for="id_auqntity" class=" requiredField">数量<span class="asteriskField">*</span> </label>
+                <div class="">
+                  {{ form.quantity }}
+                </div>
+              </div>
+              <button class="btn btn-main btn-sm mt-3" type="submit">カートに入れる<i
+                  class="fas fa-shopping-cart ml-1"></i></button>
+            </fieldset>
+          </form>
+          {% else %}
+          <p class="stock text-danger">在庫がありません</p>
+          {% endif %}
+        </div>
+
+        <!-- <div>
+          {% if not item.size_option.count and not item.color_option.count %}
+          <a href="{% url 'core:add-to-cart' item.id %}" class="btn btn-main btn-sm">
+            カートに入れる
+          </a>
+          {% else %}
+          <a href="{% url 'core:item' item.slug %}" class="btn btn-main btn-sm">
+            カートに入れる
+          </a>
+          {% endif %}
+        </div> -->
+
+        <div>
+          <a href="{% url 'core:remove-from-fav-items' item.id %}" class="btn btn-outline-main btn-sm">
             <i class="fas fa-trash mobile-only"></i>
             <span class="mobile-off">削除する</span>
           </a>
@@ -81,7 +132,7 @@
           {% endif %}
 
           <td>
-            <a href="{% url 'core:remove-from-fav-items' item.slug %}">
+            <a href="{% url 'core:remove-from-fav-items' item.id %}">
               <i class="fas fa-trash float-right"></i>
             </a>
           </td>

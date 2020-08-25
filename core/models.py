@@ -127,23 +127,83 @@ class Item(models.Model):
 
     def get_add_to_cart_url(self):
         return reverse("core:add-to-cart", kwargs={
-            'slug': self.slug
+            'pk': self.pk
         })
 
     def get_remove_from_cart_url(self):
         return reverse("core:remove-from-cart", kwargs={
-            'slug': self.slug
+            'pk': self.pk
         })
 
     def get_add_to_fav_items_url(self):
         return reverse("core:add-to-fav-items", kwargs={
-            'slug': self.slug
+            'pk': self.pk
         })
 
     def get_remove_from_fav_items_url(self):
         return reverse("core:remove-from-fav-items", kwargs={
-            'slug': self.slug
+            'pk': self.pk
         })
+
+
+# class Variation(models.Model):
+#     item = models.ForeignKey(
+#         Item, on_delete=models.CASCADE, related_name="variations")
+#     name = models.CharField(max_length=50)  # size
+
+#     class Meta:
+#         unique_together = (
+#             ('item', 'name')
+#         )
+
+#     def __str__(self):
+#         return self.name
+
+# class ItemVariation(models.Model):
+#     variation = models.ForeignKey(
+#         Variation, on_delete=models.CASCADE, related_name="item_variations")
+#     value = models.CharField(max_length=50)  # S, M, L
+
+#     class Meta:
+#         unique_together = (
+#             ('item', 'name')
+#         )
+
+#     def __str__(self):
+#         return self.name
+
+class SizeOption(models.Model):
+    item = models.ForeignKey(
+        Item, on_delete=models.CASCADE, related_name="size_option")
+    value = models.CharField(max_length=50)
+    stock = models.IntegerField(blank=True, null=True, verbose_name="在庫数")
+    # attachment = models.ImageField(blank=True)
+
+    class Meta:
+        unique_together = (
+            ('item', 'value')
+        ),
+        verbose_name_plural = '商品サイズ'
+
+    def __str__(self):
+        return self.value
+
+
+class ColorOption(models.Model):
+    item = models.ForeignKey(
+        Item, on_delete=models.CASCADE, related_name="color_option")
+    value = models.CharField(max_length=50)  # S, M, L
+    # stock = models.IntegerField(blank=True, null=True, verbose_name="在庫数")
+    # attachment = models.ImageField(blank=True)
+
+    class Meta:
+        unique_together = (
+            ('item', 'value')
+        ),
+        verbose_name_plural = '商品カラー'
+
+    def __str__(self):
+        return self.value
 
 
 class OrderItem(models.Model):
@@ -152,10 +212,17 @@ class OrderItem(models.Model):
                              on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=1)
+    # item_variations = models.ManyToManyField(ItemVariation)
+    quantity = models.IntegerField(default=0)
+    # size = models.CharField(max_length=50, blank=True, null=True)
+    # color = models.CharField(max_length=50, blank=True, null=True)
+    color = models.ForeignKey(
+        ColorOption, on_delete=models.SET_NULL, blank=True, null=True)
+    size = models.ForeignKey(
+        SizeOption, on_delete=models.SET_NULL, blank=True, null=True)
 
     class Meta:
-        verbose_name_plural = 'カート内商品'
+        verbose_name_plural = 'カート内各商品'
 
     def __str__(self):
         return f"{self.quantity} of {self.item.title}"
@@ -196,7 +263,7 @@ class Order(models.Model):
         'Payment', on_delete=models.SET_NULL, blank=True, null=True)
 
     class Meta:
-        verbose_name_plural = 'カート内商品/注文済注文'
+        verbose_name_plural = 'カート内全商品/注文済注文'
 
     def __str__(self):
         return self.user.username

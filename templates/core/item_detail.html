@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 {% load humanize %}
 {% block head_title %}{{ item.title }} - {{ request.site.siteinfo.title }}{% endblock %}
 
@@ -68,22 +69,66 @@
             <p class="stock">在庫数: {{ item.stock }}</p>
             {% endif %}
 
-            <a href="{{ item.get_add_to_cart_url }}" class="btn btn-main btn-md" id="add-to-cart">カートに入れる
-              <!-- <a href="{% url 'core:add-to-cart' item.slug %}" class=" btn btn-primary btn-md my-0 p">Add to cart -->
-              <i class="fas fa-shopping-cart ml-1"></i>
-            </a>
-            <!-- <a href="{{ item.get_remove_from_cart_url }}" class=" btn btn-danger btn-md my-0 p">Remove from cart
-          </a> -->
+            {% if not item.stock == 0 %}
+            <form method="POST" action="{% url 'core:add-to-cart' item.id %}" class="post-form">
+              {% csrf_token %}
+              <fieldset class="form-group">
+                <!-- <legend class="border-bottm mb-4">Option</legend> -->
+
+                {% if item.color_option.count %}
+                <div id="div_id_color_option" class="form-group">
+                  <label for="id_color_option" class=" requiredField">カラー<span class="asteriskField">*</span> </label>
+                  <div class="">
+                    {{ form.color_option }}
+                  </div>
+                </div>
+                {% endif %}
+                {% if item.size_option.count %}
+                <div id="div_id_size_option" class="form-group">
+                  <label for="id_size_option" class=" requiredField">サイズ<span class="asteriskField">*</span> </label>
+                  <div class="">
+                    {{ form.size_option }}
+                  </div>
+                </div>
+                {% endif %}
+                <div id="div_id_quantity" class="form-group">
+                  <label for="id_auqntity" class=" requiredField">数量<span class="asteriskField">*</span> </label>
+                  <div class="">
+                    {{ form.quantity }}
+                  </div>
+                </div>
+                <button class="btn btn-main btn-md mt-3" type="submit">カートに入れる<i
+                    class="fas fa-shopping-cart ml-1"></i></button>
+              </fieldset>
+            </form>
+            {% endif %}
+
 
             <div class="mt-2 mobile-off">
               {% if already_favorite %}
-              <a href="{{ item.get_remove_from_fav_items_url }}" class="btn btn-outline-second btn-sm"
+              <a href="{{ item.get_remove_from_fav_items_url }}" class="btn btn-outline-second btn-md"
                 id="add-to-cart">お気に入りから外す</a>
               {% else %}
-              <a href="{{ item.get_add_to_fav_items_url }}" class="btn btn-outline-main btn-sm"
+              <a href="{{ item.get_add_to_fav_items_url }}" class="btn btn-outline-main btn-md"
                 id="add-to-cart">お気に入りに追加</a>
               {% endif %}
             </div>
+
+            <!-- {% if item.size_option %}
+            <div>
+              {% for size in size_option %}
+              {{ size }}
+              {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if item.color_option %}
+            <div>
+              {% for color in color_option %}
+              {{ color }}
+              {% endfor %}
+            </div>
+            {% endif %} -->
 
             <!-- <form class="d-flex justify-content-left">
           <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">

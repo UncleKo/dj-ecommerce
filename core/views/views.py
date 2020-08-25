@@ -9,8 +9,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 # from django.conf import settings
 
-from ..models import Item, Order, Category, Inquiry
-from ..forms import CheckoutForm, BillingAddressForm, InquiryForm
+from ..models import Item, Order, Category, Inquiry  # , SizeOption, ColorOption
+from ..forms import CheckoutForm, BillingAddressForm, ContactForm, ItemOptionForm
 from ..boost import DynamicRedirectMixin
 from users.models import ShippingAddress, BillingAddress
 
@@ -71,6 +71,9 @@ class ItemDetailView(DetailView):
         context["other_items"] = Item.objects.exclude(
             slug=self.kwargs['slug']).order_by('?')[:3]
         context["categories"] = Category.objects.all().order_by('order')
+        # context["size_option"] = SizeOption.objects.filter(item=self.object)
+        # context["color_option"] = ColorOption.objects.filter(item=self.object)
+        context["form"] = ItemOptionForm(self.object or None)
         # if self.get_object().fav_users.filter(id=self.request.user.id):
         if self.object.fav_users.filter(id=self.request.user.id):
             context["already_favorite"] = True
@@ -82,7 +85,7 @@ class CartView(LoginRequiredMixin, View):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
             context = {
-                'order': order
+                'order': order,
             }
             return render(self.request, 'core/shopping-cart.html', context)
         except ObjectDoesNotExist:
@@ -116,7 +119,6 @@ class CheckoutView(LoginRequiredMixin, View):
                 payment_option = form.cleaned_data.get('payment_option')
 
                 shipping_addresses = self.request.user.shipping_addresses.all()
-
                 order.shipping_address = shipping_addresses.filter(
                     primary=True).first()
 
@@ -248,10 +250,10 @@ class OrderSummaryView(LoginRequiredMixin, View):
 
 class InquiryCreateView(CreateView):
     model = Inquiry
-    form_class = InquiryForm
+    form_class = ContactForm
 
     def post(self, *args, **kwargs):
-        form = InquiryForm(self.request.POST or None)
+        form = ContactForm(self.request.POST or None)
         if form.is_valid():
             email = form.cleaned_data.get('email')
             subject = form.cleaned_data.get('subject')

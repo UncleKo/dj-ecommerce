@@ -87,6 +87,10 @@ img.thumb {
    a {
     color: #878a8d;
     font-size: .8rem;
+    &.btn {
+      color: #fff;
+      margin-left: 0;
+    }
    }
    @media(max-width: 768px) {
     justify-items: center;
@@ -108,7 +112,7 @@ img.thumb {
 
  div.cart-list {
    margin-top: 2rem;
-   grid-template-columns: auto repeat(3, 1fr) auto;
+   grid-template-columns: auto repeat(5, 1fr) auto;
    @media(max-width: 768px) {
     grid-template-columns: 1fr;
     div:nth-child(5n) {

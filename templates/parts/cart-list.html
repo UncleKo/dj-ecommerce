@@ -33,17 +33,28 @@
   {% endif %}
 
   <div>
+    {% if order_item.color %}
+    {{ order_item.color }}
+    {% endif %}
+  </div>
+  <div>
+    {% if order_item.size %}
+    {{ order_item.size }}
+    {% endif %}
+  </div>
+
+  <div>
     {% if order_item.quantity == 1 %}
-    <a href="{% url 'core:remove-from-cart' order_item.item.slug %}">
+    <a href="{% url 'core:remove-from-cart' order_item.id %}">
       <i class="fas fa-trash mr-2"></i>
     </a>
     {% else %}
-    <a href="{% url 'core:remove-single-item-from-cart' order_item.item.slug %}">
+    <a href="{% url 'core:remove-single-item-from-cart' order_item.id %}">
       <i class="fas fa-minus mr-2"></i>
     </a>
     {% endif %}
     {{ order_item.quantity }}
-    <a href="{% url 'core:add-to-cart' order_item.item.slug %}">
+    <a href="{% url 'core:add-single-item-to-cart' order_item.id %}">
       <i class="fas fa-plus ml-2"></i>
     </a>
   </div>
@@ -58,7 +69,7 @@
         </div> -->
 
   <div>
-    <a href="{% url 'core:remove-from-cart' order_item.item.slug %}">
+    <a href="{% url 'core:remove-from-cart' order_item.id %}">
       削除する
     </a>
   </div>
@@ -135,16 +146,16 @@
 
         <td>
           {% if order_item.quantity == 1 %}
-          <a href="{% url 'core:remove-from-cart' order_item.item.slug %}">
+          <a href="{% url 'core:remove-from-cart' order_item.id %}">
             <i class="fas fa-trash mr-2"></i>
           </a>
           {% else %}
-          <a href="{% url 'core:remove-single-item-from-cart' order_item.item.slug %}">
+          <a href="{% url 'core:remove-single-item-from-cart' order_item.id %}">
             <i class="fas fa-minus mr-2"></i>
           </a>
           {% endif %}
           {{ order_item.quantity }}
-          <a href="{% url 'core:add-to-cart' order_item.item.slug %}">
+          <a href="{% url 'core:add-single-item-to-cart' order_item.id %}">
             <i class="fas fa-plus ml-2"></i>
           </a>
         </td>
@@ -159,15 +170,10 @@
         </td>
 
         <td>
-          <a href="{% url 'core:remove-from-cart' order_item.item.slug %}">
+          <a href="{% url 'core:remove-from-cart' order_item.id %}">
             <i class="fas fa-trash float-right"></i>
           </a>
         </td>
-        <!-- <td>
-              <a href="{{ order_item.item.get_remove_from_cart_url }}" class=" btn btn-danger btn-md my-0 p">
-              <i class="fas fa-trash"></i>
-              </a>
-            </td> -->
       </tr>
 
       {% empty %}

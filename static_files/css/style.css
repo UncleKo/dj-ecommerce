@@ -15,7 +15,7 @@ body {
 
 nav h1 {
   font: 0/0 a;
-  background: url(https://store-for-nobody.s3-ap-northeast-1.amazonaws.com/logo.png);
+  background: url(/images/logo.png);
   width: 120px;
   height: 30px;
   background-size: contain;
@@ -309,6 +309,13 @@ div.category-item-list {
   div.category-item-list a {
     color: #878a8d;
     font-size: .8rem; }
+    div.cart-list a.btn,
+    div.order-list a.btn,
+    div.fav-items a.btn,
+    div.item-list a.btn,
+    div.category-item-list a.btn {
+      color: #fff;
+      margin-left: 0; }
   @media (max-width: 768px) {
     div.cart-list,
     div.order-list,
@@ -342,7 +349,7 @@ div.category-item-list {
 
 div.cart-list {
   margin-top: 2rem;
-  grid-template-columns: auto repeat(3, 1fr) auto; }
+  grid-template-columns: auto repeat(5, 1fr) auto; }
   @media (max-width: 768px) {
     div.cart-list {
       grid-template-columns: 1fr; }

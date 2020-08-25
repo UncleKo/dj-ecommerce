@@ -16,6 +16,7 @@ from django.contrib.sites.models import Site
 from .models import ShippingAddress, BillingAddress
 from core.models import Order, Item, Category, SiteInfo
 from .forms import ProfileUpdateForm, ShippingAddressForm, PrimaryShippingAddressForm, UserRegisterForm, BillingAddressForm, PrimaryBillingAddressForm
+from core.forms import ItemOptionForm
 
 
 class ProfileView(LoginRequiredMixin, DynamicRedirectMixin, View):
@@ -72,6 +73,8 @@ class FavItemsListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["categories"] = Category.objects.all()
+        for item in self.object_list:
+            context["form"] = ItemOptionForm(item)
 
         return context
 
