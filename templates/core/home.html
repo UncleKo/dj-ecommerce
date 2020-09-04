@@ -67,7 +67,7 @@
     </div>
     <!-- featured-item -->
 
-    <section class="items">
+    <div class="items">
 
       <div>
 
@@ -81,26 +81,25 @@
               <a href="{{ item.get_absolute_url }}">
                 <h3>{{ item.title }}</h3>
               </a>
+              {% if item.discount_price %}
               <h4>
-                {% if item.discount_price %}
-                <h4>
-                  <!-- <span class=" mr-1">
+                <!-- <span class=" mr-1">
                     <del>¥{{ item.price | intcomma }}</del>
                   </span> -->
-                  ¥{{ item.discount_price | intcomma }}
-                </h4>
-                {% else %}
-                <h4>¥{{ item.price | intcomma }}</h4>
-                {% endif %}
+                ¥{{ item.discount_price | intcomma }}
+              </h4>
+              {% else %}
+              <h4>¥{{ item.price | intcomma }}</h4>
+              {% endif %}
+              {% if item.image %}
+              <div>
                 {% if item.image %}
-                <div>
-                  {% if item.image %}
-                  <a href="{{ item.get_absolute_url }}">
-                    <img src="{{ item.image_medium.url }}" class="" alt="" />
-                  </a>
-                  {% endif %}
-                </div>
+                <a href="{{ item.get_absolute_url }}">
+                  <img src="{{ item.image_medium.url }}" class="" alt="" />
+                </a>
                 {% endif %}
+              </div>
+              {% endif %}
             </div>
           </li>
           {% endfor %}
@@ -108,7 +107,7 @@
 
       </div>
 
-    </section> <!-- #skills -->
+    </div> <!-- items -->
 
     <!--Section: Products v.3-->
     <!-- <section class="text-center mb-4">

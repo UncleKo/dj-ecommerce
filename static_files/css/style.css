@@ -15,7 +15,7 @@ body {
 
 nav h1 {
   font: 0/0 a;
-  background: url(/images/logo.png);
+  background: url(https://store-for-nobody.s3-ap-northeast-1.amazonaws.com/logo.png);
   width: 120px;
   height: 30px;
   background-size: contain;
@@ -81,8 +81,7 @@ h3 {
 
 .items > div > ul > li > div h4 {
   color: white;
-  background: #B4A582;
-  opacity: .5;
+  background: rgba(180, 165, 130, 0.7);
   font-size: 1rem;
   margin: 0;
   padding: 5px 7px;
@@ -184,6 +183,9 @@ form {
   justify-content: center;
   align-items: center; }
 
+#item .btn {
+  width: 100%; }
+
 .items > div > ul {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -214,6 +216,26 @@ form {
     .items > div > ul > li > div > div:nth-child(3) {
       padding: 5px; }
 
+@media screen and (min-width: 484px) {
+  .items > div > ul > li:before {
+    content: "";
+    display: block;
+    padding-top: 100%; }
+  .items > div > ul > li > div {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0; }
+    .items > div > ul > li > div > div {
+      background: rgba(180, 165, 130, 0.5);
+      height: 80%;
+      width: 100%; }
+      .items > div > ul > li > div > div img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; } }
+
 .other-items {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -235,55 +257,8 @@ form {
 .category-color {
   background-color: #86C166; }
 
-.shipping-address .address {
-  display: flex;
-  align-items: center; }
-  @media (max-width: 768px) {
-    .shipping-address .address {
-      flex-direction: column;
-      align-items: flex-start; } }
-
-#order-info {
-  margin-top: 3rem;
-  margin-bottom: 5rem;
-  font-weight: 400; }
-
-table.table {
-  margin-top: 4rem;
-  margin-bottom: 4rem; }
-  table.table a {
-    color: #878a8d; }
-
-.table td {
-  font-weight: 400; }
-  .table td.bold {
-    font-weight: 800; }
-  .table td.total-price {
-    box-shadow: inset 0 0 0 2px #878a8d; }
-
-.table td,
-.table th {
-  border: none; }
-
-.table thead th {
-  border-bottom: 1px solid #dee2e6;
-  padding-bottom: 0;
-  font-size: .8rem;
-  font-weight: 300;
-  padding-bottom: 0; }
-
 img.thumb {
   width: auto; }
-
-.table.cart, .table.order-list, .fav-items {
-  display: none; }
-  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-    .table.cart, .table.order-list, .fav-items {
-      /* IE10+ CSS styles go here */
-      display: block; } }
-  @supports (-ms-accelerator: true) {
-    .table.cart, .table.order-list, .fav-items {
-      /* IE Edge 12+ CSS styles go here */ } }
 
 div.cart-list,
 div.order-list,
@@ -353,8 +328,8 @@ div.cart-list {
   @media (max-width: 768px) {
     div.cart-list {
       grid-template-columns: 1fr; }
-      div.cart-list div:nth-child(5n) {
-        margin-bottom: 2rem; } }
+      div.cart-list div:nth-child(7n) {
+        margin-bottom: 4rem; } }
 
 div.order-list {
   margin-top: 1rem;
@@ -413,32 +388,82 @@ div.cart-total {
       margin-top: .5rem;
       margin-bottom: 3rem; } }
 
-div.fav-items, div.category-item-list {
+div.category-item-list {
   grid-template-columns: repeat(4, 1fr); }
-  div.fav-items div, div.category-item-list div {
+  div.category-item-list div {
     padding: 10px; }
   @media (max-width: 768px) {
-    div.fav-items, div.category-item-list {
+    div.category-item-list {
       grid-template-columns: 1fr;
       box-shadow: none; }
-      div.fav-items > div, div.category-item-list > div {
+      div.category-item-list > div {
         width: 60%;
         padding: 5px;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         margin-bottom: 3rem;
         text-align: center; }
-        div.fav-items > div div, div.category-item-list > div div {
+        div.category-item-list > div div {
           width: 100%; } }
+
+div.fav-items {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  grid-template-columns: repeat(5, auto); }
+  div.fav-items form fieldset {
+    display: flex;
+    align-items: center; }
+    @media (max-width: 484px) {
+      div.fav-items form fieldset {
+        display: block; } }
+  @media (max-width: 768px) {
+    div.fav-items {
+      grid-template-columns: 1fr; }
+      div.fav-items div:nth-child(5n) {
+        margin-bottom: 4rem; } }
 
 div.item-list {
   margin-top: 1rem;
   margin-bottom: 2rem;
-  grid-template-columns: repeat(8, auto); }
+  grid-template-columns: repeat(7, auto); }
   @media (max-width: 768px) {
     div.item-list {
       grid-template-columns: 1fr; }
-      div.item-list div:nth-child(n) {
-        margin-bottom: 2rem; } }
+      div.item-list div:nth-child(7n) {
+        margin-bottom: 4rem; } }
+
+table.table {
+  margin-top: 4rem;
+  margin-bottom: 4rem; }
+  table.table a {
+    color: #878a8d; }
+
+.table td {
+  font-weight: 400; }
+  .table td.bold {
+    font-weight: 800; }
+  .table td.total-price {
+    box-shadow: inset 0 0 0 2px #878a8d; }
+
+.table td,
+.table th {
+  border: none; }
+
+.table thead th {
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 0;
+  font-size: .8rem;
+  font-weight: 300;
+  padding-bottom: 0; }
+
+.table.cart, .table.order-list, .fav-items {
+  display: none; }
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .table.cart, .table.order-list, .fav-items {
+      /* IE10+ CSS styles go here */
+      display: block; } }
+  @supports (-ms-accelerator: true) {
+    .table.cart, .table.order-list, .fav-items {
+      /* IE Edge 12+ CSS styles go here */ } }
 
 /* Required height of parents of the Half Page Carousel for proper displaying carousel itself */
 html,
@@ -652,5 +677,18 @@ header {
 @media (min-width: 768px) {
   .mobile-only {
     display: none; } }
+
+.shipping-address .address {
+  display: flex;
+  align-items: center; }
+  @media (max-width: 768px) {
+    .shipping-address .address {
+      flex-direction: column;
+      align-items: flex-start; } }
+
+#order-info {
+  margin-top: 3rem;
+  margin-bottom: 5rem;
+  font-weight: 400; }
 
 /*# sourceMappingURL=style.css.map */

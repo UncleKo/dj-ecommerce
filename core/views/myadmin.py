@@ -42,7 +42,6 @@ class CategoryListView(LoginRequiredMixin, UserPassesTestMixin, DynamicRedirectM
     model = Category
     context_object_name = 'categories'
     template_name = 'myadmin/category_list.html'
-    paginate_by = 2
 
     def get_queryset(self):
         return Category.objects.all().order_by('order')
@@ -114,7 +113,7 @@ class ItemListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
               'description', 'stock', 'featured', 'image', 'draft']
     template_name = 'myadmin/item_list.html'
     context_object_name = 'items'
-    paginate_by = 10
+    paginate_by = 5
 
     def test_func(self):
         if self.request.user.is_staff:

@@ -16,9 +16,9 @@
 
     <div class="clearfix flex-buttons">
       {% if order.get_total %}
+      <a class="btn btn-second" href="/">買い物を続ける</a>
       <a class='btn btn-main' href="{% url 'core:checkout' %}">ご注文手続きに進む</a>
       <!-- <a class="btn btn-second" href="{{request.META.HTTP_REFERER}}">買い物を続ける</a> -->
-      <a class="btn btn-second" href="/">買い物を続ける</a>
 
       {% else %}
       <!-- <a class="btn btn-second" href="{{request.META.HTTP_REFERER}}">買い物を続ける</a> -->

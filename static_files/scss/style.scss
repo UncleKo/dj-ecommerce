@@ -3,7 +3,7 @@
 @import "basis/variables";
 @import "basis/typography";
 @import "partials/front";
-@import "partials/checkout";
+@import "partials/lists";
 
 // :root {
 //   --font-main: 'Noto Sans JP', sans-serif;
@@ -308,3 +308,21 @@ header {
 //   grid-column: span 6;
 // }
 
+
+
+.shipping-address {
+  .address {
+    display: flex;
+    align-items: center;
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+}
+
+#order-info {
+  margin-top: 3rem;
+  margin-bottom: 5rem;
+  font-weight: 400;
+}
