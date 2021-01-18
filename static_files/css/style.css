@@ -594,7 +594,7 @@ a#nav-cart {
 .md-form {
   margin-bottom: 0; }
 
-section header {
+header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -606,7 +606,7 @@ section header {
   align-items: center;
   margin-bottom: 3rem; }
 
-section header h1 {
+header h1 {
   font-family: "Oswald", sans-serif;
   font-weight: 400;
   text-transform: uppercase;
@@ -616,7 +616,7 @@ section header h1 {
   padding: 20px;
   position: relative; }
 
-section header h1::before {
+header h1::before {
   background-color: #FBE251;
   opacity: .5;
   content: "";
@@ -627,12 +627,12 @@ section header h1::before {
   width: 500%;
   z-index: 3; }
 
-section header h2 {
+header h2 {
   font-size: 1.3em;
   font-weight: 100; }
 
 @media (max-width: 980px) {
-  section header h2 {
+  header h2 {
     margin-right: 10px; } }
 
 header {

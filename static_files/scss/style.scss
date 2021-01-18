@@ -181,7 +181,7 @@ a#nav-cart {
 }
 
 
-section header {
+header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -194,7 +194,7 @@ section header {
   margin-bottom: 3rem;
 }
 
-section header h1 {
+header h1 {
   font-family: "Oswald", sans-serif;
   font-weight: 400;
   text-transform: uppercase;
@@ -205,7 +205,7 @@ section header h1 {
   position: relative;
 }
 
-section header h1::before {
+header h1::before {
   background-color: $kihada;
   opacity: .5;
   content: "";
@@ -217,7 +217,7 @@ section header h1::before {
   z-index: 3;
 }
 
-section header h2 {
+header h2 {
   // font-family: meiryo, "Noto Sans JP", sans-serif;
   font-size: 1.3em;
   font-weight: 100;
