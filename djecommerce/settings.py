@@ -32,7 +32,11 @@ INSTALLED_APPS = [
     'core',
     'users',
     'blog',
-    'photos'
+    'photos',
+
+    'rest_framework',
+    'corsheaders'
+
 ]
 
 MIDDLEWARE = [

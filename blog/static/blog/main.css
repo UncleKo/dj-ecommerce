@@ -9,12 +9,7 @@ body {
   padding-bottom: 5rem;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   color: #444444;
 }
 
@@ -72,7 +67,6 @@ a.article-title:hover {
   margin-right: 16px;
   display: none;
 }
-
 @media (min-width: 768px) {
   .article-img {
     display: block;
@@ -108,7 +102,6 @@ a.article-title:hover {
 }
 
 /* My Own CSS */
-
 h1 {
   font: 0/0 a;
   text-shadow: none;
@@ -172,15 +165,12 @@ small {
     border-top: 1px solid #cbd5db;
   }
 }
-
 ul {
   padding-left: 12px;
 }
-
 ul li {
   list-style: none;
 }
-
 ul.list-disc li {
   list-style: disc;
 }
@@ -190,18 +180,15 @@ ul.list-disc li {
   display: flex;
   flex-direction: column;
 }
-
 @media (min-width: 768px) {
   #side-menu ul:first-child {
     order: 1;
   }
 }
-
 #side-menu ul:first-child #photo-link {
   margin-bottom: 10px;
   text-align: right;
 }
-
 #side-menu ul:first-child #photo-link a {
   color: white;
   text-decoration: underline;
@@ -214,24 +201,20 @@ ul.list-disc li {
 div.content-section {
   position: relative;
 }
-
 div.content-section div#container-for-expand-model {
   position: relative;
   height: 5px;
 }
-
 div.content-section.post-create #expand-modal {
   position: absolute;
   top: 0;
   right: 0;
 }
-
 div.content-section.post-edit #expand-modal {
   position: absolute;
   top: 0;
   right: 0;
 }
-
 div.content-section .modal.show-modal {
   position: fixed;
   top: 0;
@@ -246,32 +229,26 @@ div.content-section .modal.show-modal {
   justify-content: center;
   align-items: center;
 }
-
 div.content-section .modal.show-modal .wrapper {
   display: flex;
   flex-direction: column;
 }
-
 div.content-section .modal.show-modal .wrapper div.photo-list {
   margin-top: 40px;
 }
-
 div.content-section .modal.show-modal .wrapper div.photo-list div {
   display: flex;
   justify-content: space-between;
 }
-
 div.content-section .modal.show-modal .wrapper div.photo-list ul {
   display: flex;
   flex-wrap: wrap;
   margin: 10px 0;
   padding: 0;
 }
-
 div.content-section .modal.show-modal .wrapper div.photo-list ul li {
   list-style: none;
 }
-
 div.content-section .modal.show-modal .wrapper div.photo-list ul li img {
   cursor: pointer;
   margin: 10px 10px 10px 0;
@@ -282,12 +259,10 @@ ul.image-list {
   flex-wrap: wrap;
   justify-content: space-between;
 }
-
 ul.image-list li {
   margin: 10px 0;
   flex-basis: 49%;
 }
-
 ul.image-list li img {
   margin-right: 10px;
   width: 100%;
@@ -312,7 +287,6 @@ ul.image-list li img {
   outline: none;
   transition: border 0.24s ease-in-out;
 }
-
 @media (max-width: 768px) {
   .dropzone {
     width: 100%;
@@ -328,14 +302,12 @@ ul.image-list li img {
 #photo-detail img {
   width: 100%;
 }
-
 #photo-detail div div {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
 }
-
 #photo-detail .photo-by {
   font-style: italic;
 }
@@ -348,12 +320,10 @@ ul.image-list li img {
 .photo-form {
   margin-top: 3rem;
 }
-
 .link-formset small,
 .photo-form small {
   font-size: 0.9rem;
 }
-
 .link-formset .fa-plus-square,
 .link-formset .fa-minus-square,
 .photo-form .fa-plus-square,
@@ -376,7 +346,6 @@ ul.image-list li img {
 .comment-list {
   margin: 50px 0 20px 30px;
 }
-
 .comment-list article {
   margin-bottom: 2rem;
 }
@@ -386,12 +355,10 @@ ul.image-list li img {
   justify-content: space-between;
   align-items: center;
 }
-
 .comment-head div {
   display: flex;
   align-items: center;
 }
-
 .comment-head div p {
   margin-bottom: 0;
 }
@@ -406,8 +373,6 @@ ul.image-list li img {
     display: none;
   }
 }
-
 .url-empty div[id$=DELETE] {
   display: none;
 }
-

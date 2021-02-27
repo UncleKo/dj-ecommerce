@@ -1,0 +1,45 @@
+{
+  "name": "dj-ecommerce",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UncleKo/dj-ecommerce.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UncleKo/dj-ecommerce/issues"
+  },
+  "homepage": "https://github.com/UncleKo/dj-ecommerce#readme",
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/preset-react": "^7.12.13",
+    "axios": "^0.21.1",
+    "browser-sync": "^2.26.14",
+    "browser-sync-webpack-plugin": "^2.2.2",
+    "laravel-mix": "^6.0.13",
+    "postcss": "^8.2.6",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-dropzone": "^11.3.1",
+    "react-redux": "^7.2.2",
+    "resolve-url-loader": "^3.1.2",
+    "sass": "^1.32.8",
+    "sass-loader": "^10.1.1"
+  },
+  "babel": {
+      "presets": [
+          "@babel/preset-env",
+          "@babel/preset-react"
+      ],
+      "plugins": [
+          "@babel/plugin-proposal-class-properties"
+      ]
+  }
+}

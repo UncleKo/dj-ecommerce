@@ -16,8 +16,8 @@ urlpatterns = [
     path('user/', include('users.urls')),
     path('blog', include('blog.urls')),
     path('photos/', include('photos.urls')),
-    # path('api-auth/', include('rest_framework.urls')),
-    # path('api/photos/', include('photos.api.urls')),
+    path('api-auth/', include('rest_framework.urls')),
+    path('api/photos/', include('photos.api.urls')),
 
     # path('edit-profile/', user_views.edit_profile, name='edit-profile')
 ]
