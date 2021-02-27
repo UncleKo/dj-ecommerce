@@ -1,0 +1,77 @@
+{% extends "blog/base.html" %}
+{% block content %}
+
+<div id="photo-detail">
+
+  <div class="content-section">
+    {% if photo.origin.width > 1280 or photo.origin.height > 1280 %}
+    <a href="{{ photo.large.url }}" target="_blank">
+    {% else %}
+    <a href="{{ photo.origin.url }}" target="_blank">
+    {% endif %}
+      <p><img src="{{ photo.medium.url }}" class="mb-3"></p>
+    </a>
+    <div class="mb-4">
+      <p class="photo-by mb-0">Photo by {{ photo.author }}</p>
+      <div>
+        <small>カテゴリー: 
+          {% if photo.category %}
+            {% comment %} <a href="{% url 'photo-category' photo.category.id %}"> {% endcomment %}
+              {{ photo.category }}
+            {% comment %} </a> {% endcomment %}
+          {% else %}
+            未分類
+          {% endif %}
+        </small> 
+        {% if photo.tags.count %}
+          <small>タグ: 
+            {% for tag in photo.tags.all %}
+              {% comment %} <a href="{% url 'photo-tag' tag.id %}"> {% endcomment %}
+                <a href="">{{ tag }}</a>
+              {% comment %} </a> {% endcomment %}
+            {% endfor %}
+          </small>
+        {% endif %} 
+
+      </div>
+    </div>
+    <div>
+      <a class="btn btn-info text-white mb-2" href="{{ photo.origin.url }}" target="_blank">オリジナルサイズ</a>
+      <div class="mb-2">
+        {% if photo.private %}
+          <small class="text-danger">非公開中</small>
+        {% endif %}
+
+        {% if photo.author == user%}
+          <a class="btn btn-outline-secondary btn-sm" href="{% url 'photo-update' photo.id %}">編集する</a>
+          <a class="btn btn-outline-danger btn-sm ml-1 mr-1" href="{% url 'photo-delete' photo.id %}">削除する</a>
+        {% endif %} 
+      </div>
+    </div>
+
+  </div> <!-- content-section -->
+
+  <div class="prev-next">
+    <a class="btn btn-info" href="{{request.META.HTTP_REFERER}}">Back</a>
+    <div>
+      <a class="btn btn-outline-info mr-1" href="
+        {% if previous %}
+          {% url 'photo-detail' previous.id %}
+        {% endif %}
+      ">
+        <i class="fas fa-angle-left"></i>
+      </a>
+      <a class="btn btn-outline-info" href="
+        {% if next %}
+          {% url 'photo-detail' next.id %}
+        {% endif %}
+      ">
+        <i class="fas fa-angle-right"></i>
+      </a>
+    </div>
+    <a class="btn btn-info" href="{% url 'photo-list' %}">Top</a>
+  </div>
+
+</div> <!-- photo-detail -->
+
+{% endblock content %}

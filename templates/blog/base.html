@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  {% if title %}
+  <title>Blog for Nobody - {{ title }}</title>
+  {% else %}
+  <title>Blog for Nobody</title>
+  {% endif %}
+
+  <!-- <link href="https://fonts.googleapis.com/css?family=M+PLUS+1p:100,300,400,500,700,800,900&display=swap" rel="stylesheet">  -->
+  <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:600i,700i&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css"
+    integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" type="text/css" href="{% static 'blog/bootstrap.css' %}"> -->
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
+
+</head>
+
+<body>
+  <header class="site-header">
+    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+      <div class="container">
+        <a class="navbar-brand mr-4" href="{% url 'blog-home' %}">
+          <h1>Blog for Nobody</h1>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
+          aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarToggle">
+          <div class="navbar-nav mr-auto">
+            <a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a>
+            <a class="nav-item nav-link" href="{% url 'blog-about' %}">About</a>
+            {% if user.is_superuser %}
+            <a class="nav-item nav-link" href="/admin">Admin</a>
+            {% endif %}
+          </div>
+          <!-- Navbar Right Side -->
+          <div class="navbar-nav">
+            {% if user.is_staff %}
+            <a class="nav-item nav-link" href="{% url 'post-create' %}">New Post</a>
+            {% endif %}
+            {% if user.is_authenticated %}
+            <a class="nav-item nav-link" href="{% url 'user:profile' %}">Profile</a>
+            {% with path=request.path %}
+            <a class="nav-item nav-link" href="{% url 'logout' %}?next={% url 'login' %}?next={{ path }}">Logout</a>
+            {% endwith %}
+            <a class="nav-item nav-link">{{ user.username }}</a>
+            {% else %}
+            <a class="nav-item nav-link" href="{% url 'login' %}?next={{request.path}}">Login</a>
+            <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <main role="main" class="container">
+    <div class="row">
+      <div class="col-md-8">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+
+      </div>
+      <div class="col-md-4">
+        <div id="side-menu" class="content-section">
+          <ul class="list-group">
+            <li id="photo-link" class="bg-info list-group-item list-group-item-light"><a
+                href="{% url 'photo-list' %}">Photo Album</a></li>
+          </ul>
+          <ul class="list-group">
+            {% if user.is_authenticated %}
+            <li class="list-group-item list-group-item-light">
+              Drafts
+              <ul>
+                <!-- {% if drafts.count %} -->
+                {% for post in drafts %}
+                {% if post.author == user %}
+                <li><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></li>
+                {% endif %}
+                {% endfor %}
+                <!-- {% else %}
+                        <p>下書きはありません</p>
+                    {% endif %} -->
+              </ul>
+            </li>
+            {% endif %}
+            <li class="list-group-item list-group-item-light">
+              Latest Posts
+              <ul>
+                {% for post in latest_posts %}
+                {% if post.draft == False %}
+                <li><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></li>
+                {% endif %}
+                {% endfor %}
+              </ul>
+            </li>
+            <li class="list-group-item list-group-item-light">
+              Categories
+              <ul>
+                {% for category in post_categories %}
+                {% if category.published_posts.count %}
+                <li><a href="{% url 'blog-category' category.name %}">{{ category }} ({{category.published_posts.count
+                    }})</a></li>
+                {% endif %}
+                {% endfor %}
+              </ul>
+            </li>
+            <li class="list-group-item list-group-item-light">
+              Tags
+              <ul>
+                {% for tag in post_tags %}
+                {% if tag.published_posts.count %}
+                <li><a href="{% url 'blog-tag' tag.name %}">{{ tag }} ({{ tag.published_posts.count }})</a></li>
+                {% endif %}
+                {% endfor %}
+              </ul>
+            </li>
+            <li class="list-group-item list-group-item-light">
+              Archives
+              <ul>
+                {% for archive in archives %}
+                <li><a href="/archives/?month={{ archive.date_posted__month }}&year={{ archive.date_posted__year }}">
+                    {{ archive.date_posted__year }}年{{ archive.date_posted__month }}月 ({{ archive.id__count }})
+                  </a></li>
+                {% endfor %}
+              </ul>
+            </li>
+          </ul>
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+  <!-- Optional JavaScript -->
+  <!-- {% csrf_token %} -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script> -->
+  <!-- <script id="post" type="text/x-handlebars-template"></script> -->
+  <script src="{% static 'blog/app.js' %}"></script>
+
+
+</body>
+
+</html>

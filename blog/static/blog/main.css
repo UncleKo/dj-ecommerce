@@ -1,0 +1,413 @@
+html {
+  font-size: 15px;
+}
+
+body {
+  background: #fafafa;
+  color: #333333;
+  margin-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #444444;
+}
+
+ul {
+  margin: 0;
+}
+
+.bg-steel {
+  background-color: #5f788a;
+}
+
+.site-header .navbar-nav .nav-link {
+  color: #cbd5db;
+}
+
+.site-header .navbar-nav .nav-link:hover {
+  color: #ffffff;
+}
+
+.site-header .navbar-nav .nav-link.active {
+  font-weight: 500;
+}
+
+.content-section {
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+
+.article-title {
+  color: #444444;
+}
+
+a.article-title:hover {
+  color: #428bca;
+  text-decoration: none;
+}
+
+.article-content img {
+  max-width: 100%;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+}
+
+.featured_image {
+  max-width: 100%;
+  margin-bottom: 1rem;
+}
+
+.article-img {
+  height: 65px;
+  width: 65px;
+  margin-right: 16px;
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .article-img {
+    display: block;
+  }
+}
+
+.article-metadata {
+  padding-bottom: 1px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.article-metadata a:hover {
+  color: #333;
+  text-decoration: none;
+}
+
+.article-svg {
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+}
+
+.account-img {
+  height: 125px;
+  width: 125px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
+
+.account-heading {
+  font-size: 2.5rem;
+}
+
+/* My Own CSS */
+
+h1 {
+  font: 0/0 a;
+  text-shadow: none;
+  color: transparent;
+  background: url("/images/logo.png") no-repeat center center;
+  background-size: cover;
+  width: 133px;
+  height: 30px;
+  margin: 0 auto;
+}
+
+h2 {
+  margin: 0 0 20px;
+  font-size: 1.6rem;
+}
+
+small {
+  margin-right: 5px;
+}
+
+.hide {
+  display: none;
+}
+
+.inline-link {
+  display: inline;
+}
+
+@media (max-width: 768px) {
+  .mobile-off {
+    display: none;
+  }
+}
+
+.spinner-grow {
+  margin-right: 7px;
+}
+
+.loading {
+  margin-left: 10px;
+}
+
+.url {
+  word-break: break-all;
+}
+
+.prev-next {
+  flex: 100%;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.archive-heading {
+  font-size: 1.6rem;
+  margin: 0 0 20px;
+}
+
+@media (max-width: 768px) {
+  .nav-item {
+    border-top: 1px solid #cbd5db;
+  }
+}
+
+ul {
+  padding-left: 12px;
+}
+
+ul li {
+  list-style: none;
+}
+
+ul.list-disc li {
+  list-style: disc;
+}
+
+#side-menu {
+  padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  #side-menu ul:first-child {
+    order: 1;
+  }
+}
+
+#side-menu ul:first-child #photo-link {
+  margin-bottom: 10px;
+  text-align: right;
+}
+
+#side-menu ul:first-child #photo-link a {
+  color: white;
+  text-decoration: underline;
+}
+
+.media {
+  flex-wrap: wrap;
+}
+
+div.content-section {
+  position: relative;
+}
+
+div.content-section div#container-for-expand-model {
+  position: relative;
+  height: 5px;
+}
+
+div.content-section.post-create #expand-modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+div.content-section.post-edit #expand-modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+div.content-section .modal.show-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+  background: #333;
+  opacity: 0.9;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+div.content-section .modal.show-modal .wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+div.content-section .modal.show-modal .wrapper div.photo-list {
+  margin-top: 40px;
+}
+
+div.content-section .modal.show-modal .wrapper div.photo-list div {
+  display: flex;
+  justify-content: space-between;
+}
+
+div.content-section .modal.show-modal .wrapper div.photo-list ul {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 10px 0;
+  padding: 0;
+}
+
+div.content-section .modal.show-modal .wrapper div.photo-list ul li {
+  list-style: none;
+}
+
+div.content-section .modal.show-modal .wrapper div.photo-list ul li img {
+  cursor: pointer;
+  margin: 10px 10px 10px 0;
+}
+
+ul.image-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+ul.image-list li {
+  margin: 10px 0;
+  flex-basis: 49%;
+}
+
+ul.image-list li img {
+  margin-right: 10px;
+  width: 100%;
+  max-width: 250px;
+}
+
+.dropzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 650px;
+  height: 150px;
+  margin-bottom: 20px;
+  padding: 20px;
+  border-width: 2px;
+  border-radius: 2px;
+  border-color: rgba(39, 58, 75, 0.97);
+  border-style: dashed;
+  background-color: #fafafa;
+  opacity: 0.9;
+  color: #605e5e;
+  outline: none;
+  transition: border 0.24s ease-in-out;
+}
+
+@media (max-width: 768px) {
+  .dropzone {
+    width: 100%;
+  }
+}
+
+#photo-detail .content-section,
+#post-detail .content-section {
+  padding-bottom: 20px;
+  margin-bottom: 10px;
+}
+
+#photo-detail img {
+  width: 100%;
+}
+
+#photo-detail div div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#photo-detail .photo-by {
+  font-style: italic;
+}
+
+.multiField {
+  margin-top: 5rem;
+}
+
+.link-formset,
+.photo-form {
+  margin-top: 3rem;
+}
+
+.link-formset small,
+.photo-form small {
+  font-size: 0.9rem;
+}
+
+.link-formset .fa-plus-square,
+.link-formset .fa-minus-square,
+.photo-form .fa-plus-square,
+.photo-form .fa-minus-square {
+  font-size: 2rem;
+  cursor: pointer;
+  color: #17a2b8;
+}
+
+.links {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.comment-img {
+  height: 26px;
+  width: 26px;
+}
+
+.comment-list {
+  margin: 50px 0 20px 30px;
+}
+
+.comment-list article {
+  margin-bottom: 2rem;
+}
+
+.comment-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-head div {
+  display: flex;
+  align-items: center;
+}
+
+.comment-head div p {
+  margin-bottom: 0;
+}
+
+.filled-field .custom-file-label {
+  top: 22px;
+  left: 36px;
+}
+
+@media (max-width: 768px) {
+  #label_for_featured_image {
+    display: none;
+  }
+}
+
+.url-empty div[id$=DELETE] {
+  display: none;
+}
+

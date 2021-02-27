@@ -8,11 +8,16 @@ from users import views as user_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('accounts/', include('allauth.urls')),
-    path('', include('core.urls', namespace='core')),
-    path('user/', include('users.urls')),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('signup/', user_views.register, name='register'),
-    path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout')
+    path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
+
+    path('', include('core.urls', namespace='core')),
+    path('user/', include('users.urls')),
+    path('blog', include('blog.urls')),
+    path('photos/', include('photos.urls')),
+    # path('api-auth/', include('rest_framework.urls')),
+    # path('api/photos/', include('photos.api.urls')),
 
     # path('edit-profile/', user_views.edit_profile, name='edit-profile')
 ]
