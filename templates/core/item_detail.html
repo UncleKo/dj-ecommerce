@@ -21,6 +21,12 @@
         <img src="{{ item.image_medium.url }}" class="card-img-top" alt="">
         {% endif %}
 
+        {% if item.other_images.count %}
+        {% for photo in item.other_images.all %}
+        <img src="{{ photo.thumb.url }}" class="thumb" alt="">
+        {% endfor %}
+        {% endif %}
+
       </div>
       <!--Grid column-->
 
