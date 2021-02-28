@@ -2071,167 +2071,6 @@ var PhotoInsert = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
-/***/ "./resources/js/app.js":
-/*!*****************************!*\
-  !*** ./resources/js/app.js ***!
-  \*****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_bling_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/bling.js */ "./resources/js/components/bling.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var _PhotoInsert__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PhotoInsert */ "./resources/js/PhotoInsert.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-
-
-
-
-
-
-if (document.querySelector('.photo_insert')) {
-  react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_PhotoInsert__WEBPACK_IMPORTED_MODULE_3__.default, {}), document.querySelector('.photo_insert'));
-}
-
-(function ($, $$) {
-  var navbarCollapseFunction = function navbarCollapseFunction() {
-    var navbarToggler = $('.navbar-toggler-icon');
-    var navbarCollapse = $('.navbar-collapse');
-    navbarToggler.on('click', function () {
-      navbarCollapse.classList.toggle('collapse');
-    });
-    document.body.on('click', function (e) {
-      // if(!e.target.classList.contains('navbar-toggler-icon')) {
-      if (e.target !== navbarToggler) {
-        navbarCollapse.classList.add('collapse');
-      }
-    });
-  }; //navbarCollapseFunction
-
-
-  navbarCollapseFunction();
-
-  if ($('#id_featured_image')) {
-    $('#id_featured_image').on('change', function () {
-      var filename = this.value.replace(/^.*[\\\/]/, '');
-      $('#label_for_featured_image').innerHTML = filename;
-    });
-  }
-
-  var multiFormControl = function multiFormControl() {
-    // 画像アップロードフォームにて、2番目以降のフォームを隠す（１個だけ表示する）
-    var hideOthers = function hideOthers(elem) {
-      var el = document.querySelectorAll(elem);
-
-      for (var i = 1; i < el.length; i++) {
-        el[i].classList.add('hide');
-        el[0].classList.add('mt-0');
-      }
-    }; // hideOthers
-    // hideOthers('link-form'); //Post新規投稿ページ =>下記functionに統一=>
-
-
-    hideOthers('.photo-form .multiField'); //Photo Upload Page
-    // クリックで１個ずつフォームの表示・非表示
-
-    var toggleForms = function toggleForms(elem) {
-      var el = document.querySelectorAll(elem);
-      var i = 1;
-
-      if ($('#add-form')) {
-        $('#add-form').on('click', function (e) {
-          e.preventDefault();
-          el[i].classList.remove('hide');
-          i++;
-        });
-      }
-
-      if ($('#remove-form')) {
-        $('#remove-form').on('click', function (e) {
-          i > 1 ? i-- : i;
-          e.preventDefault();
-          el[i].classList.add('hide');
-        });
-      }
-    }; // toggleForms
-    // toggleForms('link-form'); //Post新規投稿ページ =>下記functionに統一=>
-
-
-    toggleForms('.photo-form .multiField'); //Photo Upload Page
-    // 既にデータが入ってるフォームのみ表示
-
-    var hideEmptyForms = function hideEmptyForms(elem) {
-      var linkForms = document.querySelectorAll(elem);
-      linkForms.forEach(function (form) {
-        // console.log(form.value);
-        if (form.value == "" || form.value == null) {
-          //空のフォームを非表示、表示/非表示をコントロール、"削除する"チェックボックスを非表示にする->SCSS
-          form.parentNode.parentNode.parentNode.classList.add('hide', 'togglable', 'url-empty');
-        }
-      }); // PostにURLがひとつもない場合(新規投稿含む)、ひとつだけ空のフォームを表示
-
-      var el = document.querySelectorAll('.no-urls .togglable')[0];
-
-      if (el) {
-        el.classList.remove('hide');
-      }
-
-      toggleForms('.togglable');
-    };
-
-    hideEmptyForms('.link-form .urlinput');
-  }; //multi_form_control
-
-
-  multiFormControl();
-
-  var modalControl = function modalControl() {
-    var modal = $('.modal');
-
-    function expandModal() {
-      modal.classList.add('show-modal');
-    }
-
-    function closeModal(e) {
-      if (!e.target.classList.contains('keep-modal')) {
-        modal.classList.remove('show-modal');
-      }
-    }
-
-    if ($('#expand-modal')) {
-      $('#expand-modal').on('click', expandModal);
-    }
-
-    modal.on('click', closeModal);
-  }; // modal_control
-
-
-  if ($('.modal')) {
-    modalControl();
-  } // // Without bing.js
-  // let modal = document.querySelector('.modal');
-  // let photos = document.querySelectorAll('#photos img');
-  // function insertImage() {
-  //   let image = '<a href="' + this.dataset.origin + '"><img src="' + this.dataset.medium + '"></a>';
-  //   document.querySelector('#id_content').value += image;
-  // }
-  // function expandModal() {
-  //   modal.classList.add('show');
-  // }
-  // function closeModal(e) {
-  //   // console.log(e);
-  //   // if(e.target==='form') return;
-  //   modal.classList.remove('show');
-  // }
-  // photos.forEach( photo => photo.addEventListener('click', insertImage));
-  // document.querySelector('#expand-modal').addEventListener('click', expandModal);
-  // modal.addEventListener('click', closeModal);
-
-})(_components_bling_js__WEBPACK_IMPORTED_MODULE_0__.$, _components_bling_js__WEBPACK_IMPORTED_MODULE_0__.$$);
-
-/***/ }),
-
 /***/ "./resources/js/components/Dropzone.js":
 /*!*********************************************!*\
   !*** ./resources/js/components/Dropzone.js ***!
@@ -2842,19 +2681,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _file_selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./file-selector */ "./node_modules/file-selector/dist/es5/file-selector.js");
 
 //# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ "./resources/sass/main.scss":
-/*!**********************************!*\
-  !*** ./resources/sass/main.scss ***!
-  \**********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
 
 /***/ }),
 
@@ -36650,12 +36476,6 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
 /******/ 		return module.exports;
 /******/ 	}
 /******/ 	
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = __webpack_modules__;
-/******/ 	
-/******/ 	// the startup function
-/******/ 	// It's empty as some runtime module handles the default behavior
-/******/ 	__webpack_require__.x = x => {};
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
@@ -36697,100 +36517,166 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
 /******/ 		};
 /******/ 	})();
 /******/ 	
-/******/ 	/* webpack/runtime/jsonp chunk loading */
-/******/ 	(() => {
-/******/ 		// no baseURI
-/******/ 		
-/******/ 		// object to store loaded and loading chunks
-/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
-/******/ 		// Promise = chunk loading, 0 = chunk loaded
-/******/ 		var installedChunks = {
-/******/ 			"/blog/static/blog/app": 0
-/******/ 		};
-/******/ 		
-/******/ 		var deferredModules = [
-/******/ 			["./resources/js/app.js"],
-/******/ 			["./resources/sass/main.scss"]
-/******/ 		];
-/******/ 		// no chunk on demand loading
-/******/ 		
-/******/ 		// no prefetching
-/******/ 		
-/******/ 		// no preloaded
-/******/ 		
-/******/ 		// no HMR
-/******/ 		
-/******/ 		// no HMR manifest
-/******/ 		
-/******/ 		var checkDeferredModules = x => {};
-/******/ 		
-/******/ 		// install a JSONP callback for chunk loading
-/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
-/******/ 			var [chunkIds, moreModules, runtime, executeModules] = data;
-/******/ 			// add "moreModules" to the modules object,
-/******/ 			// then flag all "chunkIds" as loaded and fire callback
-/******/ 			var moduleId, chunkId, i = 0, resolves = [];
-/******/ 			for(;i < chunkIds.length; i++) {
-/******/ 				chunkId = chunkIds[i];
-/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
-/******/ 					resolves.push(installedChunks[chunkId][0]);
-/******/ 				}
-/******/ 				installedChunks[chunkId] = 0;
-/******/ 			}
-/******/ 			for(moduleId in moreModules) {
-/******/ 				if(__webpack_require__.o(moreModules, moduleId)) {
-/******/ 					__webpack_require__.m[moduleId] = moreModules[moduleId];
-/******/ 				}
-/******/ 			}
-/******/ 			if(runtime) runtime(__webpack_require__);
-/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
-/******/ 			while(resolves.length) {
-/******/ 				resolves.shift()();
-/******/ 			}
-/******/ 		
-/******/ 			// add entry modules from loaded chunk to deferred list
-/******/ 			if(executeModules) deferredModules.push.apply(deferredModules, executeModules);
-/******/ 		
-/******/ 			// run deferred modules when all chunks ready
-/******/ 			return checkDeferredModules();
-/******/ 		}
-/******/ 		
-/******/ 		var chunkLoadingGlobal = self["webpackChunkdj_ecommerce"] = self["webpackChunkdj_ecommerce"] || [];
-/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
-/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
-/******/ 		
-/******/ 		function checkDeferredModulesImpl() {
-/******/ 			var result;
-/******/ 			for(var i = 0; i < deferredModules.length; i++) {
-/******/ 				var deferredModule = deferredModules[i];
-/******/ 				var fulfilled = true;
-/******/ 				for(var j = 1; j < deferredModule.length; j++) {
-/******/ 					var depId = deferredModule[j];
-/******/ 					if(installedChunks[depId] !== 0) fulfilled = false;
-/******/ 				}
-/******/ 				if(fulfilled) {
-/******/ 					deferredModules.splice(i--, 1);
-/******/ 					result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
-/******/ 				}
-/******/ 			}
-/******/ 			if(deferredModules.length === 0) {
-/******/ 				__webpack_require__.x();
-/******/ 				__webpack_require__.x = x => {};
-/******/ 			}
-/******/ 			return result;
-/******/ 		}
-/******/ 		var startup = __webpack_require__.x;
-/******/ 		__webpack_require__.x = () => {
-/******/ 			// reset startup function so it can be called again when more startup code is added
-/******/ 			__webpack_require__.x = startup || (x => {});
-/******/ 			return (checkDeferredModules = checkDeferredModulesImpl)();
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /************************************************************************/
-/******/ 	
-/******/ 	// run startup
-/******/ 	var __webpack_exports__ = __webpack_require__.x();
-/******/ 	
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+(() => {
+"use strict";
+/*!*****************************!*\
+  !*** ./resources/js/app.js ***!
+  \*****************************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_bling_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/bling.js */ "./resources/js/components/bling.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _PhotoInsert__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PhotoInsert */ "./resources/js/PhotoInsert.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+
+if (document.querySelector('.photo_insert')) {
+  react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_PhotoInsert__WEBPACK_IMPORTED_MODULE_3__.default, {}), document.querySelector('.photo_insert'));
+}
+
+(function ($, $$) {
+  var navbarCollapseFunction = function navbarCollapseFunction() {
+    var navbarToggler = $('.navbar-toggler-icon');
+    var navbarCollapse = $('.navbar-collapse');
+    navbarToggler.on('click', function () {
+      navbarCollapse.classList.toggle('collapse');
+    });
+    document.body.on('click', function (e) {
+      // if(!e.target.classList.contains('navbar-toggler-icon')) {
+      if (e.target !== navbarToggler) {
+        navbarCollapse.classList.add('collapse');
+      }
+    });
+  }; //navbarCollapseFunction
+
+
+  navbarCollapseFunction();
+
+  if ($('#id_featured_image')) {
+    $('#id_featured_image').on('change', function () {
+      var filename = this.value.replace(/^.*[\\\/]/, '');
+      $('#label_for_featured_image').innerHTML = filename;
+    });
+  }
+
+  var multiFormControl = function multiFormControl() {
+    // 画像アップロードフォームにて、2番目以降のフォームを隠す（１個だけ表示する）
+    var hideOthers = function hideOthers(elem) {
+      var el = document.querySelectorAll(elem);
+
+      for (var i = 1; i < el.length; i++) {
+        el[i].classList.add('hide');
+        el[0].classList.add('mt-0');
+      }
+    }; // hideOthers
+    // hideOthers('link-form'); //Post新規投稿ページ =>下記functionに統一=>
+
+
+    hideOthers('.photo-form .multiField'); //Photo Upload Page
+    // クリックで１個ずつフォームの表示・非表示
+
+    var toggleForms = function toggleForms(elem) {
+      var el = document.querySelectorAll(elem);
+      var i = 1;
+
+      if ($('#add-form')) {
+        $('#add-form').on('click', function (e) {
+          e.preventDefault();
+          el[i].classList.remove('hide');
+          i++;
+        });
+      }
+
+      if ($('#remove-form')) {
+        $('#remove-form').on('click', function (e) {
+          i > 1 ? i-- : i;
+          e.preventDefault();
+          el[i].classList.add('hide');
+        });
+      }
+    }; // toggleForms
+    // toggleForms('link-form'); //Post新規投稿ページ =>下記functionに統一=>
+
+
+    toggleForms('.photo-form .multiField'); //Photo Upload Page
+    // 既にデータが入ってるフォームのみ表示
+
+    var hideEmptyForms = function hideEmptyForms(elem) {
+      var linkForms = document.querySelectorAll(elem);
+      linkForms.forEach(function (form) {
+        // console.log(form.value);
+        if (form.value == "" || form.value == null) {
+          //空のフォームを非表示、表示/非表示をコントロール、"削除する"チェックボックスを非表示にする->SCSS
+          form.parentNode.parentNode.parentNode.classList.add('hide', 'togglable', 'url-empty');
+        }
+      }); // PostにURLがひとつもない場合(新規投稿含む)、ひとつだけ空のフォームを表示
+
+      var el = document.querySelectorAll('.no-urls .togglable')[0];
+
+      if (el) {
+        el.classList.remove('hide');
+      }
+
+      toggleForms('.togglable');
+    };
+
+    hideEmptyForms('.link-form .urlinput');
+  }; //multi_form_control
+
+
+  multiFormControl();
+
+  var modalControl = function modalControl() {
+    var modal = $('.modal');
+
+    function expandModal() {
+      modal.classList.add('show-modal');
+    }
+
+    function closeModal(e) {
+      if (!e.target.classList.contains('keep-modal')) {
+        modal.classList.remove('show-modal');
+      }
+    }
+
+    if ($('#expand-modal')) {
+      $('#expand-modal').on('click', expandModal);
+    }
+
+    modal.on('click', closeModal);
+  }; // modal_control
+
+
+  if ($('.modal')) {
+    modalControl();
+  } // // Without bing.js
+  // let modal = document.querySelector('.modal');
+  // let photos = document.querySelectorAll('#photos img');
+  // function insertImage() {
+  //   let image = '<a href="' + this.dataset.origin + '"><img src="' + this.dataset.medium + '"></a>';
+  //   document.querySelector('#id_content').value += image;
+  // }
+  // function expandModal() {
+  //   modal.classList.add('show');
+  // }
+  // function closeModal(e) {
+  //   // console.log(e);
+  //   // if(e.target==='form') return;
+  //   modal.classList.remove('show');
+  // }
+  // photos.forEach( photo => photo.addEventListener('click', insertImage));
+  // document.querySelector('#expand-modal').addEventListener('click', expandModal);
+  // modal.addEventListener('click', closeModal);
+
+})(_components_bling_js__WEBPACK_IMPORTED_MODULE_0__.$, _components_bling_js__WEBPACK_IMPORTED_MODULE_0__.$$);
+})();
+
 /******/ })()
 ;

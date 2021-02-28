@@ -12,8 +12,10 @@ const mix = require('laravel-mix');
  */
 
 mix
-   .js('resources/js/app.js', 'blog/static/blog').react()
-   .sass('resources/sass/main.scss', 'blog/static/blog')
+   .js('resources/js/app.js', 'static_files/js').react()
+   .sass('resources/scss/blog.scss', 'static_files/css')
+   .sass('resources/scss/main.scss', 'static_files/css')
+   .sourceMaps(true, 'inline-source-map')
    .options({
        postCss: [
            require('autoprefixer')({
