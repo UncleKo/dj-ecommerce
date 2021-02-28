@@ -1,4 +1,4 @@
-import {$, $$} from './components/bling.js';
+import { $, $$ } from './components/bling.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PhotoInsert from './PhotoInsert';
@@ -9,29 +9,29 @@ if (document.querySelector('.photo_insert')) {
 
 (function ($, $$) {
 
-  const navbarCollapseFunction = () => {
+  // const navbarCollapseFunction = () => {
 
-    let navbarToggler = $('.navbar-toggler-icon')
-    let navbarCollapse = $('.navbar-collapse')
+  //   let navbarToggler = $('.navbar-toggler-icon')
+  //   let navbarCollapse = $('.navbar-collapse')
 
-    navbarToggler.on('click', function() {
-      navbarCollapse.classList.toggle('collapse');
-    })
+  //   navbarToggler.on('click', function () {
+  //     navbarCollapse.classList.toggle('collapse');
+  //   })
 
-    document.body.on('click', function(e) {
-      // if(!e.target.classList.contains('navbar-toggler-icon')) {
-      if(e.target !== navbarToggler) {
-        navbarCollapse.classList.add('collapse');
-      }
-    })
+  //   document.body.on('click', function (e) {
+  //     // if(!e.target.classList.contains('navbar-toggler-icon')) {
+  //     if (e.target !== navbarToggler) {
+  //       navbarCollapse.classList.add('collapse');
+  //     }
+  //   })
 
-  } //navbarCollapseFunction
+  // } //navbarCollapseFunction
 
-  navbarCollapseFunction();
+  // navbarCollapseFunction();
 
 
   if ($('#id_featured_image')) {
-    $('#id_featured_image').on('change', function() {
+    $('#id_featured_image').on('change', function () {
       let filename = this.value.replace(/^.*[\\\/]/, '')
       $('#label_for_featured_image').innerHTML = filename;
     })
@@ -42,11 +42,11 @@ if (document.querySelector('.photo_insert')) {
 
     // 画像アップロードフォームにて、2番目以降のフォームを隠す（１個だけ表示する）
     const hideOthers = (elem) => {
-        let el = document.querySelectorAll(elem);
-        for (let i = 1; i < el.length; i++) {
-          el[i].classList.add('hide');
-          el[0].classList.add('mt-0');
-        }
+      let el = document.querySelectorAll(elem);
+      for (let i = 1; i < el.length; i++) {
+        el[i].classList.add('hide');
+        el[0].classList.add('mt-0');
+      }
     } // hideOthers
 
     // hideOthers('link-form'); //Post新規投稿ページ =>下記functionに統一=>
@@ -58,16 +58,16 @@ if (document.querySelector('.photo_insert')) {
       let el = document.querySelectorAll(elem);
       let i = 1;
       if ($('#add-form')) {
-        $('#add-form').on('click', function(e) {
+        $('#add-form').on('click', function (e) {
           e.preventDefault();
           el[i].classList.remove('hide');
           i++;
         })
-      } 
+      }
 
       if ($('#remove-form')) {
-        $('#remove-form').on('click', function(e) {
-          i>1 ? i-- : i;
+        $('#remove-form').on('click', function (e) {
+          i > 1 ? i-- : i;
           e.preventDefault();
           el[i].classList.add('hide');
         })
@@ -83,7 +83,7 @@ if (document.querySelector('.photo_insert')) {
       let linkForms = document.querySelectorAll(elem);
       linkForms.forEach(form => {
         // console.log(form.value);
-        if ( form.value == "" || form.value == null ) {
+        if (form.value == "" || form.value == null) {
           //空のフォームを非表示、表示/非表示をコントロール、"削除する"チェックボックスを非表示にする->SCSS
           form.parentNode.parentNode.parentNode.classList.add('hide', 'togglable', 'url-empty');
         }
@@ -106,7 +106,7 @@ if (document.querySelector('.photo_insert')) {
 
 
   const modalControl = () => {
-    
+
     let modal = $('.modal');
 
     function expandModal() {
@@ -114,12 +114,12 @@ if (document.querySelector('.photo_insert')) {
     }
 
     function closeModal(e) {
-      if(!e.target.classList.contains('keep-modal')) {
+      if (!e.target.classList.contains('keep-modal')) {
         modal.classList.remove('show-modal');
       }
     }
 
-    if($('#expand-modal')) {
+    if ($('#expand-modal')) {
       $('#expand-modal').on('click', expandModal);
     }
 
@@ -128,7 +128,7 @@ if (document.querySelector('.photo_insert')) {
 
   } // modal_control
 
-  if($('.modal')) {
+  if ($('.modal')) {
     modalControl();
   }
 

@@ -14,14 +14,10 @@
   <title>Blog for Nobody</title>
   {% endif %}
 
-  <!-- <link href="https://fonts.googleapis.com/css?family=M+PLUS+1p:100,300,400,500,700,800,900&display=swap" rel="stylesheet">  -->
-  <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:600i,700i&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css"
     integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}"> -->
+
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="{% static 'css/blog.css' %}">
 
 </head>
@@ -155,8 +151,10 @@
   <!-- {% csrf_token %} -->
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script> -->
   <!-- <script id="post" type="text/x-handlebars-template"></script> -->
-  <script src="{% static 'js/app.js' %}"></script>
 
+  {% include "parts/footer.html" %}
+
+  <script src="{% static 'js/app.js' %}"></script>
 
 </body>
 

@@ -11,3 +11,5 @@ images
 !.travis.yml
 /.env
 /.vscode
+
+node_modules
