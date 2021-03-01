@@ -83,7 +83,8 @@ class Item(models.Model):
     draft = models.BooleanField(default=False, verbose_name="非公開")
     fav_users = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="fav_items", blank=True)
-    image = models.ImageField(blank=True, verbose_name="メイン画像")
+    image = models.ImageField(
+        blank=True, upload_to='item_main_image/', verbose_name="メイン画像")
     image_large = ImageSpecField(source="image",
                                  processors=[ResizeToFit(1280, 1280)],
                                  format='JPEG'

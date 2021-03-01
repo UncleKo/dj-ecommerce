@@ -30,7 +30,7 @@ class Category(models.Model):
 
 class Photo(models.Model):
 
-    origin = models.ImageField(upload_to="photos/%y/%m/", verbose_name="画像")
+    origin = models.ImageField(upload_to="other_images/", verbose_name="画像")
 
     large = ImageSpecField(source="origin",
                            processors=[ResizeToFit(1280, 1280)],
