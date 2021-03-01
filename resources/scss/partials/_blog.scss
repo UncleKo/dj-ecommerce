@@ -4,7 +4,6 @@ html {
 body {
   background: #fafafa;
   color: #333333;
-  margin-top: 5rem;
   padding-bottom: 5rem;
 }
 
@@ -142,16 +141,16 @@ a.article-title:hover {
 //    @include button-bg(#e74c3c);
 // }
 
-h1 {
-   font:0/0 a; 
-   text-shadow:none; 
-   color:transparent;
-   background: url(https://store-for-nobody.s3-ap-northeast-1.amazonaws.com/logos/a-store-logo-white.png);
-   background-size: cover;
-   width: 120px;
-   height: 30px;
-   margin: 0 auto;
-}
+// h1 {
+//    font:0/0 a; 
+//    text-shadow:none; 
+//    color:transparent;
+//    background: url(https://store-for-nobody.s3-ap-northeast-1.amazonaws.com/logos/a-store-logo-white.png);
+//    background-size: cover;
+//    width: 120px;
+//    height: 30px;
+//    margin: 0 auto;
+// }
 
 h2 {
   margin: 0 0 20px;
@@ -200,11 +199,11 @@ small {
   margin: 0 0 20px;
 }
 
-@media(max-width: 768px) {
-  .nav-item {
-    border-top: 1px solid #cbd5db;
-  }
-}
+// @media(max-width: 768px) {
+//   .nav-item {
+//     border-top: 1px solid #cbd5db;
+//   }
+// }
 
 ul {
   padding-left: 12px;
@@ -224,14 +223,27 @@ ul {
     @media (min-width: 768px) {
       order: 1;
     }
-    #photo-link {
+    #photo-link,
+    #new-post-link {
       margin-bottom: 10px;
-      text-align: right;
       a {
         color: white;
-        text-decoration: underline;
-      }
-    } //photo-link
+        // text-decoration: underline;
+        font-weight: 400;
+        i {
+          margin-right: 4px;
+        }
+      } // a
+    } // #photo-link, #new-post-link
+
+    // #new-post-link {
+    //   i {
+    //     margin-left: 4px;
+    //   }
+    // }
+    #photo-link {
+      text-align: right;
+    } 
   } //ul:first-child
 }
 
@@ -272,7 +284,7 @@ div.content-section  {
       .wrapper {
         display: flex;
         flex-direction: column;
-        // align-items: center;
+        justify-content: center;
         div.photo-list {
           margin-top: 40px;
           div {

@@ -1,65 +1,28 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-
-  <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>{% block head_title %}{% endblock %}</title>
+  {% block extra_head %}
+  {% endblock %}
 
-  {% if title %}
-  <title>Blog for Nobody - {{ title }}</title>
-  {% else %}
-  <title>Blog for Nobody</title>
-  {% endif %}
-
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css"
-    integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900|Oswald:200,300,400,500,600,700"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
 
   <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/blog.css' %}">
-
+  <link href="{% static 'css/styles.css' %}" rel="stylesheet">
 </head>
 
-<body>
+<body class="blog">
   <header class="site-header">
-    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-      <div class="container">
-        <a class="navbar-brand mr-4" href="{% url 'core:home' %}">
-          <h1>Blog for Nobody</h1>
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
-          aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarToggle">
-          <div class="navbar-nav mr-auto">
-            <a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a>
-            <a class="nav-item nav-link" href="{% url 'blog-about' %}">About</a>
-            {% if user.is_superuser %}
-            <a class="nav-item nav-link" href="/admin">Admin</a>
-            {% endif %}
-          </div>
-          <!-- Navbar Right Side -->
-          <div class="navbar-nav">
-            {% if user.is_staff %}
-            <a class="nav-item nav-link" href="{% url 'post-create' %}">New Post</a>
-            {% endif %}
-            {% if user.is_authenticated %}
-            <a class="nav-item nav-link" href="{% url 'user:profile' %}">Profile</a>
-            {% with path=request.path %}
-            <a class="nav-item nav-link" href="{% url 'logout' %}?next={% url 'login' %}?next={{ path }}">Logout</a>
-            {% endwith %}
-            <a class="nav-item nav-link">{{ user.username }}</a>
-            {% else %}
-            <a class="nav-item nav-link" href="{% url 'login' %}?next={{request.path}}">Login</a>
-            <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </nav>
+    {% include "parts/navbar.html" %}
   </header>
   <main role="main" class="container">
     <div class="row">
@@ -78,8 +41,12 @@
       <div class="col-md-4">
         <div id="side-menu" class="content-section">
           <ul class="list-group">
+            {% if user.is_staff %}
+            <li id="new-post-link" class="bg-warning list-group-item list-group-item-light"><a
+                href="{% url 'post-create' %}"><i class="far fa-edit"></i>New Post</a></li>
+            {% endif %}
             <li id="photo-link" class="bg-info list-group-item list-group-item-light"><a
-                href="{% url 'photo-list' %}">Photo Album</a></li>
+                href="{% url 'photo-list' %}"><i class="far fa-images"></i>Photo Album</a></li>
           </ul>
           <ul class="list-group">
             {% if user.is_authenticated %}

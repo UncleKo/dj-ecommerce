@@ -1,5 +1,4 @@
 {
     "/static_files/js/app.js": "/static_files/js/app.js",
-    "/static_files/css/main.css": "/static_files/css/main.css",
-    "/static_files/css/blog.css": "/static_files/css/blog.css"
+    "/static_files/css/styles.css": "/static_files/css/styles.css"
 }

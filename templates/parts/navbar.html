@@ -1,6 +1,6 @@
 {% load cart_template_tags %}
 
-<nav id="main-menu" class="navbar navbar-expand-lg navbar-light white scrolling-navbar">
+<nav id="main-menu" class="navbar navbar-expand-lg navbar-light scrolling-navbar">
   <div class="container">
 
     <!-- Brand -->
@@ -20,7 +20,10 @@
       <!-- Left -->
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link waves-effect" href="{% url 'core:inquiry' %}"> お問い合わせ </a>
+          <a class="nav-link waves-effect" href="{% url 'core:inquiry' %}">お問い合わせ</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link waves-effect" href="{% url 'blog-home' %}">ブログ</a>
         </li>
       </ul>
 
@@ -37,15 +40,16 @@
             {% endif %}
           </li>
           <li class="nav-item">
-            <a class="nav-link waves-effect" href="{% url 'user:profile' %}"> プロフィール </a>
+            <a class="nav-link waves-effect" href="{% url 'user:profile' %}"><i class="fas fa-user-edit"></i>プロフィール</a>
           </li>
         </div>
         <div>
           <li class="nav-item">
-            <a class="nav-link waves-effect" href="{% url 'user:order-history' %}"> 購入履歴 </a>
+            <a class="nav-link waves-effect" href="{% url 'user:order-history' %}"><i
+                class="fas fa-history"></i>購入履歴</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link waves-effect" href="{% url 'user:fav-items' %}"> お気に入り </a>
+            <a class="nav-link waves-effect" href="{% url 'user:fav-items' %}"><i class="far fa-bookmark"></i>お気に入り</a>
           </li>
         </div>
         <div>
@@ -54,24 +58,24 @@
               <span class="badge badge-quantity z-depth-1"> {{ request.user|cart_item_count }} </span>
               <i class="fas fa-shopping-cart"></i>
               <!-- <span class="clearfix d-none d-sm-inline-block"> カート </span> -->
-              <span class="clearfix d-sm-inline-block"> カート </span>
+              <span class="clearfix d-sm-inline-block">カート</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link waves-effect" href="{% url 'logout' %}">
-              <span class="clearfix d-sm-inline-block"> ログアウト </span>
+              <span class="clearfix d-sm-inline-block"><i class="fas fa-sign-out-alt"></i>ログアウト</span>
             </a>
           </li>
         </div>
         {% else %}
         <li class="nav-item">
           <a class="nav-link waves-effect" href="{% url 'login' %}?next={{ request.path }}">
-            <span class="clearfix d-sm-inline-block"> ログイン </span>
+            <span class="clearfix d-sm-inline-block"><i class="fas fa-sign-in-alt"></i>ログイン</span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link waves-effect" href="{% url 'register' %}">
-            <span class="clearfix d-sm-inline-block"> 新規登録 </span>
+            <span class="clearfix d-sm-inline-block"><i class="fas fa-user-plus"></i>新規登録</span>
           </a>
         </li>
         {% endif %}

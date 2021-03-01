@@ -18,12 +18,14 @@
 
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
-    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
 </head>
 
-<body>
-    <div class="wrapper">
+<body class="store">
+    <header>
         {% include "parts/navbar.html" %}
+    </header>
+    <div class="wrapper">
 
         {% if messages %}
         <div class="container">
@@ -47,6 +49,7 @@
         {% endblock %}
 
     </div>
+    <!-- wrapper -->
 
     {% include "parts/footer.html" %}
 

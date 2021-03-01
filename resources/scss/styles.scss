@@ -4,6 +4,7 @@
 @import "basis/typography";
 @import "partials/front";
 @import "partials/lists";
+@import "partials/blog";
 
 // :root {
 //   --font-main: 'Noto Sans JP', sans-serif;
@@ -174,60 +175,51 @@ a#nav-cart {
       padding: 10px;
     }
   } //@media
-} //#main-manu .navbar .nav-flex-icons
+} //#main-manu .nav-flex-icons
+
+#main-menu {
+  background: #fff;
+  h5 {
+    font-weight: 400;
+  }
+  i.fa-user-edit {
+    padding-right: 0;
+  }
+}
+
+.blog #main-menu {
+  background: #5f788a;
+  h1 {
+    font: 0/0 a;
+    background: url(https://store-for-nobody.s3-ap-northeast-1.amazonaws.com/logos/a-store-logo-white.png);
+    width: 120px;
+    height: 30px;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  a, h5 {
+    color: white;
+  }
+}
 
 .md-form {
   margin-bottom: 0;
 }
 
 
-header {
+section header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
-          justify-content: space-between;
+          justify-content: center;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
   margin-bottom: 3rem;
 }
 
-header h1 {
-  font-family: "Oswald", sans-serif;
-  font-weight: 400;
-  text-transform: uppercase;
-  font-size: 1.7rem;
-  color: white;
-  background: $kihada;
-  padding: 20px;
-  position: relative;
-}
-
-header h1::before {
-  background-color: $kihada;
-  opacity: .5;
-  content: "";
-  height: 100%;
-  left: -500%;
-  position: absolute;
-  top: 0;
-  width: 500%;
-  z-index: 3;
-}
-
-header h2 {
-  // font-family: meiryo, "Noto Sans JP", sans-serif;
-  font-size: 1.3em;
-  font-weight: 100;
-}
-
-@media (max-width: 980px) {
-  section header h2 {
-    margin-right: 10px;
-  }
-}
 
 header {
   color: white;
@@ -326,3 +318,32 @@ header {
   margin-bottom: 5rem;
   font-weight: 400;
 }
+
+.navbar .nav-item .nav-link .fab, .navbar .nav-item .nav-link .far, .navbar .nav-item .nav-link .fas {
+	padding-right: 3px;
+	padding-left: 3px;
+}
+
+footer.page-footer .footer-copyright {
+	overflow: hidden;
+	background-color: rgba(0,0,0,.2);
+	color: rgba(255,255,255,.6);
+}
+
+// .modal.show-modal {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   overflow:scroll;
+//   background: #333;
+//   opacity: .9;
+//   color: white;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   img {
+//     width: 90%;
+//   }
+// }
