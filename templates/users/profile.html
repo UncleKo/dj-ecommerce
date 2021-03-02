@@ -12,22 +12,31 @@
 
     <div>
 
-      <div>
-        <p class="label mb-0">お名前</p>
-        <p class="bold">{{ user.last_name }}{{ user.first_name }} </p>
-      </div>
-
-      <div>
-        <p class="label mb-0">メールアドレス</p>
-        <p class="bold">{{ user.email }}</p>
-      </div>
-
-      <div>
+      <!-- <div>
         <p class="label mb-0">ユーザーネーム</p>
         <p class="bold">{{ user.username }}</p>
+      </div> -->
+
+      <div class="content-section">
+        <div class="media">
+          <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+          <div class="media-body">
+            <h2 class="account-heading">{{ user.username }}</h2>
+            <div>
+              <p class="label mb-0">お名前</p>
+              <p class="bold">{{ user.last_name }}{{ user.first_name }} </p>
+            </div>
+
+            <div>
+              <p class="label mb-0">メールアドレス</p>
+              <p class="bold">{{ user.email }}</p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <a href="{% url 'user:edit-profile' pk=user.id %} " class="btn btn-outline-main btn-sm mt-4">プロフィールを編集する</a>
+
+      <a href="{% url 'user:edit-profile' %} " class="btn btn-outline-main btn-sm mt-4">プロフィールを編集する</a>
 
     </div>
 

@@ -3,6 +3,34 @@ from django.conf import settings
 from django.shortcuts import resolve_url
 from django.urls import reverse
 from django_countries.fields import CountryField
+from django.contrib.auth.models import User
+from PIL import Image
+from django.core.files.storage import default_storage as storage
+
+
+### Don't miss signals.py and apps.py to produce Profile when User Created ###
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    image = models.ImageField(default='profile_pics/default.jpg',
+                              upload_to='profile_pics', verbose_name="プロフィール画像")
+
+    class Meta:
+        verbose_name_plural = "プロフィール"
+
+    def __str__(self):
+        return f"{self.user.username} プロフィール"
+
+    def save(self, *args, **kwargs):
+        super(Profile, self).save(*args, **kwargs)
+
+        # S3でエラー
+        # img = Image.open(self.image.path)
+        img = Image.open(storage.open(self.image.name))
+
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
 
 
 class ShippingAddress(models.Model):

@@ -4,7 +4,7 @@ from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 
 from django.contrib.auth.models import User
-from .models import ShippingAddress, BillingAddress
+from .models import Profile, ShippingAddress, BillingAddress
 
 
 class UserRegisterForm(UserCreationForm):
@@ -15,7 +15,7 @@ class UserRegisterForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 
-class ProfileUpdateForm(forms.ModelForm):
+class UserUpdateForm(forms.ModelForm):
         # email = forms.EmailField(label="Eメール")
 
     first_name = forms.CharField(
@@ -41,6 +41,12 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['last_name', 'first_name', 'username', 'email']
+
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['image']
 
 
 class ShippingAddressForm(forms.ModelForm):

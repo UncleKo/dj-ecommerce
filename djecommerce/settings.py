@@ -29,10 +29,10 @@ INSTALLED_APPS = [
     'imagekit',
     'storages',
 
-    'core',
-    'users',
-    'blog',
-    'photos',
+    'core.apps.CoreConfig',
+    'users.apps.UsersConfig',
+    'blog.apps.BlogConfig',
+    'photos.apps.PhotosConfig',
 
     'rest_framework',
     'corsheaders'

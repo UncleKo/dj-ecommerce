@@ -15,7 +15,7 @@ from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from .models import ShippingAddress, BillingAddress
 from core.models import Order, Item, Category, SiteInfo
-from .forms import ProfileUpdateForm, ShippingAddressForm, PrimaryShippingAddressForm, UserRegisterForm, BillingAddressForm, PrimaryBillingAddressForm
+from .forms import UserUpdateForm, ProfileUpdateForm, ShippingAddressForm, PrimaryShippingAddressForm, UserRegisterForm, BillingAddressForm, PrimaryBillingAddressForm
 from core.forms import ItemOptionForm
 
 
@@ -40,23 +40,23 @@ class ProfileView(LoginRequiredMixin, DynamicRedirectMixin, View):
     #     return False
 
 
-class ProfileUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = User
-    form_class = ProfileUpdateForm
-    template_name = 'users/profile-edit.html'
-    success_url = reverse_lazy('user:profile')
+# class ProfileUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+#     model = User
+#     form_class = ProfileUpdateForm
+#     template_name = 'users/profile-edit.html'
+#     success_url = reverse_lazy('user:profile')
 
-    # def get_success_url(self):
-    # return reverse("user:profile", kwargs={
-    #     'pk': self.kwargs['pk']
-    # })
-    # return resolve_url('user:profile', pk=self.kwargs['pk'])
+#     # def get_success_url(self):
+#     # return reverse("user:profile", kwargs={
+#     #     'pk': self.kwargs['pk']
+#     # })
+#     # return resolve_url('user:profile', pk=self.kwargs['pk'])
 
-    def test_func(self):
-        user = self.get_object()
-        if self.request.user == user:
-            return True
-        return False
+#     def test_func(self):
+#         user = self.get_object()
+#         if self.request.user == user:
+#             return True
+#         return False
 
 
 class FavItemsListView(LoginRequiredMixin, ListView):
@@ -337,30 +337,28 @@ class PrimaryBillingAddress(LoginRequiredMixin, SuccessURLAllowedHostsMixin, Vie
             return redirect("user:primary-billing-address")
 
 
-# @login_required
-# def edit_profile(request):
-#     if request.method == 'POST':
-#         u_form = ProfileUpdateForm(request.POST, instance=request.user)
-#     #   p_form = ProfileUpdateForm(request.POST,
-#     #                              request.FILES,
-#     #                              instance=request.user.profile)
-#         if u_form.is_valid():
-#             # and p_form.is_valid():
-#             u_form.save()
-#     #     p_form.save()
-#         messages.success(request, 'Your account has been updated!')
-#         # to avoid re-post request to the page(if reached to reander it will re-post)
-#         return redirect('edit-profile')
-#     else:
-#         u_form = ProfileUpdateForm(instance=request.user)
-#         # p_form = ProfileUpdateForm(instance=request.user.profile)
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST,
+                                   request.FILES,
+                                   instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, 'Your account has been updated!')
+            # to avoid re-post request to the page( if reached to reander it will re-post)
+            return redirect('user:profile')
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
 
-#         context = {
-#             'form': u_form
-#             # 'p_form': p_form
-#         }
-
-#     return render(request, 'user/edit-profile.html', context)
+    context = {
+        'u_form': u_form,
+        'p_form': p_form
+    }
+    return render(request, 'users/profile-edit.html', context)
 
 
 def register(request):

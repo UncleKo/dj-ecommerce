@@ -10,7 +10,9 @@
       {% csrf_token %}
       <fieldset class="form-group">
         <h2>プロフィールを編集する</h2>
-        {{ form|crispy }}
+        {{ u_form|crispy }}
+        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+        {{ p_form|crispy }}
       </fieldset>
       <div class="form-group">
         <button class="btn btn-main" type="submit">更新する</button>
