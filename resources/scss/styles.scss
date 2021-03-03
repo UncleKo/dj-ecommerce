@@ -55,8 +55,12 @@ img {
 }
 
 .wrapper {
-  min-height: 100vh;
   position: relative;
+}
+
+.full-height {
+  // フッターのheightとmarginを引く
+  min-height: calc(100vh - (50px + 22.5px));
 }
 
 main {
@@ -157,7 +161,24 @@ footer {
 a#nav-cart {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
+
+@media(max-width: 768px) {
+  .store li.nav-item {
+    border-top: 1px solid #666;
+  }
+  .blog li.nav-item {
+    border-top: 1px solid #cbd5db;
+  }
+
+  #main-menu li {
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+  }
+}
+
 
 #main-menu .nav-flex-icons {
   div {
@@ -171,9 +192,9 @@ a#nav-cart {
     div {
       width: 100%;
     }
-    li {
-      padding: 10px;
-    }
+    // li {
+    //   padding: 10px;
+    // }
   } //@media
 } //#main-manu .nav-flex-icons
 
@@ -330,20 +351,21 @@ footer.page-footer .footer-copyright {
 	color: rgba(255,255,255,.6);
 }
 
-// .modal.show-modal {
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-//   overflow:scroll;
-//   background: #333;
-//   opacity: .9;
-//   color: white;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   img {
-//     width: 90%;
-//   }
-// }
+.modal.show-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow:scroll;
+  background: #333;
+  opacity: .9;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: auto;
+    height: 100%;
+  }
+}

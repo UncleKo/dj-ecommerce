@@ -1,11 +1,11 @@
 {% extends "blog/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-  {% if edit %}
-  <div class="content-section post-edit">
+{% if edit %}
+<div class="content-section post-edit">
   {% else %}
   <div class="content-section post-create">
-  {% endif %}
+    {% endif %}
     <form method="POST" enctype="multipart/form-data">
       {% csrf_token %}
 
@@ -13,74 +13,75 @@
 
         <legend class="border-bottm mb-4">
           {% if edit %}
-            投稿の更新
+          投稿の更新
           {% else %}
-            投稿
+          投稿
           {% endif %}
         </legend>
 
-        <div id="div_id_title" class="form-group"> 
+        <div id="div_id_title" class="form-group">
           <label for="id_title" class=" requiredField">
-                タイトル<span class="asteriskField">*</span> 
-          </label> 
-            {{ form.title }}
-            <!-- <input type="text" name="title" maxlength="100" class="textinput textInput form-control" required="" id="id_title">  -->
+            タイトル<span class="asteriskField">*</span>
+          </label>
+          {{ form.title }}
+          <!-- <input type="text" name="title" maxlength="100" class="textinput textInput form-control" required="" id="id_title">  -->
         </div> <!-- div_id_title -->
 
         <!-- 既に画像が入ってる時はスタイルを調整する。 -->
         {% if post.featured_image %}
-        <div id="div_id_featured_image" class="form-group filled-field"> 
-        {% else %}
-        <div id="div_id_featured_image" class="form-group"> 
-        {% endif %}
-          <label for="id_featured_image" class="">メイン画像(option)</label> 
-          <div class="custom-file "> 
-            {{ form.featured_image }}
-            <!-- <input type="file" name="featured_image" accept="image/*" class="clearablefileinput form-control custom-file-input" id="id_featured_image">  -->
-            <label class="custom-file-label" for="id_featured_image" id="label_for_featured_image">Choose file</label> 
-          </div> 
-        </div>
+        <div id="div_id_featured_image" class="form-group filled-field">
+          {% else %}
+          <div id="div_id_featured_image" class="form-group">
+            {% endif %}
+            <label for="id_featured_image" class="">メイン画像(option)</label>
+            <div class="custom-file ">
+              {{ form.featured_image }}
+              <!-- <input type="file" name="featured_image" accept="image/*" class="clearablefileinput form-control custom-file-input" id="id_featured_image">  -->
+              <label class="custom-file-label" for="id_featured_image" id="label_for_featured_image">Choose file</label>
+            </div>
+          </div>
 
-        <div id="container-for-expand-model">
-          <a id="expand-modal" class="btn btn-outline-info btn-sm mt-1 mb-1">画像を挿入</a>
-        </div>
+          <div id="container-for-expand-model">
+            <a class="expand-modal" class="btn btn-outline-info btn-sm mt-1 mb-1">画像を挿入</a>
+          </div>
 
-        <div id="div_id_content" class="form-group"> 
-          <label for="id_content" class=" requiredField">内容<span class="asteriskField">*</span></label> 
+          <div id="div_id_content" class="form-group">
+            <label for="id_content" class=" requiredField">内容<span class="asteriskField">*</span></label>
             {{ form.content }}
-        </div>
+          </div>
 
-        <div id="div_id_category" class="form-group"> 
-          <label for="id_category" class="">カテゴリー(option)</label> 
-          <a class="nav-item nav-link inline-link" href="{% url 'category-create' %}?next={{request.path}}">カテゴリーを追加</a>
+          <div id="div_id_category" class="form-group">
+            <label for="id_category" class="">カテゴリー(option)</label>
+            <a class="nav-item nav-link inline-link"
+              href="{% url 'category-create' %}?next={{request.path}}">カテゴリーを追加</a>
             {{ form.category }}
-        </div>
+          </div>
 
-        <div id="div_id_tags" class="form-group"> 
-          <label for="id_tags" class="">タグ(option)</label> 
-        <a class="nav-item nav-link inline-link" href="{% url 'tag-create' %}?next={{request.path}}">タグを追加</a>
+          <div id="div_id_tags" class="form-group">
+            <label for="id_tags" class="">タグ(option)</label>
+            <a class="nav-item nav-link inline-link" href="{% url 'tag-create' %}?next={{request.path}}">タグを追加</a>
             {{ form.tags }}
-        </div>
+          </div>
 
-        <div class="form-group"> 
-          <div id="div_id_draft" class="form-check"> 
-            <!-- <input type="checkbox" name="draft" class="checkboxinput form-check-input" id="id_draft" checked="">  -->
-            {{ form.draft }}
-            <label for="id_draft" class="form-check-label">
-              下書きにする
-            </label> 
-          </div> 
-        </div>
+          <div class="form-group">
+            <div id="div_id_draft" class="form-check">
+              <!-- <input type="checkbox" name="draft" class="checkboxinput form-check-input" id="id_draft" checked="">  -->
+              {{ form.draft }}
+              <label for="id_draft" class="form-check-label">
+                下書きにする
+              </label>
+            </div>
+          </div>
 
-        {% if not post.links.count %}
+          {% if not post.links.count %}
           <section class="link-formset no-urls">
-        {% else %}
-          <section class="link-formset">
-        {% endif %}
-          <h4 class="mb-4">参照URL<small> ※最大10個まで登録可能です。</small></h4>
-          {{ formset.management_form }}
-          {% for url_form in formset %}
-            <!-- {% if edit %}
+            {% else %}
+            <section class="link-formset">
+              {% endif %}
+              <h4 class="mb-4">参照URL<small> ※最大10個まで登録可能です。</small></h4>
+              {{ formset.management_form }}
+              {% for url_form in formset %}
+              <!-- {% if edit %}
               <div class="link-form-edit">
             {% else %}
               <div class="link-form">
@@ -88,26 +89,26 @@
               <div class="link-form">
                 {{ url_form|crispy }}
               </div>
-          {% endfor %}
+              {% endfor %}
 
-          <div>
-            <i id="add-form" class="far fa-plus-square"></i>
-            <i id="remove-form" class="far fa-minus-square"></i>
-          </div>
+              <div>
+                <i id="add-form" class="far fa-plus-square"></i>
+                <i id="remove-form" class="far fa-minus-square"></i>
+              </div>
 
-        </section>
+            </section>
 
       </fieldset>
 
       <div class="form-group">
-      {% if edit %}
+        {% if edit %}
         <button class="btn btn-outline-info" type="submit"> 更新する </button>
         <a class="btn btn-outline-danger" href="{% url 'post-delete' post.id %}">削除する</a>
         <a class="btn btn-outline-secondary" href=" {% url 'post-detail' post.id %}">キャンセル</a>
-      {% else %}
+        {% else %}
         <button class="btn btn-outline-info" type="submit">投稿する</button>
         <a class="btn btn-outline-secondary" href=" {% url 'blog-home' %}">キャンセル</a>
-      {% endif %}
+        {% endif %}
       </div>
 
     </form>
@@ -119,7 +120,7 @@
       </fieldset>
     </form> -->
 
-    {% comment %} 
+    {% comment %}
     <!-- <form method="POST" action="" class="post-form">
       {% csrf_token %}
       <fieldset class="form-group">
@@ -128,9 +129,9 @@
       </fieldset>
     </form>  -->
     {% endcomment %}
-    
+
     <div class="photo_insert">
     </div> <!-- #photos -->
 
   </div> <!-- content-section -->
-{% endblock content %}
+  {% endblock content %}

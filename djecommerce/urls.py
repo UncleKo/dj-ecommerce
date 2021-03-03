@@ -14,7 +14,7 @@ urlpatterns = [
 
     path('', include('core.urls', namespace='core')),
     path('user/', include('users.urls')),
-    path('blog', include('blog.urls')),
+    path('blog/', include('blog.urls')),
     path('photos/', include('photos.urls')),
     path('api-auth/', include('rest_framework.urls')),
     path('api/photos/', include('photos.api.urls')),

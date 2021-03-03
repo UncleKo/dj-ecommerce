@@ -23,12 +23,14 @@
           {% else %}
           <a href="{{ item.image.url }}" target="_blank">
             {% endif %}
-            <img src="{{ item.image_medium.url }}" class="card-img-top" id="expand-modal">
+            <img src="{{ item.image_medium.url }}" class="card-img-top">
           </a>
           {% endif %}
-          <div class="modal">
-            <img src="{{ item.image_large.url }}" class="card-img-top" id="expand-modal">
-          </div>
+          <!-- <p><img src="{{ item.image_medium.url }}" class="card-img-top expand-modal"></p>
+        <div class="modal">
+          <i class="close">X</i>
+          <img src="{{ item.image_large.url }}" class="card-img-top">
+        </div> -->
 
           {% if item.other_images.count %}
           {% for photo in item.other_images.all %}

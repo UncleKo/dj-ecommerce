@@ -1,7 +1,9 @@
 from django.urls import path
 from .views import PostListView, PostDetailView, PostDeleteView, UserPostListView, TagPostListView, CategoryPostListView, CategoryCreateView, TagCreateView
-#, PostCreateView, PostUpdateView, CommentUpdateView, CommentCreateView, CommentDeleteView 
+# , PostCreateView, PostUpdateView, CommentUpdateView, CommentCreateView, CommentDeleteView
 from . import views
+
+# app_name = 'blog'
 
 urlpatterns = [
     # path('', views.home, name='blog-home'),
@@ -14,17 +16,22 @@ urlpatterns = [
     path('post/<int:pk>/update/', views.update_post, name='post-update'),
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
 
-    path('post/<int:post_id>/comment/create', views.add_comment, name='comment-create'),
-    path('comment/<int:comment_id>/update/', views.update_comment, name='comment-update'),
-    path('comment/<int:comment_id>/delete/', views.delete_comment, name='comment-delete'),
-    path('comment/<int:pk>/approve/', views.comment_approve, name='comment_approve'),
+    path('post/<int:post_id>/comment/create',
+         views.add_comment, name='comment-create'),
+    path('comment/<int:comment_id>/update/',
+         views.update_comment, name='comment-update'),
+    path('comment/<int:comment_id>/delete/',
+         views.delete_comment, name='comment-delete'),
+    path('comment/<int:pk>/approve/',
+         views.comment_approve, name='comment_approve'),
     path('category/create/', CategoryCreateView.as_view(), name='category-create'),
     path('tag/create/', TagCreateView.as_view(), name='tag-create'),
-    path('category/<str:category_name>/', CategoryPostListView.as_view(), name='blog-category'),
+    path('category/<str:category_name>/',
+         CategoryPostListView.as_view(), name='blog-category'),
     path('tag/<str:tag_name>/', TagPostListView.as_view(), name='blog-tag'),
     path('archives/', views.archives, name='post-archives'),
 
-    path('about/', views.about, name='blog-about'),
+    # path('about/', views.about, name='blog-about'),
     # path('version/', views.version, name='version'),
 
     # path('post/<int:post_id>/comment/create', CommentCreateView.as_view(), name='comment-create'),
@@ -34,7 +41,7 @@ urlpatterns = [
 
     # path('category/<str:category_name>/', views.category, name='blog-category'),
     # path('tag/<str:tag_name>/', views.tag, name='blog-tag'),
-    #infinite scroll with Javascript
+    # infinite scroll with Javascript
     # path('posts/api/', views.blog_api, name='blog_api'),
     # path('posts/', views.json_posts, name='json_posts'),
 ]

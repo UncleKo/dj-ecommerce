@@ -109,7 +109,8 @@ if (document.querySelector('.photo_insert')) {
 
     let modal = $('.modal');
 
-    function expandModal() {
+    function expandModal(e) {
+      e.preventDefault;
       modal.classList.add('show-modal');
     }
 
@@ -119,8 +120,8 @@ if (document.querySelector('.photo_insert')) {
       }
     }
 
-    if ($('#expand-modal')) {
-      $('#expand-modal').on('click', expandModal);
+    if ($('.expand-modal')) {
+      $('.expand-modal').on('click', expandModal);
     }
 
     modal.on('click', closeModal);

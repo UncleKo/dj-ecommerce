@@ -158,15 +158,30 @@ h3 {
 
   }
 
-h5.username {
-  display: inline;
-  font-family: $jp-font;
-  font-weight: 700;
-  font-size: 1rem;
-  margin: 0;
-  padding-right: .5rem;
-  padding-left: .5rem;
+li.username {
+  background: $main;
+  h5 {
+    display: inline;
+    font-family: $jp-font;
+    font-weight: 700;
+    font-size: 1rem;
+    margin: 0;
+    color: #fff;
+  }
 }
+
+// .blog #main-menu li.username {
+//   background: #fff;
+//   color: #5f788a;
+//   h5 {
+//     display: inline;
+//     font-family: $jp-font;
+//     font-weight: 700;
+//     font-size: 1rem;
+//     margin: 0;
+//     color: #5f788a;
+//   }
+// }
 
 .card .card-body h5, h5 {
   font-weight: 500;
