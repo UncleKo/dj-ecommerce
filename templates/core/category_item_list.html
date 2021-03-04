@@ -20,7 +20,7 @@
         <div>
           {% if item.image %}
           <a href="{% url 'core:item' item.slug %}">
-            <img src="{{ item.image_thumbnail.url }}" class="thumb">
+            <img src="{{ item.image_thumb.url }}" class="thumb">
           </a>
           {% endif %}
         </div>

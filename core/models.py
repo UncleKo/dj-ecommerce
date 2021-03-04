@@ -102,11 +102,11 @@ class Item(models.Model):
                                  options={'quality': 80}
                                  )
 
-    image_thumbnail = ImageSpecField(source='image',
-                                     processors=[ResizeToFit(75, 75)],
-                                     format="JPEG",
-                                     options={'quality': 80}
-                                     )
+    image_thumb = ImageSpecField(source='image',
+                                 processors=[ResizeToFit(75, 75)],
+                                 format="JPEG",
+                                 options={'quality': 80}
+                                 )
 
     class Meta:
         verbose_name_plural = '商品'

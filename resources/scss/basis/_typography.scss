@@ -178,6 +178,10 @@ li.username {
   }
 }
 
+.blog li.username {
+  color: #fff;
+}
+
 @media (max-width: 768px) {
   li.username {
     background: $main;

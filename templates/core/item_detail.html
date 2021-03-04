@@ -27,20 +27,43 @@
           </a>
           {% endif %} -->
 
-        <img src="{{ item.image_medium.url }}" class="mb-3 expand-modal">
-        <div class="modal">
+        <ul class="bxslider">
+          <li>
+            <img src="{{ item.image_medium.url }}">
+          </li>
+          {% if item.other_images.count %}
+          {% for photo in item.other_images.all %}
+          <li>
+            <img src="{{ photo.medium.url }}" class="" alt="">
+          </li>
+          {% endfor %}
+          {% endif %}
+        </ul>
+
+        <!-- <div class="modal">
           {% if item.image.width > 1280 or item.image.height > 1280 %}
           <img src="{{ item.image_large.url }}" class="card-img-top">
           {% else %}
           <img src="{{ item.image.url }}" class="card-img-top">
           {% endif %}
-        </div>
+        </div> -->
 
-        {% if item.other_images.count %}
-        {% for photo in item.other_images.all %}
-        <img src="{{ photo.thumb.url }}" class="thumb" alt="">
-        {% endfor %}
-        {% endif %}
+        <ul id="bx-pager">
+          <li>
+            <a href="#" data-slide-index="0">
+              <img src="{{ item.image_thumb.url }}" class="thumb">
+            </a>
+          </li>
+          {% if item.other_images.count %}
+          {% for photo in item.other_images.all %}
+          <li>
+            <a href="#" data-slide-index="{{ forloop.counter }}">
+              <img src="{{ photo.thumb.url }}" class="thumb" alt="">
+            </a>
+          </li>
+          {% endfor %}
+          {% endif %}
+        </ul>
 
       </div>
       <!--Grid column-->
@@ -173,7 +196,7 @@
       </div>
       <div></div>
       <div>
-        <a href="{% url 'core:item-create' %}" class="btn btn-main btn-md" id="btn-add-item">商品を追加する</a>
+        <a href="{% url 'core:item-create' %}" class="btn btn-outline-second btn-md" id="btn-add-item">商品を追加する</a>
       </div>
       {% endif %}
 

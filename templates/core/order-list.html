@@ -64,7 +64,7 @@
         <div>
           {% if order_item.item.image %}
           <a href="{% url 'core:item' order_item.item.slug %}">
-            <img src="{{ order_item.item.image_thumbnail.url }}" class="thumb">
+            <img src="{{ order_item.item.image_thumb.url }}" class="thumb">
           </a>
           {% endif %}
         </div>
@@ -115,7 +115,7 @@
           <th scope="row">
             {% if order_item.item.image %}
             <a href="{% url 'core:item' order_item.item.slug %}">
-              <img src="{{ order_item.item.image_thumbnail.url }}" class="thumb">
+              <img src="{{ order_item.item.image_thumb.url }}" class="thumb">
             </a>
             {% endif %}
           </th>

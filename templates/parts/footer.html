@@ -9,5 +9,16 @@
 
 <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.bxslider.js' %}"></script>
 
 <script src="{% static 'js/app.js' %}"></script>
+<script>
+  $(document).ready(function () {
+    //bxslider メインスライド用
+    $('.bxslider').bxSlider({
+      pagerCustom: '#bx-pager',  //ページャーをサムネイルにする
+      // preventDefaultSwipeY:false,
+      controls: false//前後の矢印を消す
+    });
+  });
+</script>

@@ -54,12 +54,12 @@ class Post(models.Model):
                                           options={'quality': 80}
                                           )
 
-    featured_image_thumbnail = ImageSpecField(source='featured_image',
-                                              processors=[
-                                                  ResizeToFill(75, 75)],
-                                              format="JPEG",
-                                              options={'quality': 80}
-                                              )
+    featured_image_thumb = ImageSpecField(source='featured_image',
+                                          processors=[
+                                              ResizeToFill(75, 75)],
+                                          format="JPEG",
+                                          options={'quality': 80}
+                                          )
 
     content = models.TextField(verbose_name="内容")
     # date_posted = models.DateTimeField(auto_now=True) #常に日付更新
