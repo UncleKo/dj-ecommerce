@@ -98,6 +98,11 @@ header h2 {
   }
   p {
     font-weight: 300;
+    // font-family: 'Noto Sans JP','ヒラギノ角ゴシック Pro', 'Hiragino Kaku Gothic Pro', メイリオ, Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+    font-feature-settings: "palt";
+    color: #333;
+    font-size: 15px;
+    line-height: 1.4;
   }
   small {
     font-weight: 100;
@@ -105,10 +110,14 @@ header h2 {
   a.btn-main {
     color: #fff;
   }
+  .price {
+    font-weight: 400;
+  }
   .stock {
     font-family: $jp-font;
     font-size: .8rem;
     font-weight: 400;
+    margin: 20px 0;
   }
 
 }

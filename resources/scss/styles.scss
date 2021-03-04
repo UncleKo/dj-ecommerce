@@ -175,6 +175,7 @@ section header {
   float: right;
   display: flex;
   flex-wrap: wrap;
+  margin-top: 1em;
   button,
   a {
     flex: 1;
@@ -272,6 +273,7 @@ footer.page-footer .footer-copyright {
 #photo-detail .modal.show-modal {
   img {
     max-height: 95%;
+    max-width: 95%;
     width: auto;
     // -webkit-transition: all .5s;
     // -o-transition: all .5s;

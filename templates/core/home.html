@@ -46,7 +46,7 @@
             <a href="{{ featured_item.get_absolute_url }}">
               <h2>{{ featured_item.title }}</h2>
             </a>
-            <p class="lead">
+            <p class="price">
               {% if featured_item.discount_price %}
               <span class="mr-1">
                 <small><del>¥{{ featured_item.price | intcomma }}</del></small>

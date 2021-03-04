@@ -26,7 +26,6 @@
   flex-wrap: wrap;
   font-weight: 100;
   & > div {
-    padding: 10px;
     flex-basis: 50%;
     @media screen and (max-width: 768px) {
       -ms-flex-preferred-size: 100%;
@@ -54,16 +53,32 @@
   padding: 30px;
   display: flex;
   justify-content: center;
-  align-items: center;
-  // div {
-  //   display: grid;
-  //   justify-items: right;
-  // }
+  align-items: flex-start;
+  div {
+    width: 50%;
+    // display: grid;
+    // justify-items: center;
+  }
+  .btn, select {
+    width: 200px;
+  }
+  @media (max-width: 768px) {
+    div {
+      width: 100%;
+    }
+    .btn, select {
+      width: 100%;
+    }
+  }
+ .btn {
+    margin: 0;
+    margin-top: 7px;
+  }
+  .form-group {
+    margin-bottom: 0;
+  }
 }
 
-#item .btn {
-  width: 100%;
-}
 
 
 .items > section > ul {
