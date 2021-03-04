@@ -202,3 +202,20 @@
 .category-color {
   background-color: $nae;
 }
+
+.shipping-address {
+  .address {
+    display: flex;
+    align-items: center;
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+}
+
+#order-info {
+  margin-top: 3rem;
+  margin-bottom: 5rem;
+  font-weight: 400;
+}

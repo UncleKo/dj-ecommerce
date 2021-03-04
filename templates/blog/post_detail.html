@@ -3,186 +3,204 @@
 
 <div id="post-detail">
 
-        <div class="media content-section">
-          <img src="{{ post.author.profile.image.url }}" alt="" class="rounded-circle article-img">
-          <div class="media-body">
-            <article> <!-- post -->
-              <header> <!-- post header -->
-                <div class="article-metadata">
-                  <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
-                  <small class="text-muted">{{ post.date_posted|date:"Y-m-j" }}</small>
-                  <!-- <small class="text-muted">{{ post.date_posted }}</small> -->
-                  <!-- 投稿者にのみ編集ボタンを表示させる -->
-                  {% if post.author ==  user %}
-                    <div>
-                      <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' post.id %}">編集する</a>
-                      <a class="btn btn-outline-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' post.id %}">削除する</a>
-                    </div>
-                  {% endif %}
-                </div>
-
-                <h2 class="article-title" >{{ post.title }}
-                {% if post.draft %}
-                  <small class="text-danger">（下書き）</small>
-                {% endif %}
-                </h2>
-              </header> <!-- post header -->
-
-              {% if post.featured_image %}
-                {% if post.featured_image.width > 1280 or post.featured_image.height > 1280 %}
-                  <a href="{{ post.featured_image_large.url }}" target="_blank">
-                {% else %}
-                  <a href="{{ post.featured_image.url }}" target="_blank">
-                {% endif %}
-                <p><img src="{{ post.featured_image_medium.url }}" alt="" class="featured_image"></p>
-              </a>
-              {% endif %}
-
-              <div class="article-content">
-                {{ post.content | safe | linebreaks }}
-              </div>
-
-              {% if post.links.count %}
-              <div class="links">
-              <h6>参照URL: </h6>
-                {% for link in post.links_ordered %}
-                  {% if link.title %}
-                    <small>{{ link.title }}</small>
-                  {% else %}
-                    <small>(No Title)</small>
-                  {% endif %}
-                  <p class="mb-1"><a class="url" href="{{ link }}" target="_blank">{{ link }}</a></p>
-                {% endfor %}
-              </div>
-              {% endif %}
-
-              <footer> <!-- post footer -->
-                <small>カテゴリー: 
-                  {% if post.category %}
-                    <a href="{% url 'blog-category' post.category.name %}">{{ post.category }}</a>
-                  {% else %}
-                    未分類
-                  {% endif %}
-                </small>
-
-                {% if post.tags.count %}
-                <small>タグ: 
-                    {% for tag in post.tags.all %}
-                      <a href="{% url 'blog-tag' tag.name %}">{{ tag }}</a>
-                    {% endfor %}
-                </small>
-                {% endif %}
-
-                <small>コメント: {{ post.approved_comments.count }}</small>
-
-              </footer> <!-- post footer -->
-            </article> <!-- post -->
-
-            <div class="comment-list">
-              {% for comment in post.comments_ordered.all %}
-              <article>
-
-              <!-- A -->
-              {% if comment.approved_comment  or  post.author == user  or  comment.author == user %}
-
-                <header> <!-- comment header -->
-                  <div class="comment-head">
-                    <div>
-                      <img src="{{ comment.author.profile.image.url }}" alt="" class="rounded-circle comment-img mr-2">
-                      <p>{{ comment.author }}</p>
-                    </div>
-                    <small class="text-muted">{{ comment.date_posted|date:"Y-m-j" }}</small>
-                  </div>
-
-                  {% if not comment.approved_comment %}
-                    {% if post.author == user %}
-                      <div>
-                        <a class="btn btn-outline-primary btn-sm mt-1 mb-1" href="{% url 'comment_approve' pk=comment.pk %}">承認する</a>
-                        <a class="btn btn-outline-danger btn-sm mt-1 mb-1" href="{% url 'comment-delete' comment.id %}">削除する</a>
-                      </div>
-                    {% endif %}
-                    {% if comment.author == user %}
-                      <div>
-                        <small class="text-danger">投稿者によるコメント承認待ちです。</small>
-                      </div>
-                    {% endif %}
-                  {% endif %} 
-                  <!-- approved_comment -->
-
-                  {% if comment.author ==  user %}
-                    <div>
-                      <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{% url 'comment-update' comment.id %}">編集する</a>
-                      <a class="btn btn-outline-danger btn-sm mt-1 mb-1" href="{% url 'comment-delete' comment.id %}">削除する</a>
-                    </div>
-                  {% endif %}
-                </header> <!-- comment header -->
-
-                <main>
-                  <p>{{ comment | linebreaks }}</p>
-
-                  {% if comment.url %}
-                    <small>参照URL: </small>
-                    <p><a class="url" href="{{ comment.url }}" target="_blank">{{ comment.url }}</a></p>
-                  {% endif %}
-                </main>
-
-              {% endif %}
-              <!-- end A -->
-                
-              </article>
-              <!-- each comment -->
-              {% empty %}
-                  <p>コメントはありません。</p>
-              {% endfor %}
-            </div> <!-- .comment-list -->
-
-            {% if user.is_authenticated %}
-            <div> <!-- comment-form -->
-              <!-- <a class="btn btn-default" href="{% url 'comment-create' post.id %}">Add comment</a> -->
-              <img src="{{ user.profile.image.url }}" alt="" class="rounded-circle comment-img"> {{ user }}
-              <div id="add_comment">
-                <form method="POST" action="{% url 'comment-create' post.id %}" class="post-form">
-                  {% csrf_token %}
-                  <fieldset class="form-group">
-                    {% load crispy_forms_tags %}
-                    {{ comment_form|crispy }}
-                    <button class="btn btn-outline-info" type="submit">コメントする</button>
-                  </fieldset>
-                </form>
-              </div>
-            </div> <!-- comment-form -->
-
-            {% else %}
-              <p class="mt-2">
-                <small>コメントするにはログインが必要です。</small>
-              </p>
-            {% endif %}
-
-          </div> <!-- media-body -->
-
-          <div class="prev-next">
-            <a class="btn btn-info" href="{{request.META.HTTP_REFERER}}">Back</a>
+  <div class="media content-section">
+    <img src="{{ post.author.profile.image.url }}" alt="" class="rounded-circle article-img">
+    <div class="media-body">
+      <article>
+        <!-- post -->
+        <header>
+          <!-- post header -->
+          <div class="article-metadata">
+            <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+            <small class="text-muted">{{ post.date_posted|date:"Y-m-j" }}</small>
+            <!-- <small class="text-muted">{{ post.date_posted }}</small> -->
+            <!-- 投稿者にのみ編集ボタンを表示させる -->
+            {% if post.author == user %}
             <div>
-              <a class="btn btn-outline-info" href="
+              <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' post.id %}">編集する</a>
+              <a class="btn btn-outline-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' post.id %}">削除する</a>
+            </div>
+            {% endif %}
+          </div>
+
+          <h2 class="article-title">{{ post.title }}
+            {% if post.draft %}
+            <small class="text-danger">（下書き）</small>
+            {% endif %}
+          </h2>
+        </header> <!-- post header -->
+
+        {% if post.featured_image %}
+
+        <!-- {% if post.featured_image.width > 1280 or post.featured_image.height > 1280 %}
+        <a href="{{ post.featured_image_large.url }}" target="_blank">
+          {% else %}
+          <a href="{{ post.featured_image.url }}" target="_blank">
+            {% endif %}
+            <img src="{{ post.featured_image_medium.url }}" alt="" class="featured_image">
+          </a> -->
+
+        <img src="{{ post.featured_image_medium.url }}" alt="" class="featured_image expand-modal">
+        <div class="modal">
+          {% if post.featured_image.width > 1280 or post.featured_image.height > 1280 %}
+          <img src="{{ post.featured_image_large.url }}" class="card-img-top">
+          {% else %}
+          <img src="{{ post.featured_image.url }}" class="card-img-top">
+          {% endif %}
+        </div>
+
+        {% endif %}
+
+        <div class="article-content">
+          {{ post.content | safe | linebreaks }}
+        </div>
+
+        {% if post.links.count %}
+        <div class="links">
+          <h6>参照URL: </h6>
+          {% for link in post.links_ordered %}
+          {% if link.title %}
+          <small>{{ link.title }}</small>
+          {% else %}
+          <small>(No Title)</small>
+          {% endif %}
+          <p class="mb-1"><a class="url" href="{{ link }}" target="_blank">{{ link }}</a></p>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <footer>
+          <!-- post footer -->
+          <small>カテゴリー:
+            {% if post.category %}
+            <a href="{% url 'blog-category' post.category.name %}">{{ post.category }}</a>
+            {% else %}
+            未分類
+            {% endif %}
+          </small>
+
+          {% if post.tags.count %}
+          <small>タグ:
+            {% for tag in post.tags.all %}
+            <a href="{% url 'blog-tag' tag.name %}">{{ tag }}</a>
+            {% endfor %}
+          </small>
+          {% endif %}
+
+          <small>コメント: {{ post.approved_comments.count }}</small>
+
+        </footer> <!-- post footer -->
+      </article> <!-- post -->
+
+      <div class="comment-list">
+        {% for comment in post.comments_ordered.all %}
+        <article>
+
+          <!-- A -->
+          {% if comment.approved_comment or post.author == user or comment.author == user %}
+
+          <header>
+            <!-- comment header -->
+            <div class="comment-head">
+              <div>
+                <img src="{{ comment.author.profile.image.url }}" alt="" class="rounded-circle comment-img mr-2">
+                <p>{{ comment.author }}</p>
+              </div>
+              <small class="text-muted">{{ comment.date_posted|date:"Y-m-j" }}</small>
+            </div>
+
+            {% if not comment.approved_comment %}
+            {% if post.author == user %}
+            <div>
+              <a class="btn btn-outline-primary btn-sm mt-1 mb-1"
+                href="{% url 'comment_approve' pk=comment.pk %}">承認する</a>
+              <a class="btn btn-outline-danger btn-sm mt-1 mb-1" href="{% url 'comment-delete' comment.id %}">削除する</a>
+            </div>
+            {% endif %}
+            {% if comment.author == user %}
+            <div>
+              <small class="text-danger">投稿者によるコメント承認待ちです。</small>
+            </div>
+            {% endif %}
+            {% endif %}
+            <!-- approved_comment -->
+
+            {% if comment.author == user %}
+            <div>
+              <a class="btn btn-outline-secondary btn-sm mt-1 mb-1"
+                href="{% url 'comment-update' comment.id %}">編集する</a>
+              <a class="btn btn-outline-danger btn-sm mt-1 mb-1" href="{% url 'comment-delete' comment.id %}">削除する</a>
+            </div>
+            {% endif %}
+          </header> <!-- comment header -->
+
+          <main>
+            <p>{{ comment | linebreaks }}</p>
+
+            {% if comment.url %}
+            <small>参照URL: </small>
+            <p><a class="url" href="{{ comment.url }}" target="_blank">{{ comment.url }}</a></p>
+            {% endif %}
+          </main>
+
+          {% endif %}
+          <!-- end A -->
+
+        </article>
+        <!-- each comment -->
+        {% empty %}
+        <p>コメントはありません。</p>
+        {% endfor %}
+      </div> <!-- .comment-list -->
+
+      {% if user.is_authenticated %}
+      <div>
+        <!-- comment-form -->
+        <!-- <a class="btn btn-default" href="{% url 'comment-create' post.id %}">Add comment</a> -->
+        <img src="{{ user.profile.image.url }}" alt="" class="rounded-circle comment-img"> {{ user }}
+        <div id="add_comment">
+          <form method="POST" action="{% url 'comment-create' post.id %}" class="post-form">
+            {% csrf_token %}
+            <fieldset class="form-group">
+              {% load crispy_forms_tags %}
+              {{ comment_form|crispy }}
+              <button class="btn btn-outline-info" type="submit">コメントする</button>
+            </fieldset>
+          </form>
+        </div>
+      </div> <!-- comment-form -->
+
+      {% else %}
+      <p class="mt-2">
+        <small>コメントするにはログインが必要です。</small>
+      </p>
+      {% endif %}
+
+    </div> <!-- media-body -->
+
+    <div class="prev-next">
+      <a class="btn btn-info" href="{{request.META.HTTP_REFERER}}">Back</a>
+      <div>
+        <a class="btn btn-outline-info" href="
                 {% if next %}
                   {% url 'post-detail' next.id %}
                 {% endif %}
               ">
-                <i class="fas fa-angle-left"></i>
-              </a>
-              <a class="btn btn-outline-info mr-1" href="
+          <i class="fas fa-angle-left"></i>
+        </a>
+        <a class="btn btn-outline-info mr-1" href="
                 {% if previous %}
                   {% url 'post-detail' previous.id %}
                 {% endif %}
               ">
-                <i class="fas fa-angle-right"></i>
-              </a>
-            </div>
-            <a class="btn btn-info" href="{% url 'blog-home' %}">Top</a>
-          </div> <!-- prev-next -->
+          <i class="fas fa-angle-right"></i>
+        </a>
+      </div>
+      <a class="btn btn-info" href="{% url 'blog-home' %}">Top</a>
+    </div> <!-- prev-next -->
 
-        </div> <!-- content-section -->
-        
- </div> <!-- post-detail -->
+  </div> <!-- content-section -->
+
+</div> <!-- post-detail -->
 
 {% endblock content %}

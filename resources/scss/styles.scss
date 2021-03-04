@@ -2,6 +2,8 @@
 // @import "basis/reset";
 @import "basis/variables";
 @import "basis/typography";
+
+@import "partials/nav";
 @import "partials/front";
 @import "partials/lists";
 @import "partials/blog";
@@ -152,82 +154,6 @@ footer {
 }
 
 
-/* Nav */
-.navbar.scrolling-navbar {
-  padding-bottom: 7px;
-}
-
-.navbar-nav,
-a#nav-cart {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-@media(max-width: 768px) {
-  .store li.nav-item {
-    border-top: 1px solid #666;
-  }
-  .blog li.nav-item {
-    border-top: 1px solid #cbd5db;
-  }
-
-  #main-menu li {
-    padding: 10px;
-    width: 100%;
-    text-align: center;
-  }
-}
-
-
-#main-menu .nav-flex-icons {
-  div {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-  } //div
-  @media (max-width: 768px) {
-    flex-direction: column;
-    div {
-      width: 100%;
-    }
-    // li {
-    //   padding: 10px;
-    // }
-  } //@media
-} //#main-manu .nav-flex-icons
-
-#main-menu {
-  background: #fff;
-  h5 {
-    font-weight: 400;
-  }
-  i.fa-user-edit {
-    padding-right: 0;
-  }
-}
-
-.blog #main-menu {
-  background: #5f788a;
-  h1 {
-    font: 0/0 a;
-    background: url(https://store-for-nobody.s3-ap-northeast-1.amazonaws.com/logos/a-store-logo-white.png);
-    width: 120px;
-    height: 30px;
-    background-size: contain;
-    background-repeat: no-repeat;
-  }
-  a, h5 {
-    color: white;
-  }
-}
-
-.md-form {
-  margin-bottom: 0;
-}
-
-
 section header {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -241,14 +167,7 @@ section header {
   margin-bottom: 3rem;
 }
 
-
-header {
-  color: white;
-}
-
-
-// #order-list .total-price {
-//   text-decoration: underline;
+//   color: white;
 // }
 
 .flex-buttons {
@@ -322,41 +241,22 @@ header {
 // }
 
 
-
-.shipping-address {
-  .address {
-    display: flex;
-    align-items: center;
-    @media (max-width: 768px) {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  }
-}
-
-#order-info {
-  margin-top: 3rem;
-  margin-bottom: 5rem;
-  font-weight: 400;
-}
-
-.navbar .nav-item .nav-link .fab, .navbar .nav-item .nav-link .far, .navbar .nav-item .nav-link .fas {
-	padding-right: 3px;
-	padding-left: 3px;
-}
-
 footer.page-footer .footer-copyright {
 	overflow: hidden;
 	background-color: rgba(0,0,0,.2);
 	color: rgba(255,255,255,.6);
 }
 
+.expand-modal {
+  cursor: pointer;
+}
+
 .modal.show-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  // position: fixed;
+  // top: 0;
+  // left: 0;
+  // width: 100%;
+  // height: 100%;
   overflow:scroll;
   background: #333;
   opacity: .9;
@@ -364,8 +264,39 @@ footer.page-footer .footer-copyright {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#item .modal.show-modal,
+#post-list .modal.show-modal,
+#post-detail .modal.show-modal,
+#photo-detail .modal.show-modal {
   img {
+    max-height: 95%;
     width: auto;
-    height: 100%;
+    // -webkit-transition: all .5s;
+    // -o-transition: all .5s;
+    // transition: all .5s;
+    -webkit-animation-name: fade-in;
+    -webkit-animation-duration: 1s;
+    animation-name: fade-in;
+    animation-duration: 1s;
   }
 }
+
+
+@-webkit-keyframes fade-in {
+  from {opacity:0} 
+  to {opacity:1}
+}
+@keyframes fade-in {
+  from {opacity:0} 
+  to {opacity:1}
+}
+// @-webkit-keyframes zoom {
+//   from {-webkit-transform:scale(0)} 
+//   to {-webkit-transform:scale(1)}
+// }
+// @keyframes zoom {
+//   from {transform:scale(0)} 
+//   to {transform:scale(1)}
+// }

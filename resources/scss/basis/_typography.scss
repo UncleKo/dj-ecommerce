@@ -159,14 +159,23 @@ h3 {
   }
 
 li.username {
-  background: $main;
+  color: #000;
   h5 {
     display: inline;
     font-family: $jp-font;
     font-weight: 700;
     font-size: 1rem;
     margin: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  li.username {
+    background: $main;
     color: #fff;
+    h5 {
+      color: #fff;
+    }
   }
 }
 

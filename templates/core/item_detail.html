@@ -17,7 +17,7 @@
       <!--Grid column-->
       <div class="">
 
-        {% if item.image %}
+        <!-- {% if item.image %}
         {% if item.image.width > 1280 or item.image.height > 1280 %}
         <a href="{{ item.image_large.url }}" target="_blank">
           {% else %}
@@ -25,18 +25,22 @@
             {% endif %}
             <img src="{{ item.image_medium.url }}" class="card-img-top">
           </a>
-          {% endif %}
-          <!-- <p><img src="{{ item.image_medium.url }}" class="card-img-top expand-modal"></p>
-        <div class="modal">
-          <i class="close">X</i>
-          <img src="{{ item.image_large.url }}" class="card-img-top">
-        </div> -->
+          {% endif %} -->
 
-          {% if item.other_images.count %}
-          {% for photo in item.other_images.all %}
-          <img src="{{ photo.thumb.url }}" class="thumb" alt="">
-          {% endfor %}
+        <img src="{{ item.image_medium.url }}" class="mb-3 expand-modal">
+        <div class="modal">
+          {% if item.image.width > 1280 or item.image.height > 1280 %}
+          <img src="{{ item.image_large.url }}" class="card-img-top">
+          {% else %}
+          <img src="{{ item.image.url }}" class="card-img-top">
           {% endif %}
+        </div>
+
+        {% if item.other_images.count %}
+        {% for photo in item.other_images.all %}
+        <img src="{{ photo.thumb.url }}" class="thumb" alt="">
+        {% endfor %}
+        {% endif %}
 
       </div>
       <!--Grid column-->
