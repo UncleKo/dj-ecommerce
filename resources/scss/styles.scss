@@ -271,13 +271,26 @@ footer.page-footer .footer-copyright {
 #post-list .modal.show-modal,
 #post-detail .modal.show-modal,
 #photo-detail .modal.show-modal {
-  img {
-    max-height: 95%;
-    max-width: 95%;
-    width: auto;
-    // -webkit-transition: all .5s;
-    // -o-transition: all .5s;
-    // transition: all .5s;
+  padding: 10px 0;
+  // img {
+  //   max-height: 95%;
+  //   max-width: 95%;
+  //   width: auto;
+  //   // -webkit-transition: all .5s;
+  //   // -o-transition: all .5s;
+  //   // transition: all .5s;
+  //   -webkit-animation-name: fade-in;
+  //   -webkit-animation-duration: 1s;
+  //   animation-name: fade-in;
+  //   animation-duration: 1s;
+  // }
+  div.bcimage {
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 10px auto;
     -webkit-animation-name: fade-in;
     -webkit-animation-duration: 1s;
     animation-name: fade-in;

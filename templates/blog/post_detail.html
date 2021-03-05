@@ -43,9 +43,9 @@
         <img src="{{ post.featured_image_medium.url }}" alt="" class="featured_image expand-modal">
         <div class="modal">
           {% if post.featured_image.width > 1280 or post.featured_image.height > 1280 %}
-          <img src="{{ post.featured_image_large.url }}" class="card-img-top">
+          <div class="bcimage" style="background-image: url('{{ post.featured_image_large.url }}');"></div>
           {% else %}
-          <img src="{{ post.featured_image.url }}" class="card-img-top">
+          <div class="bcimage" style="background-image: url('{{ post.featured_image.url }}');"></div>
           {% endif %}
         </div>
 

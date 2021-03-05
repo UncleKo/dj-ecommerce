@@ -107,24 +107,30 @@ if (document.querySelector('.photo_insert')) {
 
   const modalControl = () => {
 
-    let modal = $('.modal');
+    let modals = $$('.modal');
 
-    function expandModal(e) {
+    function expandModal(i, e) {
       e.preventDefault;
-      modal.classList.add('show-modal');
+      modals[i].classList.add('show-modal');
     }
 
-    function closeModal(e) {
+    function closeModal(i, e) {
       if (!e.target.classList.contains('keep-modal')) {
-        modal.classList.remove('show-modal');
+        modals[i].classList.remove('show-modal');
+        // modals.forEach(modal => () => {
+        //   modal.classList.remove('show-modal');
+        // })
       }
     }
 
+    let trigers = $$('.expand-modal');
     if ($('.expand-modal')) {
-      $('.expand-modal').on('click', expandModal);
+      trigers.forEach((triger, i) => triger.on('click', expandModal.bind(event, i)));
+      // $('.expand-modal').on('click', expandModal);
     }
 
-    modal.on('click', closeModal);
+    // modal.on('click', closeModal);
+    modals.forEach((modal, i) => modal.on('click', closeModal.bind(event, i)));
 
 
   } // modal_control

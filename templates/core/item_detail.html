@@ -29,24 +29,36 @@
 
         <ul class="bxslider">
           <li>
-            <img src="{{ item.image_medium.url }}">
+            <img src="{{ item.image_medium.url }}" class="expand-modal">
           </li>
           {% if item.other_images.count %}
           {% for photo in item.other_images.all %}
           <li>
-            <img src="{{ photo.medium.url }}" class="" alt="">
+            <img src="{{ photo.medium.url }}" class="expand-modal" alt="">
           </li>
           {% endfor %}
           {% endif %}
         </ul>
 
-        <!-- <div class="modal">
+        <div class="modal">
           {% if item.image.width > 1280 or item.image.height > 1280 %}
-          <img src="{{ item.image_large.url }}" class="card-img-top">
+          <div class="bcimage" style="background-image: url('{{ item.image_large.url }}');"></div>
           {% else %}
-          <img src="{{ item.image.url }}" class="card-img-top">
+          <div class="bcimage" style="background-image: url('{{ item.image.url }}');"></div>
           {% endif %}
-        </div> -->
+        </div>
+
+        {% if item.other_images.count %}
+        {% for photo in item.other_images.all %}
+        <div class="modal">
+          {% if item.image.width > 1280 or item.image.height > 1280 %}
+          <div class="bcimage" style="background-image: url('{{ photo.large.url }}');"></div>
+          {% else %}
+          <div class="bcimage" style="background-image: url('{{ photo.url }}');"></div>
+          {% endif %}
+        </div>
+        {% endfor %}
+        {% endif %}
 
         <ul id="bx-pager">
           <li>

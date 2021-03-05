@@ -15,9 +15,9 @@
     <img src="{{ photo.medium.url }}" class="mb-3 expand-modal">
     <div class="modal">
       {% if photo.origin.width > 1280 or photo.origin.height > 1280 %}
-      <img src="{{ photo.large.url }}" class="card-img-top">
+      <div class="bcimage" style="background-image: url('{{ photo.large.url }}');"></div>
       {% else %}
-      <img src="{{ photo.origin.url }}" class="card-img-top">
+      <div class="bcimage" style="background-image: url('{{ photo.origin.url }}');"></div>
       {% endif %}
     </div>
 
