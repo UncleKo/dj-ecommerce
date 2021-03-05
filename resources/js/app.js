@@ -9,25 +9,30 @@ if (document.querySelector('.photo_insert')) {
 
 (function ($, $$) {
 
-  // const navbarCollapseFunction = () => {
+  const navbarCollapseFunction = () => {
 
-  //   let navbarToggler = $('.navbar-toggler-icon')
-  //   let navbarCollapse = $('.navbar-collapse')
+    let triggers = $$('.navbar-toggler-icon')
+    let navbars = $$('.navbar-collapse')
 
-  //   navbarToggler.on('click', function () {
-  //     navbarCollapse.classList.toggle('collapse');
-  //   })
+    function navbarToggle(i, e) {
+      navbars[i].classList.toggle('collapse');
+    }
+    triggers.forEach((trigger, i) => trigger.on('click', navbarToggle.bind(event, i)));
 
-  //   document.body.on('click', function (e) {
-  //     // if(!e.target.classList.contains('navbar-toggler-icon')) {
-  //     if (e.target !== navbarToggler) {
-  //       navbarCollapse.classList.add('collapse');
-  //     }
-  //   })
+    // navbarToggler.on('click', function () {
+    //   navbarCollapse.classList.toggle('collapse');
+    // })
 
-  // } //navbarCollapseFunction
+    // document.body.on('click', function (e) {
+    //   // if(!e.target.classList.contains('navbar-toggler-icon')) {
+    //   if (e.target !== navbarToggler) {
+    //     navbarCollapse.classList.add('collapse');
+    //   }
+    // })
 
-  // navbarCollapseFunction();
+  } //navbarCollapseFunction
+
+  navbarCollapseFunction();
 
 
   if ($('#id_featured_image')) {

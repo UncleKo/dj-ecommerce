@@ -76,3 +76,27 @@ a#nav-cart {
 	padding-right: 3px;
 	padding-left: 3px;
 }
+
+
+.navbar-collapse {
+  opacity: 1;
+  max-height: 100vh;
+  -webkit-transition: all .5s ease-in-ou1t;
+  -o-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+  transform: translateY(0);
+}
+
+.collapse:not(.show) {
+  display: block;
+  opacity: 0;
+  max-height: 0;
+  pointer-events: none;
+}
+
+@media (min-width:992px) {
+  .collapse:not(.show) {
+    opacity: 1;
+    max-height: 100vh;
+  }
+}
