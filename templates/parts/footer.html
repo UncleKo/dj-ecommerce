@@ -9,7 +9,7 @@
 
 <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
 <!-- <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script> -->
-<script type="text/javascript" src="{% static 'js/jquery.bxslider.js' %}"></script>
+<!-- <script type="text/javascript" src="{% static 'js/jquery.bxslider.js' %}"></script>
 
 <script src="{% static 'js/app.js' %}"></script>
 <script>
@@ -20,5 +20,26 @@
       // preventDefaultSwipeY:false,
       controls: false//前後の矢印を消す
     });
+  });
+</script> -->
+
+<script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
+<script>
+  var galleryThumbs = new Swiper('.gallery-thumbs', {
+    spaceBetween: 10,
+    slidesPerView: 4,
+    freeMode: true,
+    watchSlidesVisibility: true,
+    watchSlidesProgress: true,
+  });
+  var galleryTop = new Swiper('.gallery-top', {
+    spaceBetween: 10,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    thumbs: {
+      swiper: galleryThumbs
+    }
   });
 </script>

@@ -3,72 +3,72 @@
 {% block head_title %}商品一覧{% endblock %}
 {% block content %}
 
-<main>
 
-  <div id="item-list" class="container clearfix">
 
-    <h2 class="mt-5">商品一覧</h2>
+<div id="item-list" class="container clearfix">
 
-    <div class="item-list">
-      {% for item in items %}
-      <div>
-        {% if item.image %}
-        <a href="{% url 'core:item' item.slug %}">
-          <img src="{{ item.image_thumb.url }}" class="thumb">
-        </a>
-        {% endif %}
-      </div>
-      <div>
-        <a href="{% url 'core:item' item.slug %}">
-          {{ item.title }}
-        </a>
-      </div>
+  <h2 class="mt-5">商品一覧</h2>
 
-      {% if item.discount_price %}
-      <div>
-        <del>¥{{ item.price | intcomma }}</del>
-        ¥{{ item.discount_price | intcomma }}
-      </div>
-      {% else %}
-      <div>¥{{ item.price | intcomma }}</div>
+  <div class="item-list">
+    {% for item in items %}
+    <div>
+      {% if item.image %}
+      <a href="{% url 'core:item' item.slug %}">
+        <img src="{{ item.image_thumb.url }}" class="thumb">
+      </a>
       {% endif %}
+    </div>
+    <div>
+      <a href="{% url 'core:item' item.slug %}">
+        {{ item.title }}
+      </a>
+    </div>
 
-      <div>
-        {{ item.stock }}
-      </div>
+    {% if item.discount_price %}
+    <div>
+      <del>¥{{ item.price | intcomma }}</del>
+      ¥{{ item.discount_price | intcomma }}
+    </div>
+    {% else %}
+    <div>¥{{ item.price | intcomma }}</div>
+    {% endif %}
 
-      <div>
-        {% if item.category %}
-        {{ item.category }}
-        {% endif %}
-      </div>
+    <div>
+      {{ item.stock }}
+    </div>
 
-      <!-- <div>
+    <div>
+      {% if item.category %}
+      {{ item.category }}
+      {% endif %}
+    </div>
+
+    <!-- <div>
         {% if item.featured %}
         featured
         {% endif %}
       </div> -->
-      <div>
-        {% if item.draft %}
-        非公開
-        {% else %}
-        公開
-        {% endif %}
-      </div>
-
-      <div>
-        <a href="{% url 'core:item-update' item.slug %}" class="btn btn-outline-main btn-sm">編集する</a>
-        <a href="{% url 'core:item-delete' item.slug %}" class=" btn btn-outline-danger btn-sm">削除する</a>
-      </div>
-
-      {% endfor %}
-
+    <div>
+      {% if item.draft %}
+      非公開
+      {% else %}
+      公開
+      {% endif %}
     </div>
 
-    <a href="{% url 'core:item-create' %}" class="btn btn-outline-main btn-md mb-5">商品を追加する</a>
+    <div>
+      <a href="{% url 'core:item-update' item.slug %}" class="btn btn-outline-main btn-sm">編集する</a>
+      <a href="{% url 'core:item-delete' item.slug %}" class=" btn btn-outline-danger btn-sm">削除する</a>
+    </div>
 
-    {% include "parts/pagination.html" %}
+    {% endfor %}
 
   </div>
-</main>
+
+  <a href="{% url 'core:item-create' %}" class="btn btn-outline-main btn-md mb-5">商品を追加する</a>
+
+  {% include "parts/pagination.html" %}
+
+</div>
+
 {% endblock content %}

@@ -3,53 +3,53 @@
 {% block head_title %}Category: {{ view.kwargs.category_name }}{% endblock %}
 {% block content %}
 
-<main>
 
-  <div id="item-list" class="container clearfix">
 
-    {% include "parts/category-menu.html" %}
+<div id="item-list" class="container clearfix">
 
-    <h2 class="mt-5">カテゴリー: {{ view.kwargs.category_name }}</h2>
+  {% include "parts/category-menu.html" %}
 
-    <div class="category-item-list">
+  <h2 class="mt-5">カテゴリー: {{ view.kwargs.category_name }}</h2>
 
-      {% for item in items %}
+  <div class="category-item-list">
+
+    {% for item in items %}
+
+    <div>
 
       <div>
-
-        <div>
-          {% if item.image %}
-          <a href="{% url 'core:item' item.slug %}">
-            <img src="{{ item.image_thumb.url }}" class="thumb">
-          </a>
-          {% endif %}
-        </div>
-
-        <div>
-          <a href="{{ item.get_absolute_url}}">
-            {{ item.title }}
-          </a>
-        </div>
-
-        <div>
-          {% if item.discount_price %}
-          ¥{{ item.discount_price | intcomma }}
-          {% else %}
-          ¥{{ item.price | intcomma}}
-          {% endif %}
-        </div>
-
+        {% if item.image %}
+        <a href="{% url 'core:item' item.slug %}">
+          <img src="{{ item.image_thumb.url }}" class="thumb">
+        </a>
+        {% endif %}
       </div>
 
-      {% empty %}
+      <div>
+        <a href="{{ item.get_absolute_url}}">
+          {{ item.title }}
+        </a>
+      </div>
 
-      <div class="empty">このカテゴリーの商品は現在ありません。</div>
-
-      {% endfor %}
+      <div>
+        {% if item.discount_price %}
+        ¥{{ item.discount_price | intcomma }}
+        {% else %}
+        ¥{{ item.price | intcomma}}
+        {% endif %}
+      </div>
 
     </div>
 
+    {% empty %}
+
+    <div class="empty">このカテゴリーの商品は現在ありません。</div>
+
+    {% endfor %}
 
   </div>
-</main>
+
+
+</div>
+
 {% endblock content %}

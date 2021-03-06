@@ -2,13 +2,13 @@
 {% block head_title %}ログアウト - {{ request.site.siteinfo.title }}{% endblock %}
 {% block content %}
 
-<main>
-  <div id="order-list" class="container">
-    <h2>ログアウトしました。</h2>
-    <small class="text-muted">
-      <a href="{% url 'login' %}">再度ログイン</a>
-    </small>
-  </div>
-</main>
+
+<div id="order-list" class="container">
+  <h2>ログアウトしました。</h2>
+  <small class="text-muted">
+    <a href="{% url 'login' %}">再度ログイン</a>
+  </small>
+</div>
+
 
 {% endblock content %}

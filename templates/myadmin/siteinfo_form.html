@@ -2,18 +2,18 @@
 {% block head_title %}サイト情報の編集{% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
-<main>
-  <div id="home" class="container">
-    <form method="POST" enctype="multipart/form-data">
-      {% csrf_token %}
-      <fieldset class="form-group">
-        <legend class="border-bottm mt-5 mb-4">サイト情報を編集する</legend>
-        {{ form|crispy }}
-        <button class="btn btn-main mt-5" type="submit">
-          更新する
-        </button>
-      </fieldset>
-    </form>
-  </div>
-</main>
+
+<div id="home" class="container">
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <fieldset class="form-group">
+      <legend class="border-bottm mt-5 mb-4">サイト情報を編集する</legend>
+      {{ form|crispy }}
+      <button class="btn btn-main mt-5" type="submit">
+        更新する
+      </button>
+    </fieldset>
+  </form>
+</div>
+
 {% endblock %}

@@ -3,24 +3,24 @@
 
 {% block head_title %}カテゴリー一覧 - {{ request.site.siteinfo.title }} {% endblock %}
 {% block content %}
-<main>
-  <div class="container">
 
-    <h2>カテゴリー一覧</h2>
-    <ul class="list-disc mb-5">
-      {% for category in categories%}
-      <li class="mb-3">
-        {{ category.name }} <small>(order: {{ category.order }})</small>
-        <a href="{% url 'core:category-update' category.id %} " class="btn btn-outline-main btn-sm">編集する</a>
-        <a href="{% url 'core:category-delete' category.id %} " class="btn btn-outline-danger btn-sm">削除する</a>
-      </li>
-      {% empty %}
-      カテゴリーは登録されてません。
-      {% endfor %}
-    </ul>
+<div class="container">
 
-    <a href="{% url 'core:category-create' %}" class="btn btn-outline-main btn-md mb-5">カテゴリーを追加する</a>
+  <h2>カテゴリー一覧</h2>
+  <ul class="list-disc mb-5">
+    {% for category in categories%}
+    <li class="mb-3">
+      {{ category.name }} <small>(order: {{ category.order }})</small>
+      <a href="{% url 'core:category-update' category.id %} " class="btn btn-outline-main btn-sm">編集する</a>
+      <a href="{% url 'core:category-delete' category.id %} " class="btn btn-outline-danger btn-sm">削除する</a>
+    </li>
+    {% empty %}
+    カテゴリーは登録されてません。
+    {% endfor %}
+  </ul>
 
-  </div>
-</main>
+  <a href="{% url 'core:category-create' %}" class="btn btn-outline-main btn-md mb-5">カテゴリーを追加する</a>
+
+</div>
+
 {% endblock %}

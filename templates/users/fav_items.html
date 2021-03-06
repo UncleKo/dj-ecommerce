@@ -3,80 +3,80 @@
 {% block head_title %}お気に入り{% endblock %}
 {% block content %}
 
-<main>
-
-  <div id="order-list" class="container clearfix">
-
-    <h2>お気に入り</h2>
-
-    <div class="fav-items">
-
-      {% for item in fav_items %}
 
 
+<div id="order-list" class="container clearfix">
 
-      <div>
-        {% if item.image %}
-        <a href="{% url 'core:item' item.slug %}">
-          <img src="{{ item.image_thumb.url }}" class="thumb">
-        </a>
-        {% endif %}
-      </div>
+  <h2>お気に入り</h2>
 
-      <div>
-        <a href="{{ item.get_absolute_url}}">
-          {{ item.title }}
-        </a>
-      </div>
+  <div class="fav-items">
 
-      <div>
-        {% if item.discount_price %}
-        ¥{{ item.discount_price | intcomma }}
-        {% else %}
-        ¥{{ item.price | intcomma}}
-        {% endif %}
-      </div>
+    {% for item in fav_items %}
 
-      <div>
 
-        {% if not item.stock == 0 %}
-        <form method="POST" action="{% url 'core:add-to-cart' item.id %}" class="post-form">
-          {% csrf_token %}
-          <fieldset class="form-group">
-            <!-- <legend class="border-bottm mb-4">Option</legend> -->
 
-            {% if item.color_option.count %}
-            <div id="div_id_color_option" class="form-group">
-              <label for="id_color_option" class="requiredField">カラー<span class="asteriskField">*</span> </label>
-              <div class="">
-                {{ form.color_option }}
-              </div>
+    <div>
+      {% if item.image %}
+      <a href="{% url 'core:item' item.slug %}">
+        <img src="{{ item.image_thumb.url }}" class="thumb">
+      </a>
+      {% endif %}
+    </div>
+
+    <div>
+      <a href="{{ item.get_absolute_url}}">
+        {{ item.title }}
+      </a>
+    </div>
+
+    <div>
+      {% if item.discount_price %}
+      ¥{{ item.discount_price | intcomma }}
+      {% else %}
+      ¥{{ item.price | intcomma}}
+      {% endif %}
+    </div>
+
+    <div>
+
+      {% if not item.stock == 0 %}
+      <form method="POST" action="{% url 'core:add-to-cart' item.id %}" class="post-form">
+        {% csrf_token %}
+        <fieldset class="form-group">
+          <!-- <legend class="border-bottm mb-4">Option</legend> -->
+
+          {% if item.color_option.count %}
+          <div id="div_id_color_option" class="form-group">
+            <label for="id_color_option" class="requiredField">カラー<span class="asteriskField">*</span> </label>
+            <div class="">
+              {{ form.color_option }}
             </div>
-            {% endif %}
-            {% if item.size_option.count %}
-            <div id="div_id_size_option" class="form-group">
-              <label for="id_size_option" class="requiredField">サイズ<span class="asteriskField">*</span> </label>
-              <div class="">
-                {{ form.size_option }}
-              </div>
+          </div>
+          {% endif %}
+          {% if item.size_option.count %}
+          <div id="div_id_size_option" class="form-group">
+            <label for="id_size_option" class="requiredField">サイズ<span class="asteriskField">*</span> </label>
+            <div class="">
+              {{ form.size_option }}
             </div>
-            {% endif %}
-            <div id="div_id_quantity" class="form-group">
-              <label for="id_auqntity" class="requiredField">数量<span class="asteriskField">*</span> </label>
-              <div class="">
-                {{ form.quantity }}
-              </div>
+          </div>
+          {% endif %}
+          <div id="div_id_quantity" class="form-group">
+            <label for="id_auqntity" class="requiredField">数量<span class="asteriskField">*</span> </label>
+            <div class="">
+              {{ form.quantity }}
             </div>
-            <button class="btn btn-main btn-sm mt-3" type="submit">カートに入れる<i
-                class="fas fa-shopping-cart ml-1"></i></button>
-          </fieldset>
-        </form>
-        {% else %}
-        <p class="stock text-danger">在庫がありません</p>
-        {% endif %}
-      </div>
+          </div>
+          <button class="btn btn-main btn-sm mt-3" type="submit">カートに入れる<i
+              class="fas fa-shopping-cart ml-1"></i></button>
+        </fieldset>
+      </form>
+      {% else %}
+      <p class="stock text-danger">在庫がありません</p>
+      {% endif %}
+    </div>
 
-      <!-- <div>
+    <!-- <div>
           {% if not item.size_option.count and not item.color_option.count %}
           <a href="{% url 'core:add-to-cart' item.id %}" class="btn btn-main btn-sm">
             カートに入れる
@@ -88,71 +88,71 @@
           {% endif %}
         </div> -->
 
-      <div>
-        <a href="{% url 'core:remove-from-fav-items' item.id %}" class="btn btn-outline-main btn-sm">
-          <i class="fas fa-trash mobile-only"></i>
-          <span class="mobile-off">削除する</span>
-        </a>
-      </div>
-
-
-
-      {% empty %}
-
-      <div class="empty">商品はまだ追加されてません。</div>
-
-      {% endfor %}
-
+    <div>
+      <a href="{% url 'core:remove-from-fav-items' item.id %}" class="btn btn-outline-main btn-sm">
+        <i class="fas fa-trash mobile-only"></i>
+        <span class="mobile-off">削除する</span>
+      </a>
     </div>
 
-    <table class="table fav-items">
-      <tbody>
 
-        {% for item in fav_items %}
-        <tr>
-          <th scope="row">
-            {% if item.image %}
-            <a href="{% url 'core:item' item.slug %}">
-              <img src="{{ item.image_thumb.url }}" class="thumb">
-            </a>
-            {% endif %}
-          </th>
-          <td>
-            <a href="{{ item.get_absolute_url}}">
-              {{ item.title }}
-            </a>
-          </td>
 
-          {% if item.discount_price %}
-          <td>
-            ¥{{ item.discount_price | intcomma }}
-          </td>
-          {% else %}
-          <td>¥{{ item.price | intcomma}}</td>
-          {% endif %}
+    {% empty %}
 
-          <td>
-            <a href="{% url 'core:remove-from-fav-items' item.id %}">
-              <i class="fas fa-trash float-right"></i>
-            </a>
-          </td>
-        </tr>
-        {% empty %}
-        <tr>
-          <td>
-            お気に入りにはまだ商品はありません。
-          </td>
-        </tr>
-        {% endfor %}
+    <div class="empty">商品はまだ追加されてません。</div>
 
-      </tbody>
-    </table>
-
-    <div class="clearfix mt-5 mb-2">
-      <!-- <a class="btn btn-second" href="{{request.META.HTTP_REFERER}}">買い物を続ける</a> -->
-      <a class="btn btn-second float-right" href="/">買い物を続ける</a>
-    </div>
+    {% endfor %}
 
   </div>
-</main>
+
+  <table class="table fav-items">
+    <tbody>
+
+      {% for item in fav_items %}
+      <tr>
+        <th scope="row">
+          {% if item.image %}
+          <a href="{% url 'core:item' item.slug %}">
+            <img src="{{ item.image_thumb.url }}" class="thumb">
+          </a>
+          {% endif %}
+        </th>
+        <td>
+          <a href="{{ item.get_absolute_url}}">
+            {{ item.title }}
+          </a>
+        </td>
+
+        {% if item.discount_price %}
+        <td>
+          ¥{{ item.discount_price | intcomma }}
+        </td>
+        {% else %}
+        <td>¥{{ item.price | intcomma}}</td>
+        {% endif %}
+
+        <td>
+          <a href="{% url 'core:remove-from-fav-items' item.id %}">
+            <i class="fas fa-trash float-right"></i>
+          </a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td>
+          お気に入りにはまだ商品はありません。
+        </td>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+  </table>
+
+  <div class="clearfix mt-5 mb-2">
+    <!-- <a class="btn btn-second" href="{{request.META.HTTP_REFERER}}">買い物を続ける</a> -->
+    <a class="btn btn-second float-right" href="/">買い物を続ける</a>
+  </div>
+
+</div>
+
 {% endblock content %}

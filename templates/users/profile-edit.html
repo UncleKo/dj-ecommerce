@@ -4,20 +4,20 @@
 {% block head_title %}プロフィールの編集 - {{ request.site.siteinfo.title }}{% endblock %}
 
 {% block content %}
-<main>
-  <div id="edit-profile" class="container">
-    <form method="POST" enctype="multipart/form-data">
-      {% csrf_token %}
-      <fieldset class="form-group">
-        <h2>プロフィールを編集する</h2>
-        {{ u_form|crispy }}
-        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
-        {{ p_form|crispy }}
-      </fieldset>
-      <div class="form-group">
-        <button class="btn btn-main" type="submit">更新する</button>
-      </div>
-    </form>
-  </div>
-</main>
+
+<div id="edit-profile" class="container">
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <fieldset class="form-group">
+      <h2>プロフィールを編集する</h2>
+      {{ u_form|crispy }}
+      <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+      {{ p_form|crispy }}
+    </fieldset>
+    <div class="form-group">
+      <button class="btn btn-main" type="submit">更新する</button>
+    </div>
+  </form>
+</div>
+
 {% endblock content %}

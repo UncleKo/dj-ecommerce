@@ -11,35 +11,35 @@
 {% endblock %}
 
 {% block content %}
-<main>
-  <div class="container">
 
-    <form method="POST" class="post-form">
-      {% csrf_token %}
-      <fieldset class="form-group">
+<div class="container">
+
+  <form method="POST" class="post-form">
+    {% csrf_token %}
+    <fieldset class="form-group">
+      {% if edit %}
+      <legend class="border-bottm mb-4">カテゴリーを編集</legend>
+      {% else %}
+      <legend class="border-bottm mb-4">カテゴリーを追加</legend>
+      {% endif %}
+      {{ form|crispy }}
+      <button class="btn btn-outline-info mt-5 mb-5" type="submit">
         {% if edit %}
-        <legend class="border-bottm mb-4">カテゴリーを編集</legend>
+        更新する
         {% else %}
-        <legend class="border-bottm mb-4">カテゴリーを追加</legend>
+        追加する
         {% endif %}
-        {{ form|crispy }}
-        <button class="btn btn-outline-info mt-5 mb-5" type="submit">
-          {% if edit %}
-          更新する
-          {% else %}
-          追加する
-          {% endif %}
-        </button>
-      </fieldset>
-    </form>
+      </button>
+    </fieldset>
+  </form>
 
-    <p class="mt-4 mb-4"><small>List</small> </p>
-    <ul class="list-disc">
-      {% for category in categories%}
-      <li class="mb-2">{{ category.name }} <small>(order: {{ category.order }})</small></li>
-      {% endfor %}
-    </ul>
+  <p class="mt-4 mb-4"><small>List</small> </p>
+  <ul class="list-disc">
+    {% for category in categories%}
+    <li class="mb-2">{{ category.name }} <small>(order: {{ category.order }})</small></li>
+    {% endfor %}
+  </ul>
 
-  </div>
-</main>
+</div>
+
 {% endblock %}

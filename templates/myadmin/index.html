@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 {% block head_title %}サイト管理 - {{ request.site.siteinfo.title }}{% endblock %}
 {% block content %}
-<!--Main layout-->
-<main>
-  <div id="admin" class="container">
-    <ul>
-      <li class="mb-3"><a href="{% url 'core:order-list' %}">注文管理</a></li>
-      <li class="mb-3"><a href="{% url 'core:item-list' %}">商品管理</a></li>
-      <li class="mb-3"><a href="{% url 'core:category-list' %}">カテゴリー管理</a></li>
-      <li class="mb-3"><a href="{% url 'admin:core_siteinfo_change' 1 %}">サイト設定</a></li>
-      <li class="mb-3"><a href="{% url 'admin:index' %}">デフォルト管理画面</a></li>
-    </ul>
-  </div>
-</main>
+
+
+<div id="admin" class="container">
+  <ul>
+    <li class="mb-3"><a href="{% url 'core:order-list' %}">注文管理</a></li>
+    <li class="mb-3"><a href="{% url 'core:item-list' %}">商品管理</a></li>
+    <li class="mb-3"><a href="{% url 'core:category-list' %}">カテゴリー管理</a></li>
+    <li class="mb-3"><a href="{% url 'admin:core_siteinfo_change' 1 %}">サイト設定</a></li>
+    <li class="mb-3"><a href="{% url 'admin:index' %}">デフォルト管理画面</a></li>
+  </ul>
+</div>
+
 
 {% endblock %}

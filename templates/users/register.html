@@ -4,24 +4,24 @@
 
 {% block content %}
 
-<main>
-  <div id="signup" class="container">
-    <form method="POST">
-      {% csrf_token %}
-      <fieldset class="form-group">
-        <legend class="border-bottm">会員登録</legend>
-        <!-- {{ form.as_p }} -->
-        {{ form|crispy }}
-      </fieldset>
-      <div class="form-group">
-        <button class="btn btn-main" type="submit">新規登録</button>
-      </div>
-    </form>
-    <div class="border-top pt-3">
-      <small class="text-muted">
-        既にメンバー登録済みの方は<a href="{% url 'login' %}" class="ml-2">こちら</a>よりログインしてください。
-      </small>
+
+<div id="signup" class="container">
+  <form method="POST">
+    {% csrf_token %}
+    <fieldset class="form-group">
+      <legend class="border-bottm">会員登録</legend>
+      <!-- {{ form.as_p }} -->
+      {{ form|crispy }}
+    </fieldset>
+    <div class="form-group">
+      <button class="btn btn-main" type="submit">新規登録</button>
     </div>
+  </form>
+  <div class="border-top pt-3">
+    <small class="text-muted">
+      既にメンバー登録済みの方は<a href="{% url 'login' %}" class="ml-2">こちら</a>よりログインしてください。
+    </small>
   </div>
-</main>
+</div>
+
 {% endblock content %}
