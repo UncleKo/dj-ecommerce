@@ -98,5 +98,6 @@ a#nav-cart {
   .collapse:not(.show) {
     opacity: 1;
     max-height: 100vh;
+    pointer-events: auto;
   }
 }

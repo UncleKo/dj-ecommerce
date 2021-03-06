@@ -33,7 +33,7 @@ class Photo(models.Model):
     origin = models.ImageField(upload_to="other_images/", verbose_name="画像")
 
     large = ImageSpecField(source="origin",
-                           processors=[ResizeToFit(1280, 1280)],
+                           processors=[ResizeToFit(1920, 1920)],
                            format='JPEG',
                            options={'quality': 80}
                            )
@@ -51,7 +51,7 @@ class Photo(models.Model):
                            )
 
     thumb = ImageSpecField(source='origin',
-                           processors=[ResizeToFill(75, 75)],
+                           processors=[ResizeToFill(100, 100)],
                            format="JPEG",
                            options={'quality': 80}
                            )
@@ -70,7 +70,10 @@ class Photo(models.Model):
         Tag, blank=True, related_name="posts", verbose_name="タグ(option)")
 
     item = models.ForeignKey(Item, on_delete=models.CASCADE,
-                             related_name="other_images", null=True, blank=True, verbose_name="その他画像")
+                             related_name="other_images", null=True, blank=True, verbose_name="商品")
+
+    order = models.IntegerField(verbose_name="順番", default=99)
+
     # 編集後そのidのページに戻る
 
     def get_absolute_url(self):

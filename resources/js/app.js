@@ -115,7 +115,6 @@ if (document.querySelector('.photo_insert')) {
     let modals = $$('.modal');
 
     function expandModal(i, e) {
-      e.preventDefault;
       modals[i].classList.add('show-modal');
     }
 
@@ -143,6 +142,23 @@ if (document.querySelector('.photo_insert')) {
   if ($('.modal')) {
     modalControl();
   }
+
+
+  const makeSquare = () => {
+
+    let squares = $$('.square');
+
+    squares.forEach((square) => {
+      console.log(square.offsetWidth);
+      square.style.height = square.offsetWidth + 'px';
+    });
+
+  }
+
+  if ($('.square')) {
+    makeSquare();
+  }
+
 
 
   // // Without bing.js

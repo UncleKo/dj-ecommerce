@@ -5,6 +5,8 @@
 
 {% block content %}
 
+
+
 <div id="item" class="container dark-grey-text">
 
   {% include "parts/category-menu.html" %}
@@ -13,46 +15,48 @@
 
     <div class="item-slide">
 
-      <div class="swiper-container gallery-top">
-        <ul class="swiper-wrapper">
-          <li class="swiper-slide expand-modal">
-            <img src="{{ item.image_medium.url }}">
-          </li>
-          {% if item.other_images.count %}
-          {% for photo in other_images %}
-          <li class="swiper-slide expand-modal square">
-            <img src="{{ photo.medium.url }}">
-          </li>
-          {% endfor %}
-          {% endif %}
-        </ul>
-        <!-- swiper-wrapper -->
-        <!-- Add Arrows -->
-        <div class="swiper-button-next swiper-button-white"></div>
-        <div class="swiper-button-prev swiper-button-white"></div>
-      </div>
-      <!-- swiper-container -->
+      <!-- {% if item.image %}
+        {% if item.image.width > 1280 or item.image.height > 1280 %}
+        <a href="{{ item.image_large.url }}" target="_blank">
+          {% else %}
+          <a href="{{ item.image.url }}" target="_blank">
+            {% endif %}
+            <img src="{{ item.image_medium.url }}" class="card-img-top">
+          </a>
+          {% endif %} -->
 
+      <ul class="bxslider">
+        <li>
+          <img src="{{ item.image_medium.url }}" class="expand-modal">
+        </li>
+        {% if item.other_images.count %}
+        {% for photo in item.other_images.all %}
+        <li>
+          <img src="{{ photo.medium.url }}" class="expand-modal" alt="">
+        </li>
+        {% endfor %}
+        {% endif %}
+      </ul>
 
-      <div class="swiper-container gallery-thumbs">
-        <ul class="swiper-wrapper">
-          <li class="swiper-slide">
-            <img src="{{ item.image_small.url }}">
-          </li>
-          {% if item.other_images.count %}
-          {% for photo in other_images %}
-          <li class="swiper-slide">
-            <img src="{{ photo.small.url }}">
-          </li>
-          {% endfor %}
-          {% endif %}
-        </ul>
-        <!-- swiper-wrapper -->
-      </div>
-      <!-- swiper-container -->
+      <ul id="bx-pager">
+        <li>
+          <a href="#" data-slide-index="0">
+            <img src="{{ item.image_thumb.url }}" class="thumb">
+          </a>
+        </li>
+        {% if item.other_images.count %}
+        {% for photo in item.other_images.all %}
+        <li>
+          <a href="#" data-slide-index="{{ forloop.counter }}">
+            <img src="{{ photo.thumb.url }}" class="thumb" alt="">
+          </a>
+        </li>
+        {% endfor %}
+        {% endif %}
+      </ul>
 
       <div class="modal">
-        {% if item.image.width > 1920 or item.image.height > 1920 %}
+        {% if item.image.width > 1280 or item.image.height > 1280 %}
         <div class="bcimage" style="background-image: url('{{ item.image_large.url }}');"></div>
         {% else %}
         <div class="bcimage" style="background-image: url('{{ item.image.url }}');"></div>
@@ -60,9 +64,9 @@
       </div>
 
       {% if item.other_images.count %}
-      {% for photo in other_images %}
+      {% for photo in item.other_images.all %}
       <div class="modal">
-        {% if item.image.width > 1920 or item.image.height > 1920 %}
+        {% if item.image.width > 1280 or item.image.height > 1280 %}
         <div class="bcimage" style="background-image: url('{{ photo.large.url }}');"></div>
         {% else %}
         <div class="bcimage" style="background-image: url('{{ photo.url }}');"></div>
@@ -74,7 +78,6 @@
     </div>
     <!-- item-slide -->
 
-    <!--item-detail-->
     <div class="item-detail">
 
       <div>
@@ -186,8 +189,7 @@
       </div>
 
     </div>
-    <!--item-detail-->
-
+    <!-- item-detail -->
 
     {% if user.is_staff %}
     <div class="flex-buttons">
@@ -201,23 +203,23 @@
     {% endif %}
 
   </div>
-  <!--feature-->
+  <!-- feature -->
 
 
-  <div class="recommend">
-    <h6>あなたにおすすめ</h6>
+  <hr>
+
+  <div class="mt-5">
+    <h6 class="mb-3">あなたにおすすめ</h6>
     <div class="other-items">
       {% for item in other_items %}
       <div class=" item {% if item.featured %}featured-item{% endif %}">
         {% if item.image %}
-        <div class="square">
-          <a href="{{ item.get_absolute_url }}">
-            <img src="{{ item.image_medium.url }}" class="" alt="">
-            <!-- <div style="background-image: url('{{ item.image_medium.url }}');"></div> -->
-          </a>
-        </div>
+        <a href="{{ item.get_absolute_url }}">
+          <img src="{{ item.image_medium.url }}" class="card-img-top" alt="">
+        </a>
         {% endif %}
-        <div class="item-title">
+        <!-- <img class="item-photo" src="https://source.unsplash.com/random/300x300?v=2"> -->
+        <div class="">
           <small>{{ item.get_category_display }}</small>
           <a href="{{ item.get_absolute_url }}">
             <h3>{{ item.title }}</h3>
@@ -252,9 +254,12 @@
         {% endfor %}
       </div> -->
 
+</div>
+
 
 </div>
-<!-- item -->
+<!-- container -->
+
 
 
 {% endblock content %}

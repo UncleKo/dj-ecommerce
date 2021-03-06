@@ -10,7 +10,7 @@
   {% include "parts/category-menu.html" %}
 
   <div class="feature">
-    <div>
+    <div class="item-slide">
       {% if featured_item.image %}
       <a href="{{ featured_item.get_absolute_url }}">
         <img src="{{ featured_item.image_medium.url }}" class="card-img-top" alt="">
@@ -18,8 +18,8 @@
       {% endif %}
       <!-- <img class="item-photo" src="https://source.unsplash.com/random/300x300?v=2"> -->
     </div>
-    <div>
-      <!-- <div>
+
+    <!-- <div>
           <small>{{ featured_item.get_category_display }}</small>
           <a href="{{ featured_item.get_absolute_url }}">
             <h3 class="mt-3 mb-3">{{ featured_item.title }}</h3>
@@ -32,40 +32,39 @@
             {% endif %}
           </p>
         </div> -->
-      <div class="item-detail">
 
-        <div>
+    <div class="item-detail">
 
-          <a href="{% url 'core:category-pages' featured_item.category %}">
-            <!-- <span
+      <div>
+
+        <a href="{% url 'core:category-pages' featured_item.category %}">
+          <!-- <span
                 class="badge {{ featured_item.get_category_display }}-color mr-1">{{ featured_item.get_category_display }}</span> -->
-            <!-- <span class="badge {{ featured_item.category }}-color mr-1">{{ featured_item.category }}</span> -->
-            <span class="badge category-color mr-1">{{ featured_item.category }}</span>
-          </a>
+          <!-- <span class="badge {{ featured_item.category }}-color mr-1">{{ featured_item.category }}</span> -->
+          <span class="badge category-color mr-1">{{ featured_item.category }}</span>
+        </a>
 
-          <a href="{{ featured_item.get_absolute_url }}">
-            <h2>{{ featured_item.title }}</h2>
-          </a>
-          <p class="price">
-            {% if featured_item.discount_price %}
-            <span class="mr-1">
-              <small><del>¥{{ featured_item.price | intcomma }}</del></small>
-            </span>
-            <span>¥{{ featured_item.discount_price | intcomma }}</span>
-            {% else %}
-            <span>¥{{ featured_item.price | intcomma }}</span>
-            {% endif %}
-          </p>
-          <p class="mt-3 mb-3">{{ featured_item.description | safe | linebreaks }} </p>
-
-        </div>
+        <a href="{{ featured_item.get_absolute_url }}">
+          <h2>{{ featured_item.title }}</h2>
+        </a>
+        <p class="price">
+          {% if featured_item.discount_price %}
+          <span class="mr-1">
+            <small><del>¥{{ featured_item.price | intcomma }}</del></small>
+          </span>
+          <span>¥{{ featured_item.discount_price | intcomma }}</span>
+          {% else %}
+          <span>¥{{ featured_item.price | intcomma }}</span>
+          {% endif %}
+        </p>
+        <p class="mt-3 mb-3">{{ featured_item.description | safe | linebreaks }} </p>
 
       </div>
-      <!-- item-detail -->
-    </div>
 
+    </div>
+    <!-- item-detail -->
   </div>
-  <!-- featured-item -->
+
 
   <div class="items">
 
@@ -195,8 +194,7 @@
   {% endif %}
 
 </div>
-
-
+<!-- #home -->
 
 
 {% endblock content %}

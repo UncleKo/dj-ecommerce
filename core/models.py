@@ -86,7 +86,7 @@ class Item(models.Model):
     image = models.ImageField(
         blank=True, upload_to='item_main_image/', verbose_name="メイン画像")
     image_large = ImageSpecField(source="image",
-                                 processors=[ResizeToFit(1280, 1280)],
+                                 processors=[ResizeToFit(1920, 1920)],
                                  format='JPEG'
                                  )
 
@@ -97,13 +97,13 @@ class Item(models.Model):
                                   )
 
     image_small = ImageSpecField(source='image',
-                                 processors=[ResizeToFit(250, 250)],
+                                 processors=[ResizeToFill(250, 250)],
                                  format="JPEG",
                                  options={'quality': 80}
                                  )
 
     image_thumb = ImageSpecField(source='image',
-                                 processors=[ResizeToFit(75, 75)],
+                                 processors=[ResizeToFill(100, 100)],
                                  format="JPEG",
                                  options={'quality': 80}
                                  )

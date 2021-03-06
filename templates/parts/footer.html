@@ -7,12 +7,10 @@
 
 </footer>
 
-<script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<!-- <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script> -->
 <!-- <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script> -->
-<!-- <script type="text/javascript" src="{% static 'js/jquery.bxslider.js' %}"></script>
-
-<script src="{% static 'js/app.js' %}"></script>
-<script>
+<!-- <script type="text/javascript" src="{% static 'js/jquery.bxslider.js' %}"></script> -->
+<!-- <script>
   $(document).ready(function () {
     //bxslider メインスライド用
     $('.bxslider').bxSlider({
@@ -23,11 +21,12 @@
   });
 </script> -->
 
+
 <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
 <script>
   var galleryThumbs = new Swiper('.gallery-thumbs', {
     spaceBetween: 10,
-    slidesPerView: 4,
+    slidesPerView: 5,
     freeMode: true,
     watchSlidesVisibility: true,
     watchSlidesProgress: true,
@@ -43,3 +42,8 @@
     }
   });
 </script>
+<!-- <script>
+  var swiper = new Swiper('.swiper-container');
+</script> -->
+
+<script src="{% static 'js/app.js' %}"></script>

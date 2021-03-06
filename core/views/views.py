@@ -13,6 +13,7 @@ from ..models import Item, Order, Category, Inquiry  # , SizeOption, ColorOption
 from ..forms import CheckoutForm, BillingAddressForm, ContactForm, ItemOptionForm
 from ..boost import DynamicRedirectMixin
 from users.models import ShippingAddress, BillingAddress
+from photos.models import Photo
 
 # Email
 # from django.core.mail import EmailMultiAlternatives
@@ -77,6 +78,8 @@ class ItemDetailView(DetailView):
         # if self.get_object().fav_users.filter(id=self.request.user.id):
         if self.object.fav_users.filter(id=self.request.user.id):
             context["already_favorite"] = True
+        context["other_images"] = Photo.objects.filter(
+            item=self.object).order_by('order')
         return context
 
 
