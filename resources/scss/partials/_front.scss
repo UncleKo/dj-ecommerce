@@ -46,6 +46,12 @@
   a {
     color: #666;
   }
+  .btn-add-item {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
 } //featured
 
 // #home .feature > div:first-child {
@@ -350,7 +356,7 @@
   height: 100%;
   opacity: 0.4;
   cursor: pointer;
-  // square contain image technique
+  // square contain image technique (didn't work this time)
   // img {
   //   position: absolute;
   //   top: 50%;
@@ -367,7 +373,7 @@
   opacity: 1;
 }
 
-// // Square Wrapper Technique
+// // Square Wrapper Technique (didn't work this time)
 // .square {
 //   position: absolute;
 //   top: 0;

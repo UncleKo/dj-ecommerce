@@ -49,7 +49,7 @@
         {% endif %}
       </p>
       {% endif %}
-      <!-- <p class="">送料: ¥{{ order.get_postage | intcomma }}</p>
+      <!-- <p >送料: ¥{{ order.get_postage | intcomma }}</p>
       <p class="bold total-price">合計金額: ¥{{ order.get_total_w_postage | intcomma }}</p> -->
 
     </div>
@@ -155,11 +155,11 @@
       {% if order.get_total %}
       <tr>
         <td colspan="4" class="text-right">小計(税込)</td>
-        <td class="">¥{{ order.get_total | intcomma }}</td>
+        <td>¥{{ order.get_total | intcomma }}</td>
       </tr>
       <tr>
         <td colspan="4" class="text-right">送料</td>
-        <td class="">¥{{ order.get_postage | intcomma }}</td>
+        <td>¥{{ order.get_postage | intcomma }}</td>
       </tr>
       <tr>
         <td colspan="4" class="bold text-right">合計金額</td>

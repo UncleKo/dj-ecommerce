@@ -69,7 +69,7 @@ class ItemDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["other_items"] = Item.objects.exclude(
+        context["other_items"] = Item.objects.filter(draft=False).exclude(
             slug=self.kwargs['slug']).order_by('?')[:3]
         context["categories"] = Category.objects.all().order_by('order')
         # context["size_option"] = SizeOption.objects.filter(item=self.object)
@@ -81,6 +81,13 @@ class ItemDetailView(DetailView):
         context["other_images"] = Photo.objects.filter(
             item=self.object).order_by('order')
         return context
+
+  # 商品が非公開になってないか、あるいは管理者の場合のみ表示
+    def test_func(self):
+        item = self.get_object()
+        if not item.draft or self.request.user.is_staff:
+            return True
+        return False
 
 
 class CartView(LoginRequiredMixin, View):

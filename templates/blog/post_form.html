@@ -33,7 +33,7 @@
           {% else %}
           <div id="div_id_featured_image" class="form-group">
             {% endif %}
-            <label for="id_featured_image" class="">メイン画像(option)</label>
+            <label for="id_featured_image">メイン画像(option)</label>
             <div class="custom-file ">
               {{ form.featured_image }}
               <!-- <input type="file" name="featured_image" accept="image/*" class="clearablefileinput form-control custom-file-input" id="id_featured_image">  -->
@@ -51,14 +51,14 @@
           </div>
 
           <div id="div_id_category" class="form-group">
-            <label for="id_category" class="">カテゴリー(option)</label>
+            <label for="id_category">カテゴリー(option)</label>
             <a class="nav-item nav-link inline-link"
               href="{% url 'category-create' %}?next={{request.path}}">カテゴリーを追加</a>
             {{ form.category }}
           </div>
 
           <div id="div_id_tags" class="form-group">
-            <label for="id_tags" class="">タグ(option)</label>
+            <label for="id_tags">タグ(option)</label>
             <a class="nav-item nav-link inline-link" href="{% url 'tag-create' %}?next={{request.path}}">タグを追加</a>
             {{ form.tags }}
           </div>

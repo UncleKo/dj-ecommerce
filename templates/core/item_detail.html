@@ -9,15 +9,19 @@
 
   {% include "parts/category-menu.html" %}
 
+  {% if item.draft %}非公開{% endif %}
+
   <div class="feature">
 
     <div class="item-slide">
 
       <div class="swiper-container gallery-top">
         <ul class="swiper-wrapper">
+          {% if item.image %}
           <li class="swiper-slide expand-modal">
             <img src="{{ item.image_medium.url }}">
           </li>
+          {% endif %}
           {% if item.other_images.count %}
           {% for photo in other_images %}
           <li class="swiper-slide expand-modal square">
@@ -36,9 +40,11 @@
 
       <div class="swiper-container gallery-thumbs">
         <ul class="swiper-wrapper">
+          {% if item.image %}
           <li class="swiper-slide">
             <img src="{{ item.image_small.url }}">
           </li>
+          {% endif %}
           {% if item.other_images.count %}
           {% for photo in other_images %}
           <li class="swiper-slide">
@@ -125,7 +131,7 @@
             {% if item.color_option.count %}
             <div id="div_id_color_option" class="form-group">
               <label for="id_color_option" class=" requiredField">カラー<span class="asteriskField">*</span> </label>
-              <div class="">
+              <div>
                 {{ form.color_option }}
               </div>
             </div>
@@ -133,14 +139,14 @@
             {% if item.size_option.count %}
             <div id="div_id_size_option" class="form-group">
               <label for="id_size_option" class=" requiredField">サイズ<span class="asteriskField">*</span> </label>
-              <div class="">
+              <div>
                 {{ form.size_option }}
               </div>
             </div>
             {% endif %}
             <div id="div_id_quantity" class="form-group">
               <label for="id_auqntity" class=" requiredField">数量<span class="asteriskField">*</span> </label>
-              <div class="">
+              <div>
                 {{ form.quantity }}
               </div>
             </div>
@@ -196,7 +202,7 @@
     </div>
     <div></div>
     <div>
-      <a href="{% url 'core:item-create' %}" class="btn btn-outline-second btn-md" id="btn-add-item">商品を追加する</a>
+      <a href="{% url 'core:item-create' %}" class="btn btn-outline-second btn-md btn-add-item">商品を追加する</a>
     </div>
     {% endif %}
 
@@ -212,7 +218,7 @@
         {% if item.image %}
         <div class="square">
           <a href="{{ item.get_absolute_url }}">
-            <img src="{{ item.image_medium.url }}" class="" alt="">
+            <img src="{{ item.image_medium.url }}" alt="">
             <!-- <div style="background-image: url('{{ item.image_medium.url }}');"></div> -->
           </a>
         </div>
@@ -222,7 +228,7 @@
           <a href="{{ item.get_absolute_url }}">
             <h3>{{ item.title }}</h3>
           </a>
-          <p class="">¥
+          <p>¥
             {% if item.discount_price %}
             {{ item.discount_price | intcomma }}
             {% else %}

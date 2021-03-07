@@ -128,7 +128,7 @@
             {% if item.color_option.count %}
             <div id="div_id_color_option" class="form-group">
               <label for="id_color_option" class=" requiredField">カラー<span class="asteriskField">*</span> </label>
-              <div class="">
+              <div>
                 {{ form.color_option }}
               </div>
             </div>
@@ -136,14 +136,14 @@
             {% if item.size_option.count %}
             <div id="div_id_size_option" class="form-group">
               <label for="id_size_option" class=" requiredField">サイズ<span class="asteriskField">*</span> </label>
-              <div class="">
+              <div>
                 {{ form.size_option }}
               </div>
             </div>
             {% endif %}
             <div id="div_id_quantity" class="form-group">
               <label for="id_auqntity" class=" requiredField">数量<span class="asteriskField">*</span> </label>
-              <div class="">
+              <div>
                 {{ form.quantity }}
               </div>
             </div>
@@ -219,12 +219,12 @@
         </a>
         {% endif %}
         <!-- <img class="item-photo" src="https://source.unsplash.com/random/300x300?v=2"> -->
-        <div class="">
+        <div>
           <small>{{ item.get_category_display }}</small>
           <a href="{{ item.get_absolute_url }}">
             <h3>{{ item.title }}</h3>
           </a>
-          <p class="">¥
+          <p>¥
             {% if item.discount_price %}
             {{ item.discount_price | intcomma }}
             {% else %}

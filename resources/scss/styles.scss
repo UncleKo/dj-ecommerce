@@ -197,12 +197,6 @@ section header {
   } //@media
 } //.flex-buttons
 
-#btn-add-item {
-  width: 100%;
-  margin-left: 0;
-  margin-right: 0;
-}
-
 .fa-heart {
   color: $asagi;
   font-size: 1.6rem;
@@ -295,13 +289,6 @@ footer.page-footer .footer-copyright {
     animation-duration: 1s;
   }
 }
-
-// .navbar-collapse {
-//   -webkit-animation-name: fade-in;
-//   -webkit-animation-duration: 1s;
-//   animation-name: fade-in;
-//   animation-duration: 1s;
-// }
 
 @-webkit-keyframes fade-in {
   from {

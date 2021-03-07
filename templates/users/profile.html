@@ -56,8 +56,7 @@
       <div class="mb-4">
         {% if shipping_address.primary and user.shipping_addresses.count > 1 %}
         <span class="badge badge-danger ml-2">優先住所</span>
-        <a href="{% url 'user:primary-shipping-address' %}?next={{ request.path }}"
-          class=""><small>優先住所を変更する</small></a>
+        <a href="{% url 'user:primary-shipping-address' %}?next={{ request.path }}"><small>優先住所を変更する</small></a>
       </div>
       {% endif %}
       <a href="{% url 'user:update-shipping-address' pk=shipping_address.id %}"
@@ -91,7 +90,7 @@
       <div class="mb-4">
         {% if billing_address.primary and user.billing_addresses.count > 1 %}
         <span class="badge badge-danger ml-2">優先住所</span>
-        <a href="{% url 'user:primary-billing-address' %}?next={{ request.path }}" class=""><small>優先住所を変更する</small></a>
+        <a href="{% url 'user:primary-billing-address' %}?next={{ request.path }}"><small>優先住所を変更する</small></a>
       </div>
       {% endif %}
       <a href="{% url 'user:update-billing-address' pk=billing_address.id %}?next={{ request.path }}"
@@ -108,7 +107,7 @@
 
   <!-- {% for order in user.orders.all %}
     <p class="label mb-0">Order No: {{ order.id }}</p>
-    <p class="">{{ order.ordered_date }}</p>
+    <p >{{ order.ordered_date }}</p>
     {% endfor %} -->
 
 </div>

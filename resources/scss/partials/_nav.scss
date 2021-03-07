@@ -1,4 +1,3 @@
-
 .navbar.scrolling-navbar {
   padding-bottom: 7px;
 }
@@ -10,7 +9,7 @@ a#nav-cart {
   justify-content: center;
 }
 
-@media(max-width: 768px) {
+@media (max-width: 768px) {
   .store li.nav-item {
     border-top: 1px solid #666;
   }
@@ -63,7 +62,8 @@ a#nav-cart {
     background-size: contain;
     background-repeat: no-repeat;
   }
-  a, h5 {
+  a,
+  h5 {
     color: white;
   }
 }
@@ -72,18 +72,21 @@ a#nav-cart {
   margin-bottom: 0;
 }
 
-.navbar .nav-item .nav-link .fab, .navbar .nav-item .nav-link .far, .navbar .nav-item .nav-link .fas {
-	padding-right: 3px;
-	padding-left: 3px;
+.navbar .nav-item .nav-link .fab,
+.navbar .nav-item .nav-link .far,
+.navbar .nav-item .nav-link .fas {
+  padding-right: 3px;
+  padding-left: 3px;
 }
 
+// Navbar SlideToggle by CSS Technique
 
 .navbar-collapse {
   opacity: 1;
   max-height: 100vh;
-  -webkit-transition: all .5s ease-in-ou1t;
-  -o-transition: all .5s ease-in-out;
-  transition: all .5s ease-in-out;
+  -webkit-transition: all 0.5s ease-in-ou1t;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
   transform: translateY(0);
 }
 
@@ -94,7 +97,7 @@ a#nav-cart {
   pointer-events: none;
 }
 
-@media (min-width:992px) {
+@media (min-width: 992px) {
   .collapse:not(.show) {
     opacity: 1;
     max-height: 100vh;

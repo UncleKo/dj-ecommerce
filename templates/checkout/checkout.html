@@ -57,7 +57,7 @@
 
           <div id="div_id_delivery_time" class="form-group">
             <label for="id_delivery_time" class="label">配達時間ご指定</label>
-            <div id="id_delivery_time" class="">
+            <div id="id_delivery_time">
               <select name="delivery_time" class="select form-control" id="id_delivery_time">
                 {% for value, name in form.fields.delivery_time.choices %}
                 <option value="{{ value }}">{{ name }}</option>
@@ -144,7 +144,7 @@
         </li>
         {% endfor %}
         <li class="promo-code list-group-item d-flex justify-content-between">
-          <div class="">
+          <div>
             <h6 class="my-0">Promo code</h6>
             <small>EXAMPLECODE</small>
           </div>
