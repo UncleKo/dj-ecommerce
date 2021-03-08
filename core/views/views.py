@@ -62,7 +62,7 @@ class CategoryItemListView(ListView):
         return context
 
 
-class ItemDetailView(DetailView):
+class ItemDetailView(UserPassesTestMixin, DetailView):
     model = Item
     # template_name = "core/item_detail.html"
     context_object_name = 'item'

@@ -9,8 +9,6 @@
 
   {% include "parts/category-menu.html" %}
 
-  {% if item.draft %}非公開{% endif %}
-
   <div class="feature">
 
     <div class="item-slide">
@@ -57,6 +55,8 @@
       </div>
       <!-- swiper-container -->
 
+      {% if item.image %}
+
       <div class="modal">
         {% if item.image.width > 1920 or item.image.height > 1920 %}
         <div class="bcimage" style="background-image: url('{{ item.image_large.url }}');"></div>
@@ -77,6 +77,8 @@
       {% endfor %}
       {% endif %}
 
+      {% endif %}
+
     </div>
     <!-- item-slide -->
 
@@ -93,6 +95,10 @@
 
         <h2>
           {{ item.title }}
+          {% if item.draft %}
+          <small class="text-danger">（非公開中）</small>
+          {% endif %}
+
           <!-- {% if already_favorite %}
               <a href=" {{ item.get_remove_from_fav_items_url }}">
                 <i class="fas fa-heart mobile-only"></i>
