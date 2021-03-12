@@ -7,7 +7,10 @@
 
 <div id="item-list" class="container clearfix">
 
-  <h2 class="mt-5">商品一覧</h2>
+  <header>
+    <h2>商品一覧</h2>
+    <a href="{% url 'core:item-create' %}" class="btn btn-main btn-md mb-5">商品を追加する</a>
+  </header>
 
   <div class="item-list">
     {% for item in items %}
@@ -65,7 +68,6 @@
 
   </div>
 
-  <a href="{% url 'core:item-create' %}" class="btn btn-outline-main btn-md mb-5">商品を追加する</a>
 
   {% include "parts/pagination.html" %}
 

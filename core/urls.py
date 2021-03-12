@@ -34,9 +34,9 @@ urlpatterns = [
     path('siteinfo/<pk>/edit', SiteInfoUpdateView.as_view(), name='siteinfo'),
 
     path('item-list/', ItemListView.as_view(), name='item-list'),
-    path('item/create/', ItemCreateView.as_view(), name='item-create'),
+    path('item/create/', add_item, name='item-create'),
     path('item/<slug>/', ItemDetailView.as_view(), name='item'),
-    path('item/<slug>/edit', ItemUpdateView.as_view(), name='item-update'),
+    path('item/<slug>/edit', update_item, name='item-update'),
     path('item/<slug>/delete', ItemDeleteView.as_view(), name='item-delete'),
 
     path('category-list/', CategoryListView.as_view(), name='category-list'),

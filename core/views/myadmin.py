@@ -1,12 +1,15 @@
 from django.urls import reverse_lazy
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, View
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
 from core.boost import DynamicRedirectMixin
 
 from django.contrib.sites.models import Site
 from ..models import Item, Order, SiteInfo, Category
+from photos.models import Photo
+from ..forms import ItemCreateForm, PhotoFormset
 
 
 class MyAdminView(LoginRequiredMixin, UserPassesTestMixin, DynamicRedirectMixin, View):
@@ -114,6 +117,7 @@ class ItemListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'myadmin/item_list.html'
     context_object_name = 'items'
     paginate_by = 5
+    ordering = ['-id']
 
     def test_func(self):
         if self.request.user.is_staff:
@@ -121,34 +125,34 @@ class ItemListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return False
 
 
-class ItemCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
-    model = Item
-    fields = ['title', 'price', 'discount_price', 'category',
-              'description', 'stock', 'featured', 'image', 'draft']
-    template_name = 'myadmin/item_form.html'
-    success_url = reverse_lazy('core:item-list')
+# class ItemCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+#     model = Item
+#     fields = ['title', 'price', 'discount_price', 'category',
+#               'description', 'stock', 'featured', 'image', 'draft']
+#     template_name = 'myadmin/item_form.html'
+#     success_url = reverse_lazy('core:item-list')
 
-    def test_func(self):
-        if self.request.user.is_staff:
-            return True
-        return False
+#     def test_func(self):
+#         if self.request.user.is_staff:
+#             return True
+#         return False
 
 
-class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Item
-    fields = ['title', 'price', 'discount_price', 'category',
-              'description', 'stock', 'featured', 'image', 'draft', 'slug']
-    template_name = 'myadmin/item_form.html'
+# class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+#     model = Item
+#     fields = ['title', 'price', 'discount_price', 'category',
+#               'description', 'stock', 'featured', 'image', 'draft', 'slug']
+#     template_name = 'myadmin/item_form.html'
 
-    def test_func(self):
-        if self.request.user.is_staff:
-            return True
-        return False
+#     def test_func(self):
+#         if self.request.user.is_staff:
+#             return True
+#         return False
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["edit"] = 1
-        return context
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context["edit"] = 1
+#         return context
 
 
 class ItemDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -190,3 +194,54 @@ class OrderListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 #         'order': order
 #     }
 #     return render(request, 'parts/email.html', context)
+
+
+@permission_required('is_staff')
+def add_item(request):
+    form = ItemCreateForm(request.POST or None, files=request.FILES or None)
+    context = {'form': form}
+    if request.method == 'POST' and form.is_valid():
+        item = form.save(commit=False)
+        formset = PhotoFormset(request.POST, files=request.FILES or None)
+        if formset.is_valid():
+            item.save()
+            photos = formset.save(commit=False)
+            for photo in photos:
+                photo.author = request.user
+                photo.item = item
+                photo.save()
+            # formset.save()
+            return redirect('core:item-list')
+        # エラーメッセージつきのformsetをテンプレートへ渡すため、contextに格納
+        else:
+            context['formset'] = formset
+
+    # GETのとき
+    else:
+        # 空のformsetをテンプレートへ渡す
+        context['formset'] = PhotoFormset()
+        # context['formset'] = PhotoFormset(queryset=Photo.objects.none())
+
+    return render(request, 'myadmin/item_form.html', context)
+
+
+@login_required
+def update_item(request, slug):
+    item = get_object_or_404(Item, slug=slug)
+    form = ItemCreateForm(request.POST or None,
+                          files=request.FILES or None, instance=item)
+    formset = PhotoFormset(request.POST or None,
+                           files=request.FILES or None, instance=item)
+    if request.method == 'POST' and form.is_valid() and formset.is_valid():
+        form.save()
+        formset.save()
+        return redirect('core:item', slug=slug)
+
+    context = {
+        'item': item,
+        'form': form,
+        'formset': formset,
+        'edit': 1,
+    }
+
+    return render(request, 'myadmin/item_form.html', context)

@@ -33,7 +33,7 @@ nav h1 {
 
 nav#main-menu {
   font-family: $jp-font;
-  font-size: .8rem;
+  font-size: 0.8rem;
 }
 
 h2 {
@@ -41,7 +41,7 @@ h2 {
   font-weight: 100;
   font-size: 2rem;
   margin-bottom: 3rem;
-    margin-left: .5rem;
+  margin-left: 0.5rem;
 }
 
 // section header h1 {
@@ -72,9 +72,10 @@ section header h1 {
   font-weight: 100;
 }
 
-header h2 {
+h2 {
   // font-family: meiryo, "noto sans jp", sans-serif;
-  font-size: 1.3em;
+  // font-size: 1.3em;
+  margin-top: 3rem;
   font-weight: 100;
 }
 
@@ -90,7 +91,6 @@ header h2 {
 }
 
 .feature .item-detail {
-
   h2 {
     font-family: "Lato", sans-serif;
     margin-top: 1rem;
@@ -115,11 +115,10 @@ header h2 {
   }
   .stock {
     font-family: $jp-font;
-    font-size: .8rem;
+    font-size: 0.8rem;
     font-weight: 400;
     margin: 20px 0;
   }
-
 }
 
 h3 {
@@ -141,31 +140,29 @@ h3 {
 }
 
 .items > section > ul > li {
-
-    & > div h3 {
-      color: white;
-      background: $main;
-      font-weight: 300;
-      font-size: 1.1rem;
-      margin: 0;
-      padding: 3px 5px;
-      height: 1.5rem;
-      overflow: hidden; 
-    }
-
-    & > div h4 {
-      color: white;
-      // background: $rikyushiracha;
-      // opacity: .5;
-      background: rgba(180, 165, 130, .7);
-      font-weight: 300;
-      font-size: 1rem;
-      margin: 0;
-      padding: 5px 7px;
-      text-align: right;
-    }
-
+  & > div h3 {
+    color: white;
+    background: $main;
+    font-weight: 300;
+    font-size: 1.1rem;
+    margin: 0;
+    padding: 3px 5px;
+    height: 1.5rem;
+    overflow: hidden;
   }
+
+  & > div h4 {
+    color: white;
+    // background: $rikyushiracha;
+    // opacity: .5;
+    background: rgba(180, 165, 130, 0.7);
+    font-weight: 300;
+    font-size: 1rem;
+    margin: 0;
+    padding: 5px 7px;
+    text-align: right;
+  }
+}
 
 li.username {
   color: #000;
@@ -205,16 +202,17 @@ li.username {
 //   }
 // }
 
-.card .card-body h5, h5 {
+.card .card-body h5,
+h5 {
   font-weight: 500;
   margin-top: 2rem;
 }
 
-.card .card-body  h6 {
+.card .card-body h6 {
   font-weight: 500;
 }
 
-.address, 
+.address,
 .payment-option,
 .bold {
   // font-family: 'Nixie One', cursive;
@@ -225,7 +223,6 @@ li.username {
   font-weight: 300;
 }
 
-
 // #pickup-address {
 //   margin-left: 3rem;
 //   font-size: .7rem;
@@ -234,7 +231,7 @@ li.username {
 #div_id_use_stored_shipping_address {
   .pickup-address {
     font-style: italic;
-    font-size: .6rem;
+    font-size: 0.6rem;
     margin-left: 3rem;
   }
 }
@@ -247,26 +244,26 @@ li.username {
     margin-bottom: 3rem;
   }
   label {
-    font-size: .8rem;
+    font-size: 0.8rem;
     font-weight: 300;
   }
   small {
-    font-size: .7rem;
+    font-size: 0.7rem;
   }
 }
 
 .label {
   font-family: $jp-font;
-  font-size: .7rem;
+  font-size: 0.7rem;
   font-weight: 300;
 }
 
 .testing-alert {
-    color: red;
-    font-weight: 400;
-    font-size: .7rem;
-    margin-top: 10px;
-    margin-bottom: 10px;
+  color: red;
+  font-weight: 400;
+  font-size: 0.7rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .blog .testing-alert {

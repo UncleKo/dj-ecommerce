@@ -56,6 +56,7 @@ if (document.querySelector('.photo_insert')) {
 
     // hideOthers('link-form'); //Post新規投稿ページ =>下記functionに統一=>
     hideOthers('.photo-form .multiField'); //Photo Upload Page
+    // hideOthers('.item-form .multiField'); //Item Create Page
 
 
     // クリックで１個ずつフォームの表示・非表示
@@ -81,33 +82,88 @@ if (document.querySelector('.photo_insert')) {
 
     // toggleForms('link-form'); //Post新規投稿ページ =>下記functionに統一=>
     toggleForms('.photo-form .multiField'); //Photo Upload Page
+    // toggleForms('.item-form .multiField');  //Item Create Page
 
 
     // 既にデータが入ってるフォームのみ表示
-    const hideEmptyForms = (elem) => {
+    function hideEmptyForms1(elem) {
       let linkForms = document.querySelectorAll(elem);
       linkForms.forEach(form => {
-        // console.log(form.value);
-        if (form.value == "" || form.value == null) {
+        let urlinput = form.querySelector('.urlinput');
+        if (urlinput.value == "" || urlinput.value == null) {
           //空のフォームを非表示、表示/非表示をコントロール、"削除する"チェックボックスを非表示にする->SCSS
-          form.parentNode.parentNode.parentNode.classList.add('hide', 'togglable', 'url-empty');
+          form.classList.add('hide', 'togglable', 'url-empty');
+        }
+      });
+      // PostにURLがひとつもない場合(新規投稿含む)、ひとつだけ空のフォームを表示
+      let el = document.querySelectorAll('.no-urls .togglable')[0];
+      if (el) {
+        el.classList.remove('hide');
+      }
+
+      toggleForms('.togglable');
+    } //hideEmptyFormas
+
+    hideEmptyForms1('.link-form');
+
+
+    function hideEmptyForms2(elem) {
+      let imgForms = document.querySelectorAll(elem);
+      imgForms.forEach(form => {
+        if (!form.getElementsByTagName('a').length) {
+          form.classList.add('hide', 'togglable', 'img-empty');
         }
       })
-      // PostにURLがひとつもない場合(新規投稿含む)、ひとつだけ空のフォームを表示
-      let el = document.querySelectorAll('.no-urls .togglable')[0]
+      // // ひとつだけ空のフォームを表示
+      // document.querySelectorAll('.togglable')[0].classList.remove('hide');
+      // Itemにその他画像がひとつもない場合(新規投稿含む)のみ、ひとつだけ空のフォームを表示
+      let el = document.querySelectorAll('.no-data .togglable')[0];
       if (el) {
         el.classList.remove('hide');
       }
 
       toggleForms('.togglable');
     }
-
-    hideEmptyForms('.link-form .urlinput');
-
+    hideEmptyForms2('.item-form .multiField');
 
   } //multi_form_control
 
+
   multiFormControl()
+
+
+  const imageFormThumbs = () => {
+
+    let mainImgLink = document.querySelector('#div_id_image a');
+
+    // let imgSrc = mainImgLink.getAttribute('href');
+    // let containDiv = document.createElement('div');
+    // containDiv.setAttribute('class', 'thumb-wrap');
+    // containDiv.innerHTML = `<img src="${imgSrc}">`;
+    // mainImgLink.parentNode.insertBefore(containDiv, mainImgLink.parentNode.firstChild);
+
+    let mainImgThumb = document.querySelector('#main-thumb');
+    mainImgLink.parentNode.insertBefore(mainImgThumb, mainImgLink.parentNode.firstChild);
+
+
+    let otherImgLinks = document.querySelectorAll('.photo-formset .multiField a');
+    let otherImgThumbs = document.querySelectorAll('.thumb-container img')
+
+    otherImgLinks.forEach((link, i) => {
+      // let imgSrc = link.getAttribute('href');
+      let containDiv = document.createElement('div');
+      containDiv.setAttribute('class', 'thumb-wrap');
+      // // let imgThumb = document.createElement('img');
+      // // imgThumb.setAttribute('src', `${imgSrc}`);
+      // containDiv.innerHTML = `<img src="${imgSrc}">`;
+      // link.parentNode.insertBefore(containDiv, link.parentNode.firstChild);
+      containDiv.appendChild(otherImgThumbs[i]);
+      link.parentNode.insertBefore(containDiv, link.parentNode.firstChild);
+    })
+
+  }
+
+  imageFormThumbs();
 
 
   const modalControl = () => {

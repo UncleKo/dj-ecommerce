@@ -1,6 +1,8 @@
 from django import forms
-from .models import PAYMENT_CHOICES, DELIVERY_TIME, Inquiry, SizeOption, ColorOption
+from django.forms.models import inlineformset_factory
+from .models import Item, PAYMENT_CHOICES, DELIVERY_TIME, Inquiry, SizeOption, ColorOption
 from users.models import ShippingAddress, BillingAddress
+from photos.models import Photo
 
 
 BILLING_ADDRESS_OPTION = (
@@ -104,3 +106,25 @@ class ItemOptionForm(forms.Form):
 #         label="カラー",
 #         required=False
 #     )
+
+
+class ItemCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = Item
+        fields = ['title', 'price', 'discount_price', 'category',
+                  'description', 'stock', 'featured', 'image', 'draft']
+
+
+PhotoFormset = inlineformset_factory(
+    Item,
+    Photo,
+    # fields=['origin', 'order', 'category', 'tags', 'private'],
+    fields=['origin', 'order'],
+    extra=10,
+    max_num=10,
+    # can_delete=False,
+    # attrs={
+    #     'class': 'select form-control'
+    # }
+)

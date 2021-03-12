@@ -1,0 +1,88 @@
+#admin-menu {
+  margin-top: 4rem;
+  // max-width: 300px;
+  // text-align: center;
+}
+
+#item-list header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  .btn-main {
+    margin-top: 3.4rem;
+    margin-left: 3rem;
+  }
+}
+
+.multiField {
+  margin-top: 5rem;
+}
+
+.link-formset,
+.photo-form,
+.item-form {
+  small {
+    font-size: 0.9rem;
+  }
+  margin-top: 3rem;
+  .fa-plus-square,
+  .fa-minus-square {
+    font-size: 2rem;
+    cursor: pointer;
+    color: #17a2b8;
+  }
+}
+
+// フォームセットの空のフォームの削除ボタンを非表示にする
+.url-empty div[id$="DELETE"],
+.img-empty div[id$="DELETE"] {
+  display: none;
+}
+
+// square contain image technique (didn't work for portrait ratio)
+.thumb-wrap {
+  // width: 100px;
+  // height: 100px;
+  // position: relative;
+  // overflow: hidden;
+  img {
+    // position: absolute;
+    // top: 50%;
+    // left: 50%;
+    // transform: translate(-50%, -50%);
+    // width: auto;
+    // height: auto;
+    // max-height: 100px;
+    // max-width: inherit;
+    width: auto;
+    height: auto;
+    max-width: 100px;
+    max-height: 100px;
+    margin-bottom: 10px;
+  }
+}
+
+.thumb-container {
+  display: flex;
+}
+
+.other-img-form {
+  display: flex;
+  flex-wrap: wrap;
+  div.multiField {
+    flex-basis: calc(33.333% - 20px);
+    padding: 10px;
+    margin: 10px;
+    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    @media screen and (max-width: 768px) {
+      flex-basis: 100%;
+    }
+  }
+} //other-img-form
+
+.plus-minus {
+  display: flex;
+  // justify-content: center;
+  align-items: center;
+}

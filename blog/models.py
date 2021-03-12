@@ -68,7 +68,7 @@ class Post(models.Model):
 
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="posts")
-    category = models.ForeignKey(Category, on_delete=models.CASCADE,
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL,
                                  related_name="posts", null=True, blank=True, verbose_name="カテゴリー(option)")
     tags = models.ManyToManyField(
         Tag, blank=True, related_name="posts", verbose_name="タグ(option)")
