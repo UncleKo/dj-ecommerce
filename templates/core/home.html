@@ -66,6 +66,34 @@
   </div>
 
 
+  <div class="whatsnew">
+
+    <section>
+
+      <header>
+        <h1>What's New</h1>
+      </header>
+      <ul>
+        {% for post in posts %}
+        <li>
+          <div class="entry-date-wrap">
+            <div class="date-item">{{ post.date_posted|date:"j" }}</div>
+            <div class="montn-item">{{ post.date_posted|date:"M" }}</div>
+          </div>
+          <div>
+            <h2><a class="article-title" href=" {% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+            <p class="article-content"> {{ post.content | safe | slice:":60" }}.....</p>
+            <a href="{% url 'post-detail' post.id %}" class="continue">Read More</a>
+
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+
+    </section>
+
+  </div> <!-- latest-posts -->
+
   <div class="items">
 
     <section>

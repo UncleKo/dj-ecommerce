@@ -71,7 +71,7 @@ TEMPLATES = [
 ]
 
 # LANGUAGE_CODE = 'en-us'
-LANGUAGE_CODE = 'ja'
+# LANGUAGE_CODE = 'ja'
 # TIME_ZONE = 'UTC'
 TIME_ZONE = 'Asia/Tokyo'
 USE_I18N = True

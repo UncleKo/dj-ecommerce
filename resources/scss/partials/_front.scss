@@ -145,44 +145,48 @@
 } //.items ul
 
 // Square Technique
-@media screen and (min-width: 484px) {
-  // @media (min-width: 768px) {
-  .items > section > ul > li {
-    &:before {
-      content: "";
-      display: block;
-      padding-top: 100%;
-    }
+// @media screen and (min-width: 484px) {
+// @media (min-width: 768px) {
+.items > section > ul > li {
+  &:before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+  }
 
+  & > div {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
     & > div {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      & > div {
-        // background: rgba(180, 165, 130, .5);
-        height: 80%;
+      // background: rgba(180, 165, 130, .5);
+      height: 80%;
+      width: 100%;
+      @media (max-width: 484px) {
+        height: 85%;
+      }
+      a {
+        height: 100%;
         width: 100%;
-        a {
-          height: 100%;
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        img {
-          width: auto;
-          max-height: 100%;
-          max-width: 100%;
-          // width: 100%;
-          // height: 100%;
-          // object-fit: contain;
-        }
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      img {
+        width: auto;
+        max-height: 100%;
+        max-width: 100%;
+        // width: 100%;
+        // height: 100%;
+        // object-fit: contain;
       }
     }
-  } // .items > div> ul > li
-} // @media
+  }
+} // .items > div> ul > li
+// } // @media
 
 .other-items {
   display: flex;
@@ -395,3 +399,51 @@
 // .square img {
 //   height: 100%;
 // }
+
+.whatsnew {
+  margin-bottom: 4rem;
+  li {
+    padding: 20px;
+    margin-bottom: 1rem;
+    background-color: #eee;
+    display: flex;
+    flex-wrap: wrap;
+    h2 {
+      font-size: 1.5rem;
+      margin-top: 0.6rem;
+      margin-bottom: 1.2rem;
+      margin-left: 0;
+    }
+    p {
+      font-size: 0.9rem;
+      margin-bottom: 0;
+    }
+    .entry-date-wrap {
+      // flex-basis: 200px;
+      flex: 1;
+      @media screen and (max-width: 768px) {
+        flex-basis: 100%;
+      }
+      position: relative;
+      // top: -50px;
+      margin-top: -50px;
+      .date-item {
+        font-size: 1.6rem;
+      }
+      // .montn-item {
+      //   text-transform: uppercase;
+      // }
+    } //.entry-date-wrap
+    div:nth-child(2) {
+      flex: 3;
+      @media screen and (max-width: 768px) {
+        flex-basis: 100%;
+      }
+    }
+  } //li
+} //whatsnew
+
+.continue {
+  font-size: 0.8rem;
+  font-style: italic;
+}

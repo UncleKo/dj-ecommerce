@@ -11,6 +11,7 @@
         <header>
           <!-- post header -->
           <div class="article-metadata">
+            <i class="fas fa-user"></i>
             <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
             <small class="text-muted">{{ post.date_posted|date:"Y-m-j" }}</small>
             <!-- <small class="text-muted">{{ post.date_posted }}</small> -->

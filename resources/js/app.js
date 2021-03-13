@@ -9,6 +9,21 @@ if (document.querySelector('.photo_insert')) {
 
 (function ($, $$) {
 
+  const makeSquare = () => {
+
+    let squares = $$('.square');
+
+    squares.forEach((square) => {
+      // console.log(square.offsetWidth);
+      square.style.height = square.offsetWidth + 'px';
+    });
+
+  }
+
+  if ($('.square')) {
+    makeSquare();
+  }
+
   const navbarCollapseFunction = () => {
 
     let triggers = $$('.navbar-toggler-icon')
@@ -163,7 +178,9 @@ if (document.querySelector('.photo_insert')) {
 
   }
 
-  imageFormThumbs();
+  if ($('#div_id_image a')) {
+    imageFormThumbs();
+  }
 
 
   const modalControl = () => {
@@ -200,20 +217,6 @@ if (document.querySelector('.photo_insert')) {
   }
 
 
-  const makeSquare = () => {
-
-    let squares = $$('.square');
-
-    squares.forEach((square) => {
-      console.log(square.offsetWidth);
-      square.style.height = square.offsetWidth + 'px';
-    });
-
-  }
-
-  if ($('.square')) {
-    makeSquare();
-  }
 
 
 

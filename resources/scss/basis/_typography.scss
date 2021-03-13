@@ -79,6 +79,15 @@ h2 {
   font-weight: 100;
 }
 
+p {
+  font-weight: 300;
+  // font-family: 'Noto Sans JP','ヒラギノ角ゴシック Pro', 'Hiragino Kaku Gothic Pro', メイリオ, Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+  font-feature-settings: "palt";
+  color: #333;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
 @media (max-width: 980px) {
   section header h2 {
     margin-right: 10px;
@@ -95,14 +104,6 @@ h2 {
     font-family: "Lato", sans-serif;
     margin-top: 1rem;
     font-weight: 300;
-  }
-  p {
-    font-weight: 300;
-    // font-family: 'Noto Sans JP','ヒラギノ角ゴシック Pro', 'Hiragino Kaku Gothic Pro', メイリオ, Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
-    font-feature-settings: "palt";
-    color: #333;
-    font-size: 15px;
-    line-height: 1.4;
   }
   small {
     font-weight: 100;

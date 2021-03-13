@@ -14,6 +14,7 @@ from ..forms import CheckoutForm, BillingAddressForm, ContactForm, ItemOptionFor
 from ..boost import DynamicRedirectMixin
 from users.models import ShippingAddress, BillingAddress
 from photos.models import Photo
+from blog.models import Post
 
 # Email
 # from django.core.mail import EmailMultiAlternatives
@@ -34,6 +35,8 @@ class HomeView(ListView):
         context = super().get_context_data(**kwargs)
         context["featured_item"] = Item.objects.filter(featured=True).first()
         context["categories"] = Category.objects.all().order_by('order')
+        context["posts"] = Post.objects.filter(
+            draft=False).order_by('-date_posted')[:3]
 
         return context
 
