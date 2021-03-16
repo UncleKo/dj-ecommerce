@@ -29,7 +29,7 @@ class HomeView(ListView):
     # ordering = ['?']
 
     def get_queryset(self):
-        return Item.objects.filter(draft=False, featured=True).order_by('?')
+        return Item.objects.filter(draft=False, featured=True).order_by('?')[:12]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

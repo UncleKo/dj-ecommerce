@@ -8,7 +8,7 @@ from imagekit.processors import ResizeToFill, ResizeToFit
 from core.models import Item
 
 
-class Tag(models.Model):
+class PhotoTag(models.Model):
     name = models.CharField(max_length=100, verbose_name="タグ")
 
     class Meta:
@@ -18,7 +18,7 @@ class Tag(models.Model):
         return self.name
 
 
-class Category(models.Model):
+class PhotoCategory(models.Model):
     name = models.CharField(max_length=100, verbose_name="カテゴリー")
 
     class Meta:
@@ -63,11 +63,11 @@ class Photo(models.Model):
 
     private = models.BooleanField(default=False, verbose_name="非公開にする")
 
-    category = models.ForeignKey(Category, on_delete=models.CASCADE,
+    category = models.ForeignKey(PhotoCategory, on_delete=models.CASCADE,
                                  related_name="posts", null=True, blank=True, verbose_name="カテゴリー(option)")
 
     tags = models.ManyToManyField(
-        Tag, blank=True, related_name="posts", verbose_name="タグ(option)")
+        PhotoTag, blank=True, related_name="posts", verbose_name="タグ(option)")
 
     item = models.ForeignKey(Item, on_delete=models.CASCADE,
                              related_name="other_images", null=True, blank=True, verbose_name="商品")

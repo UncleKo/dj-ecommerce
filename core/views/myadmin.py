@@ -9,6 +9,7 @@ from core.boost import DynamicRedirectMixin
 from django.contrib.sites.models import Site
 from ..models import Item, Order, SiteInfo, Category
 from photos.models import Photo
+from photos.models import PhotoCategory
 from ..forms import ItemCreateForm, PhotoFormset, EditMultipleItemsFormSet
 
 
@@ -217,8 +218,9 @@ def add_item(request):
             photos = formset.save(commit=False)
             for photo in photos:
                 photo.author = request.user
-                photo.item = item
-                # photo.category =
+                # photo.item = item #set autimatically because it's formset
+                photo.category = PhotoCategory.objects.filter(
+                    name='商品写真').first()
                 photo.save()
             # formset.save()
             return redirect('core:item-list')
@@ -245,6 +247,13 @@ def update_item(request, slug):
     if request.method == 'POST' and form.is_valid() and formset.is_valid():
         form.save()
         formset.save()
+        photos = formset.save(commit=False)
+        for photo in photos:
+            photo.author = request.user
+            # photo.item = item
+            photo.category = PhotoCategory.objects.filter(
+                name='商品写真').first()
+            photo.save()
         return redirect('core:item', slug=slug)
         # return redirect('core:item-list')
 
