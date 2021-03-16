@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Photo, Category, Tag
+from .models import Photo, PhotoCategory, PhotoTag
 
 
 class PhotoAdmin(admin.ModelAdmin):
@@ -21,5 +21,5 @@ class TagAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Photo, PhotoAdmin)
-admin.site.register(Category, PhotoCategoryAdmin)
-admin.site.register(Tag, TagAdmin)
+admin.site.register(PhotoCategory, PhotoCategoryAdmin)
+admin.site.register(PhotoTag, TagAdmin)
