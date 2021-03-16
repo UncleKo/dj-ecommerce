@@ -113,7 +113,7 @@ class ItemCreateForm(forms.ModelForm):
     class Meta:
         model = Item
         fields = ['title', 'price', 'discount_price', 'category',
-                  'description', 'stock', 'featured', 'image', 'draft']
+                  'description', 'stock', 'draft', 'pickup', 'featured', 'image']
 
 
 PhotoFormset = inlineformset_factory(
@@ -127,4 +127,27 @@ PhotoFormset = inlineformset_factory(
     # attrs={
     #     'class': 'select form-control'
     # }
+)
+
+
+class EditMultipleItemsForm(forms.ModelForm):
+    title = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'readonly': 'readonly'
+        })
+    )
+
+    # price = forms.IntegerField(
+    #     widget=forms.TextInput(attrs={
+    #         'readonly': 'readonly'
+    #     })
+    # )
+
+
+EditMultipleItemsFormSet = forms.modelformset_factory(
+    Item,
+    form=EditMultipleItemsForm,
+    fields=['title', 'draft', 'pickup', 'featured'],
+    extra=0,
+    max_num=10
 )

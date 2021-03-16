@@ -79,7 +79,8 @@ class Item(models.Model):
     slug = models.SlugField(blank=True, null=True, verbose_name="URL末尾")
     description = models.TextField(blank=True, null=True, verbose_name="商品説明")
     stock = models.IntegerField(blank=True, null=True, verbose_name="在庫数")
-    featured = models.BooleanField(default=False)
+    pickup = models.BooleanField(default=False, verbose_name="トップページ厳選")
+    featured = models.BooleanField(default=False, verbose_name="トップページおすすめ")
     draft = models.BooleanField(default=False, verbose_name="非公開にする")
     fav_users = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="fav_items", blank=True)

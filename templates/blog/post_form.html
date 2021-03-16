@@ -73,6 +73,15 @@
             </div>
           </div>
 
+          <div class="form-group">
+            <div id="div_id_whatsnew" class="form-check">
+              {{ form.whatsnew }}
+              <label for="id_whatnew" class="form-check-label">
+                トップページWhat's Newに表示する
+              </label>
+            </div>
+          </div>
+
           {% if not post.links.count %}
           <section class="link-formset no-urls">
             {% else %}

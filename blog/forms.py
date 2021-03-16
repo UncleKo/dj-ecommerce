@@ -1,5 +1,5 @@
 from django import forms
-from .models import Comment, Post, URL,Category, Tag
+from .models import Comment, Post, URL, Category, Tag
 from django.forms.models import inlineformset_factory
 # from django.forms.widgets import ClearableFileInput
 from os import path
@@ -9,8 +9,9 @@ from os import path
 # class CustomClearableFileInput(ClearableFileInput):
 #     def get_context(self, name, value, attrs):
 #         value.name = path.basename(value.name)
-#         context = super().get_context(name, value, attrs)       
+#         context = super().get_context(name, value, attrs)
 #         return context
+
 
 class PostCreateForm(forms.ModelForm):
     title = forms.CharField(
@@ -46,17 +47,26 @@ class PostCreateForm(forms.ModelForm):
         }),
         required=False
     )
-    
+
+    whatsnew = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={
+            'class': 'checkboxinput form-check-input'
+        }),
+        required=False
+    )
 
     class Meta:
         model = Post
-        fields = ['title', 'featured_image', 'content', 'category', 'tags', 'draft']
+        fields = ['title', 'featured_image', 'content',
+                  'category', 'tags', 'draft', 'whatsnew']
+
 
 class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
         fields = ['comment', 'url']
+
 
 URLFormset = inlineformset_factory(
     Post,

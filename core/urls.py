@@ -38,6 +38,7 @@ urlpatterns = [
     path('item/<slug>/', ItemDetailView.as_view(), name='item'),
     path('item/<slug>/edit', update_item, name='item-update'),
     path('item/<slug>/delete', ItemDeleteView.as_view(), name='item-delete'),
+    path('item-list/edit', quick_edit_items, name='quick-edit-items'),
 
     path('category-list/', CategoryListView.as_view(), name='category-list'),
     path('category/create/', CategoryCreateView.as_view(), name='category-create'),

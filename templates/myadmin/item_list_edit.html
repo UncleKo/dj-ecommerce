@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="content-section">
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <fieldset class="form-group">
+      {{ formset|crispy }}
+      <!-- {% for form in formset %}
+      {{ form.title }}
+      {{ form.draft }}
+      {% endfor %} -->
+    </fieldset>
+    <button class="btn btn-outline-info" type="submit"> 更新する </button>
+  </form>
+
+  <a class="nav-item nav-link" href="{% url 'photo-category-create' %}?next={{request.path}}">カテゴリーを追加</a>
+  <a class="nav-item nav-link" href="{% url 'photo-tag-create' %}?next={{request.path}}">タグを追加</a>
+</div>
+{% endblock content %}

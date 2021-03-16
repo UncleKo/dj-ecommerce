@@ -29,14 +29,15 @@ class HomeView(ListView):
     # ordering = ['?']
 
     def get_queryset(self):
-        return Item.objects.filter(draft=False).order_by('?')
+        return Item.objects.filter(draft=False, featured=True).order_by('?')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["featured_item"] = Item.objects.filter(featured=True).first()
+        context["pickup_item"] = Item.objects.filter(
+            pickup=True).order_by('-id').first()
         context["categories"] = Category.objects.all().order_by('order')
         context["posts"] = Post.objects.filter(
-            draft=False).order_by('-date_posted')[:3]
+            draft=False, whatsnew=True).order_by('-date_posted')[:3]
 
         return context
 

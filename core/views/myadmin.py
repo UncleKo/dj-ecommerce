@@ -9,7 +9,7 @@ from core.boost import DynamicRedirectMixin
 from django.contrib.sites.models import Site
 from ..models import Item, Order, SiteInfo, Category
 from photos.models import Photo
-from ..forms import ItemCreateForm, PhotoFormset
+from ..forms import ItemCreateForm, PhotoFormset, EditMultipleItemsFormSet
 
 
 class MyAdminView(LoginRequiredMixin, UserPassesTestMixin, DynamicRedirectMixin, View):
@@ -119,6 +119,13 @@ class ItemListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     paginate_by = 5
     ordering = ['-id']
 
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     for item in self.object_list:
+    #         context["form"] = ItemCreateForm(
+    #             self.request.POST or None, instance=item)
+    #     return context
+
     def test_func(self):
         if self.request.user.is_staff:
             return True
@@ -200,15 +207,18 @@ class OrderListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 def add_item(request):
     form = ItemCreateForm(request.POST or None, files=request.FILES or None)
     context = {'form': form}
+
     if request.method == 'POST' and form.is_valid():
         item = form.save(commit=False)
-        formset = PhotoFormset(request.POST, files=request.FILES or None)
+        formset = PhotoFormset(request.POST or None,
+                               files=request.FILES or None)
         if formset.is_valid():
             item.save()
             photos = formset.save(commit=False)
             for photo in photos:
                 photo.author = request.user
                 photo.item = item
+                # photo.category =
                 photo.save()
             # formset.save()
             return redirect('core:item-list')
@@ -225,7 +235,7 @@ def add_item(request):
     return render(request, 'myadmin/item_form.html', context)
 
 
-@login_required
+@permission_required('is_staff')
 def update_item(request, slug):
     item = get_object_or_404(Item, slug=slug)
     form = ItemCreateForm(request.POST or None,
@@ -236,6 +246,7 @@ def update_item(request, slug):
         form.save()
         formset.save()
         return redirect('core:item', slug=slug)
+        # return redirect('core:item-list')
 
     context = {
         'item': item,
@@ -245,3 +256,18 @@ def update_item(request, slug):
     }
 
     return render(request, 'myadmin/item_form.html', context)
+
+
+@permission_required('is_staff')
+def quick_edit_items(request):
+    if request.method == "POST":
+        formset = EditMultipleItemsFormSet(request.POST)
+        if formset.is_valid():
+            for index, form in enumerate(formset):
+                if form.is_valid():
+                    form.save()
+            return redirect('core:item-list')
+    else:
+        formset = EditMultipleItemsFormSet(
+            queryset=Item.objects.all())
+    return render(request, 'myadmin/item_list_edit.html', {'formset': formset})

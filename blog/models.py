@@ -73,6 +73,7 @@ class Post(models.Model):
     tags = models.ManyToManyField(
         Tag, blank=True, related_name="posts", verbose_name="タグ(option)")
     draft = models.BooleanField(default=False, verbose_name="下書きにする")
+    whatsnew = models.BooleanField(default=False, verbose_name="What's New")
 
     class Meta:
         verbose_name_plural = "投稿"
