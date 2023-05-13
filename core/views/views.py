@@ -37,7 +37,7 @@ class HomeView(ListView):
             pickup=True).order_by('-id').first()
         context["categories"] = Category.objects.all().order_by('order')
         context["posts"] = Post.objects.filter(
-            draft=False, whatsnew=True).order_by('-date_posted')[:3]
+            draft=False, whatsnew=True).order_by('-date_posted')[:2]
 
         return context
 
@@ -57,7 +57,7 @@ class CategoryItemListView(ListView):
     def get_queryset(self):
         category = get_object_or_404(
             Category, name=self.kwargs.get('category_name'))
-        return category.items.filter(draft=False).order_by('?')
+        return category.items.filter(draft=False) #.order_by('?')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

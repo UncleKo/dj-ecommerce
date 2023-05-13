@@ -1,5 +1,5 @@
 import os
-import django_heroku
+# import django_heroku
 
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 
@@ -8,7 +8,8 @@ DEBUG = True
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv('SECRET_KEY')
-ALLOWED_HOSTS = ['store-for-nobody.herokuapp.com', '127.0.0.1']
+# ALLOWED_HOSTS = ['store-for-nobody.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 INSTALLED_APPS = [
@@ -25,9 +26,10 @@ INSTALLED_APPS = [
     # 'allauth.account',
     # 'allauth.socialaccount',
     'crispy_forms',
+    'crispy_bootstrap4',
     'django_countries',
     'imagekit',
-    'storages',
+    # 'storages',
 
     'core.apps.CoreConfig',
     'users.apps.UsersConfig',
@@ -71,7 +73,7 @@ TEMPLATES = [
 ]
 
 # LANGUAGE_CODE = 'en-us'
-# LANGUAGE_CODE = 'ja'
+LANGUAGE_CODE = 'ja'
 # TIME_ZONE = 'UTC'
 TIME_ZONE = 'Asia/Tokyo'
 USE_I18N = True
@@ -142,22 +144,22 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASS')
 IMAGEKIT_CACHEFILE_DIR = 'OPTIONS'
 
 
-if ENVIRONMENT == 'production':
+# if ENVIRONMENT == 'production':
 
-    django_heroku.settings(locals())
+#     django_heroku.settings(locals())
 
-    DEFAULT_FILE_STORAGE = 'core.storages.CustomS3Boto3Storage'
+#     DEFAULT_FILE_STORAGE = 'core.storages.CustomS3Boto3Storage'
 
-    AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+#     AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+#     AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+#     AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
 
-    AWS_S3_FILE_OVERWRITE = False
-    AWS_DEFAULT_ACL = None
-    # https を有効にします
-    AWS_S3_SECURE_URLS = True
-    # 認証クエリーを無効にします
-    AWS_QUERYSTRING_AUTH = False
+#     AWS_S3_FILE_OVERWRITE = False
+#     AWS_DEFAULT_ACL = None
+#     # https を有効にします
+#     AWS_S3_SECURE_URLS = True
+#     # 認証クエリーを無効にします
+#     AWS_QUERYSTRING_AUTH = False
 
 
 # 数字を千単位で区切る

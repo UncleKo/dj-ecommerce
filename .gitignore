@@ -3,7 +3,6 @@ venv
 **/__pycache__
 images
 .DS_Store
-*.sqlite3
 *.env
 
 # Accept these files in the repository

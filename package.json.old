@@ -34,12 +34,12 @@
     "sass-loader": "^10.1.1"
   },
   "babel": {
-    "presets": [
-      "@babel/preset-env",
-      "@babel/preset-react"
-    ],
-    "plugins": [
-      "@babel/plugin-proposal-class-properties"
-    ]
+      "presets": [
+          "@babel/preset-env",
+          "@babel/preset-react"
+      ],
+      "plugins": [
+          "@babel/plugin-proposal-class-properties"
+      ]
   }
 }
